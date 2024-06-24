@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MusicLog</string>
+    <string name="label_navigation_home">홈</string>
+    <string name="label_navigation_search">검색</string>
 </resources>
