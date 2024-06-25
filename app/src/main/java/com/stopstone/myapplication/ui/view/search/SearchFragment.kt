@@ -11,9 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.stopstone.myapplication.BuildConfig
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.data.api.RetrofitClient
+import com.stopstone.myapplication.data.repository.SearchRepository
 import com.stopstone.myapplication.databinding.FragmentSearchBinding
 import com.stopstone.myapplication.ui.adapter.TrackAdapter
 import com.stopstone.myapplication.ui.viewmodel.SearchViewModel
@@ -23,7 +26,13 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val adapter: TrackAdapter by lazy { TrackAdapter() }
-    private val viewModel: SearchViewModel by viewModels()
+    private val viewModel: SearchViewModel by viewModels {
+        viewModelFactory {
+            initializer {
+                SearchViewModel(SearchRepository())
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
