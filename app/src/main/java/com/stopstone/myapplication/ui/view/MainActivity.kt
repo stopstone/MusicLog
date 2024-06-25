@@ -1,4 +1,4 @@
-package com.stopstone.myapplication.view
+package com.stopstone.myapplication.ui.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

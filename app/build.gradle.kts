@@ -1,9 +1,17 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
+
+val localPropertiesFile = rootProject.file("local.properties")
+val properties = Properties()
+properties.load(FileInputStream(localPropertiesFile))
+
 
 android {
     namespace = "com.stopstone.myapplication"
@@ -16,6 +24,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "CLIENT_ID", "\"${properties["client.id"]}\"")
+        buildConfigField("String", "CLIENT_SECRET", "\"${properties["client.secret"]}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,6 +40,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

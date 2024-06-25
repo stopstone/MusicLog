@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.stopstone.myapplication.view.home.HomeFragment"
+        android:name="com.stopstone.myapplication.ui.view.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.stopstone.myapplication.view.search.SearchFragment"
+        android:name="com.stopstone.myapplication.ui.view.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search" />
 </navigation>

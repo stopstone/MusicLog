@@ -2,4 +2,7 @@
     <string name="app_name">MusicLog</string>
     <string name="label_navigation_home">홈</string>
     <string name="label_navigation_search">검색</string>
+
+    <string name="hint_search_track">노래 제목 또는 가수를 입력해주세요.</string>
+    <string name="search_empty_message">검색어를 입력해주세요.</string>
 </resources>

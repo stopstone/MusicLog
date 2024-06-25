@@ -1,4 +1,4 @@
-package com.stopstone.myapplication.view.home
+package com.stopstone.myapplication.ui.view.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
