@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_confirm_modal">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_confirm_track_image"
+        android:layout_width="124dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/background_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/AppRoundedImage" />
+
+    <TextView
+        android:id="@+id/tv_confirm_track_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_confirm_track_image"
+        tools:text="AKMU - AnswerMe" />
+
+    <TextView
+        android:id="@+id/tv_confirm_track_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/label_track_confirm_message"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_confirm_track_info" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_track_cancel"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/label_cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_track_confirm"
+        app:layout_constraintHorizontal_weight="0.375"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_confirm_track_info" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_track_confirm"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/label_confirm"
+        app:layout_constraintBottom_toBottomOf="@id/btn_track_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0.625"
+        app:layout_constraintStart_toEndOf="@id/btn_track_cancel"
+        app:layout_constraintTop_toTopOf="@id/btn_track_cancel" />
+</androidx.constraintlayout.widget.ConstraintLayout>

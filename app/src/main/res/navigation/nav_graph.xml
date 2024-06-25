@@ -16,5 +16,18 @@
         android:id="@+id/navigation_search"
         android:name="com.stopstone.myapplication.ui.view.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_to_track_confirm_dialog"
+            app:destination="@id/navigation_track_confirm_dialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/navigation_track_confirm_dialog"
+        android:name="com.stopstone.myapplication.ui.view.search.TrackConfirmDialogFragment"
+        android:label="TrackConfirmDialogFragment"
+        tools:layout="@layout/fragment_track_confirm_dialog" >
+        <argument
+            android:name="track"
+            app:argType="com.stopstone.myapplication.data.model.Track" />
+    </dialog>
 </navigation>

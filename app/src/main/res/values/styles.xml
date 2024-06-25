@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="AppBottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppBottomSheetModal</item>
+    </style>
+
+    <style name="AppBottomSheetModal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="behavior_peekHeight">340dp</item>
+    </style>
 
     <style name="AppRoundedImage">
         <item name="cornerSize">8dp</item>

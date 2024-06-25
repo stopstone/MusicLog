@@ -1,0 +1,30 @@
+package com.stopstone.myapplication.util
+
+import androidx.room.TypeConverter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.stopstone.myapplication.data.model.Track
+import java.util.Date
+
+class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
+
+    @TypeConverter
+    fun fromTrack(track: Track): String {
+        return Gson().toJson(track)
+    }
+
+    @TypeConverter
+    fun toTrack(trackString: String): Track {
+        val type = object : TypeToken<Track>() {}.type
+        return Gson().fromJson(trackString, type)
+    }
+}
