@@ -49,15 +49,17 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(track: Track) {
-            Glide.with(binding.root)
-                .load(track.album.images.firstOrNull()?.url)
-                .centerCrop()
-                .into(binding.ivTrackImage)
-            binding.tvTrackTitle.text = track.name
-            binding.tvTrackArtist.text = track.artists.joinToString(", ") { it.name }
+            with(binding) {
+                Glide.with(root)
+                    .load(track.album.images.firstOrNull()?.url)
+                    .centerCrop()
+                    .into(ivTrackImage)
+                tvTrackTitle.text = track.name
+                tvTrackArtist.text = track.artists.joinToString(", ") { it.name }
 
-            binding.root.setOnClickListener {
-                onItemClickListener?.invoke(track)
+                root.setOnClickListener {
+                    onItemClickListener?.invoke(track)
+                }
             }
         }
     }

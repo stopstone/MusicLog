@@ -14,6 +14,6 @@ class TrackRepository @Inject constructor(
             date = date,
             track = track
         )
-        dailyTrackDao.insertDailyTrack(dailyTrack)
+        dailyTrackDao.insert(dailyTrack)
     }
 }

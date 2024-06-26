@@ -1,9 +1,11 @@
 package com.stopstone.myapplication.ui.view.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -34,14 +36,9 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.rvSearchTrackList.adapter = adapter
         setSearchButton()
+        setListeners()
         observeTracks()
-
-        adapter.setOnItemClickListener { track ->
-            val action = SearchFragmentDirections.actionSearchToTrackConfirmDialog(track)
-            findNavController().navigate(action)
-        }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -55,6 +52,14 @@ class SearchFragment : Fragment() {
                 true -> viewModel.searchTracks(track)
                 false -> showToastMessage(getString(R.string.search_empty_message))
             }
+            hideKeyboard()
+        }
+    }
+
+    private fun setListeners() {
+        adapter.setOnItemClickListener { track ->
+            val action = SearchFragmentDirections.actionSearchToTrackConfirmDialog(track)
+            findNavController().navigate(action)
         }
     }
 
@@ -66,5 +71,10 @@ class SearchFragment : Fragment() {
 
     private fun showToastMessage(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun hideKeyboard() {
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 }
