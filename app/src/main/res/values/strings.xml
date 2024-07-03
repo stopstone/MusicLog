@@ -8,4 +8,18 @@
     <string name="label_track_confirm_message">이 노래를 오늘의 노래로\n등록하시겠습니까?</string>
     <string name="label_cancel">취소</string>
     <string name="label_confirm">등록</string>
+    <string name="description_previous_month">이전 달</string>
+    <string name="description_next_month">다음 달</string>
+
+    <string name="current_month_format">%1$d년 %2$d월</string>
+
+    <string-array name="week_days">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
 </resources>
