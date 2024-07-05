@@ -65,7 +65,12 @@ class SearchFragment : Fragment() {
 
     private fun observeTracks() {
         viewModel.tracks.observe(viewLifecycleOwner) { trackList ->
-            adapter.submitList(trackList)
+            if (trackList.isEmpty()) {
+                binding.layoutTracksEmpty.root.visibility = View.VISIBLE
+            } else {
+                binding.layoutTracksEmpty.root.visibility = View.GONE
+                adapter.submitList(trackList)
+            }
         }
     }
 
