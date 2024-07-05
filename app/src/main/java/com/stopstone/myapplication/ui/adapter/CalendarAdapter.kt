@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.stopstone.myapplication.data.model.CalendarDay
+import com.stopstone.myapplication.data.model.Track
 import com.stopstone.myapplication.databinding.ItemCalendarDayBinding
+import com.stopstone.myapplication.util.loadImage
 
 class CalendarAdapter : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHolder>(CalendarDayDiffCallback()) {
 
@@ -28,24 +29,30 @@ class CalendarAdapter : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHol
 
     class CalendarViewHolder(private val binding: ItemCalendarDayBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(calendarDay: CalendarDay) {
-            if (calendarDay.day != 0) {
-                if (calendarDay.track != null) {
-                    binding.tvCalendarDate.visibility = View.GONE
-                    binding.ivCalendarAlbumCover.visibility = View.VISIBLE
-                    // 앨범 커버 이미지 로드 (Glide 사용 예시)
-                    Glide.with(binding.root.context)
-                        .load(calendarDay.track.album.images.firstOrNull()?.url)
-                        .into(binding.ivCalendarAlbumCover)
-                } else {
-                    binding.tvCalendarDate.visibility = View.VISIBLE
-                    binding.ivCalendarAlbumCover.visibility = View.GONE
-                    binding.tvCalendarDate.text = calendarDay.day.toString()
-                }
-            } else {
-                binding.tvCalendarDate.visibility = View.INVISIBLE
-                binding.ivCalendarAlbumCover.visibility = View.GONE
+            when {
+                calendarDay.day == 0 -> setViewVisibility( dateVisible = false, albumVisible = false) // 다른 달인 경우 date, cover 모두 INVISIBLE
+                calendarDay.track != null -> showAlbumCover(calendarDay.track)
+                else -> showDateText(calendarDay.day) // 노래만 등록 안된 경우 date만 VISIBLE
             }
+        }
+
+        private fun setViewVisibility(dateVisible: Boolean, albumVisible: Boolean) {
+            binding.tvCalendarDate.visibility = if (dateVisible) View.VISIBLE else View.INVISIBLE
+            binding.ivCalendarAlbumCover.visibility = if (albumVisible) View.VISIBLE else View.GONE
+        }
+
+        private fun showAlbumCover(track: Track) {
+            setViewVisibility(dateVisible = false, albumVisible = true)
+            track.album.images.firstOrNull()?.url?.let {
+                binding.ivCalendarAlbumCover.loadImage(it)
+            }
+        }
+
+        private fun showDateText(day: Int) {
+            setViewVisibility(dateVisible = true, albumVisible = false)
+            binding.tvCalendarDate.text = day.toString()
         }
     }
 }
