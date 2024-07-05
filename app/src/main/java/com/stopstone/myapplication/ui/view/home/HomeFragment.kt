@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.databinding.FragmentHomeBinding
+import com.stopstone.myapplication.databinding.ItemTrackBinding
 import com.stopstone.myapplication.ui.adapter.CalendarAdapter
 import com.stopstone.myapplication.ui.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +27,11 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private val adapter: CalendarAdapter by lazy { CalendarAdapter() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,6 +42,7 @@ class HomeFragment : Fragment() {
         setWeekdays()
         setObservers()
         setListeners()
+        viewModel.loadTodayTrack()
     }
 
     private fun setCalendar() {
@@ -46,12 +54,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setWeekdays() {
-        val weekdays = resources.getStringArray(R.array.week_days) // string resources 에서 weekday 배열 가져오기
+        val weekdays =
+            resources.getStringArray(R.array.week_days) // string resources 에서 weekday 배열 가져오기
 
         weekdays.forEach { day ->
             val weekday = TextView(context).apply { // TextView 생성
                 text = day
-                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                layoutParams =
+                    LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 gravity = Gravity.CENTER
                 setPadding(0, 8, 0, 8)
                 setTypeface(null, Typeface.BOLD)
@@ -68,6 +78,24 @@ class HomeFragment : Fragment() {
         viewModel.currentMonth.observe(viewLifecycleOwner) { month ->
             binding.calendarContent.tvCurrentMonth.text = month
         }
+
+        viewModel.todayTrack.observe(viewLifecycleOwner) { dailyTrack ->
+            val todayMusic = binding.layoutTodayMusic
+            if (dailyTrack != null) {
+                val track = dailyTrack.track
+                toggleTodayMusicVisibility(true) // 트랙이 있을때
+                todayMusic.itemTrack.visibility = View.VISIBLE
+                binding.groupTodayMusicEmpty.visibility = View.INVISIBLE
+                todayMusic.tvTrackTitle.text = track.name
+                todayMusic.tvTrackArtist.text = track.artists.joinToString(", ") { it.name }
+
+                Glide.with(this)
+                    .load(track.album.images.firstOrNull()?.url)
+                    .into(todayMusic.ivTrackImage)
+            } else {
+                toggleTodayMusicVisibility(false) // 트랙이 없을때
+            }
+        }
     }
 
     private fun setListeners() {
@@ -78,6 +106,11 @@ class HomeFragment : Fragment() {
         binding.calendarContent.btnNextMonth.setOnClickListener {
             viewModel.nextMonth()
         }
+    }
+
+    private fun toggleTodayMusicVisibility(showTrack: Boolean) {
+        binding.layoutTodayMusic.itemTrack.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
+        binding.groupTodayMusicEmpty.visibility = if (showTrack) View.INVISIBLE else View.VISIBLE
     }
 
     override fun onDestroyView() {
