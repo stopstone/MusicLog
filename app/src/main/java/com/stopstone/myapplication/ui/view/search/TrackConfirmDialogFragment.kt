@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.stopstone.myapplication.data.model.SaveResult
 import com.stopstone.myapplication.databinding.FragmentTrackConfirmDialogBinding
 import com.stopstone.myapplication.ui.viewmodel.TrackViewModel
+import com.stopstone.myapplication.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,10 +42,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private fun setLayout() {
         val track = args.track
         with(binding) {
-            Glide.with(binding.root)
-                .load(track.album.images.firstOrNull()?.url)
-                .centerCrop()
-                .into(ivConfirmTrackImage)
+            track.album.images.firstOrNull()?.url?.let { ivConfirmTrackImage.loadImage(it) }
             tvConfirmTrackInfo.text = "${track.artists.joinToString(", ") { it.name }} - ${track.name}"
         }
     }

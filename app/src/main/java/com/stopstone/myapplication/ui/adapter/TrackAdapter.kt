@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.stopstone.myapplication.data.model.Track
 import com.stopstone.myapplication.databinding.ItemTrackBinding
+import com.stopstone.myapplication.util.loadImage
 
 class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     private val items = mutableListOf<Track>()
@@ -50,10 +51,7 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
         fun bind(track: Track) {
             with(binding) {
-                Glide.with(root)
-                    .load(track.album.images.firstOrNull()?.url)
-                    .centerCrop()
-                    .into(ivTrackImage)
+                track.album.images.firstOrNull()?.url?.let { ivTrackImage.loadImage(it) }
                 tvTrackTitle.text = track.name
                 tvTrackArtist.text = track.artists.joinToString(", ") { it.name }
 
