@@ -87,6 +87,7 @@ class HomeFragment : Fragment() {
                 todayMusic.tvTrackArtist.text = track.artists.joinToString(", ") { it.name }
                 track.album.images.firstOrNull()?.url?.let { todayMusic.ivTrackImage.loadImage(it) }
 
+
             } else {
                 toggleTodayMusicVisibility(false) // 트랙이 없을때
             }

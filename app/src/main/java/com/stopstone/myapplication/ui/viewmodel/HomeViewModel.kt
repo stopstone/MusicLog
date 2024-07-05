@@ -11,6 +11,7 @@ import com.stopstone.myapplication.data.repository.TrackRepository
 import com.stopstone.myapplication.util.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,12 +38,24 @@ class HomeViewModel @Inject constructor(
         _todayTrack.value = track
     }
 
-    fun loadCalendar(year: Int, month: Int) {
+    fun loadCalendar(year: Int, month: Int) = viewModelScope.launch {
         currentYear = year
         currentMonthValue = month
 
-        _calendarDates.value = calendarRepository.getCalendarDates(year, month)
+        val calendarDays = calendarRepository.getCalendarDates(year, month)
+        val tracksForMonth = trackRepository.getTracksForMonth(year, month)
         _currentMonth.value = calendarRepository.getFormattedMonth(year, month)
+
+        val calendar = Calendar.getInstance()
+        val updatedCalendarDays = calendarDays.map { calendarDay ->
+            val track = tracksForMonth.find { dailyTrack ->
+                calendar.time = dailyTrack.date
+                calendar.get(Calendar.DAY_OF_MONTH) == calendarDay.day
+            }?.track
+            calendarDay.copy(track = track)
+        }
+
+        _calendarDates.value = updatedCalendarDays
     }
 
     fun nextMonth() {
