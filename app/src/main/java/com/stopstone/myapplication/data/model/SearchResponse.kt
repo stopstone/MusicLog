@@ -4,4 +4,4 @@ data class SearchResponse(
     val tracks: Tracks
 )
 
-data class TokenResponse(val access_token: String)
+data class TokenResponse(val accessToken: String)
