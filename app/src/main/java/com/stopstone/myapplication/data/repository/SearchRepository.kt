@@ -12,8 +12,7 @@ class SearchRepository @Inject constructor(
     private val spotifyAuthApi: SpotifyAuthApi,
     private val spotifyApi: SpotifyApi,
 ) {
-    suspend fun searchTracks(query: String): List<Track> {
-        return try {
+    suspend fun searchTracks(query: String): List<Track> = try {
             val token = getAccessToken()
             val trackResponse = spotifyApi.searchTracks("Bearer $token", query)
             trackResponse.tracks.items
@@ -21,7 +20,6 @@ class SearchRepository @Inject constructor(
             Log.e("SearchFragment", "Error: ${e.message}")
             emptyList() // 예외시 빈 리스트를 반환해야 함
         }
-    }
 
     private suspend fun getAccessToken(): String {
         val credentials = "${BuildConfig.CLIENT_ID}:${BuildConfig.CLIENT_SECRET}"
@@ -30,6 +28,6 @@ class SearchRepository @Inject constructor(
             "Basic $base64Credentials",
             "client_credentials"
         )
-        return response.access_token
+        return response.accessToken
     }
 }
