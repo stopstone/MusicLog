@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.stopstone.myapplication.data.model.Track
 import com.stopstone.myapplication.databinding.ItemTrackBinding
 import com.stopstone.myapplication.util.loadImage

@@ -8,13 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.databinding.FragmentHomeBinding
-import com.stopstone.myapplication.databinding.ItemTrackBinding
 import com.stopstone.myapplication.ui.adapter.CalendarAdapter
 import com.stopstone.myapplication.ui.viewmodel.HomeViewModel
 import com.stopstone.myapplication.util.loadImage
