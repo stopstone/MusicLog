@@ -10,10 +10,11 @@ class TrackRepository @Inject constructor(
     private val dailyTrackDao: DailyTrackDao
 ) {
     suspend fun saveDailyTrack(track: Track, date: Date) {
-        val dailyTrack = DailyTrack(
-            date = date,
-            track = track
-        )
+        val dailyTrack = DailyTrack(track = track, date = date)
         dailyTrackDao.insert(dailyTrack)
+    }
+
+    suspend fun getTodayTrack(date: Date): DailyTrack? {
+        return dailyTrackDao.getDailyTrack(date)
     }
 }

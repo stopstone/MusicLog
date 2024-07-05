@@ -3,14 +3,20 @@ package com.stopstone.myapplication.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.stopstone.myapplication.data.model.CalendarDay
+import com.stopstone.myapplication.data.model.DailyTrack
 import com.stopstone.myapplication.data.repository.CalendarRepository
+import com.stopstone.myapplication.data.repository.TrackRepository
+import com.stopstone.myapplication.util.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val calendarRepository: CalendarRepository
+    private val calendarRepository: CalendarRepository,
+    private val trackRepository: TrackRepository
 ) : ViewModel() {
     private val _calendarDates = MutableLiveData<List<CalendarDay>>()
     val calendarDates: LiveData<List<CalendarDay>> = _calendarDates
@@ -20,6 +26,16 @@ class HomeViewModel @Inject constructor(
 
     private var currentYear: Int = EMPTY_YEAR
     private var currentMonthValue: Int = EMPTY_MONTH
+
+
+    private val _todayTrack = MutableLiveData<DailyTrack?>()
+    val todayTrack: LiveData<DailyTrack?> = _todayTrack
+
+    fun loadTodayTrack() = viewModelScope.launch {
+        val today = DateUtils.getTodayDate()
+        val track = trackRepository.getTodayTrack(today)
+        _todayTrack.value = track
+    }
 
     fun loadCalendar(year: Int, month: Int) {
         currentYear = year

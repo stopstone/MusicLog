@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.stopstone.myapplication.data.model.Track
-import com.stopstone.myapplication.databinding.TrackItemBinding
+import com.stopstone.myapplication.databinding.ItemTrackBinding
 
 class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     private val items = mutableListOf<Track>()
@@ -18,7 +18,7 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         return TrackViewHolder(
-            TrackItemBinding.inflate(
+            ItemTrackBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -43,7 +43,7 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     }
 
     class TrackViewHolder(
-        private val binding: TrackItemBinding,
+        private val binding: ItemTrackBinding,
         private val onItemClickListener: ((Track) -> Unit)?
     ) :
         RecyclerView.ViewHolder(binding.root) {

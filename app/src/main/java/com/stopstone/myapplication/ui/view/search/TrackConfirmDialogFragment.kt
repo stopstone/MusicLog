@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.stopstone.myapplication.data.model.SaveResult
 import com.stopstone.myapplication.databinding.FragmentTrackConfirmDialogBinding
-import com.stopstone.myapplication.ui.viewmodel.SaveResult
 import com.stopstone.myapplication.ui.viewmodel.TrackViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
