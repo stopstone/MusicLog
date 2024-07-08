@@ -55,7 +55,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeTracks() {
-        viewModel.tracks.observe(viewLifecycleOwner) { trackList ->
+        viewModel.tracksUiState.observe(viewLifecycleOwner) { trackList ->
             if (trackList.isEmpty()) {
                 binding.layoutTracksEmpty.root.visibility = View.VISIBLE
             } else {

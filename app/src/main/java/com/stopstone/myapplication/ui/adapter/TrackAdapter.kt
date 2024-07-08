@@ -5,15 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.myapplication.data.model.Track
+import com.stopstone.myapplication.data.model.TrackUiState
 import com.stopstone.myapplication.databinding.ItemTrackBinding
 import com.stopstone.myapplication.util.loadImage
 
 class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
-    private val items = mutableListOf<Track>()
-    private var onItemClickListener: ((Track) -> Unit)? = null
+    private val items = mutableListOf<TrackUiState>()
+    private var onItemClickListener: ((TrackUiState) -> Unit)? = null
 
 
-    fun setOnItemClickListener(listener: (Track) -> Unit) {
+    fun setOnItemClickListener(listener: (TrackUiState) -> Unit) {
         onItemClickListener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -33,7 +34,7 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 
-    fun submitList(newItems: List<Track>) {
+    fun submitList(newItems: List<TrackUiState>) {
         val diffCallback = TrackDiffCallback(items, newItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
@@ -44,15 +45,15 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     class TrackViewHolder(
         private val binding: ItemTrackBinding,
-        private val onItemClickListener: ((Track) -> Unit)?
+        private val onItemClickListener: ((TrackUiState) -> Unit)?
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(track: Track) {
+        fun bind(track: TrackUiState) {
             with(binding) {
-                track.album.images.firstOrNull()?.url?.let { ivTrackImage.loadImage(it) }
-                tvTrackTitle.text = track.name
-                tvTrackArtist.text = track.artists.joinToString(", ") { it.name }
+                track.imageUrl?.let { ivTrackImage.loadImage(it) }
+                tvTrackTitle.text = track.title
+                tvTrackArtist.text = track.artist
 
                 root.setOnClickListener {
                     onItemClickListener?.invoke(track)
@@ -63,8 +64,8 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 }
 
 class TrackDiffCallback(
-    private val oldList: List<Track>,
-    private val newList: List<Track>,
+    private val oldList: List<TrackUiState>,
+    private val newList: List<TrackUiState>,
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size
@@ -72,7 +73,7 @@ class TrackDiffCallback(
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].id == newList[newItemPosition].id
+        oldList[oldItemPosition] == newList[newItemPosition]
 
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =

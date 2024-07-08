@@ -41,8 +41,8 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private fun setLayout() {
         val track = args.track
         with(binding) {
-            track.album.images.firstOrNull()?.url?.let { ivConfirmTrackImage.loadImage(it) }
-            tvConfirmTrackInfo.text = "${track.artists.joinToString(", ") { it.name }} - ${track.name}"
+            track.imageUrl?.let { ivConfirmTrackImage.loadImage(it) }
+            tvConfirmTrackInfo.text = "${track.artist} - ${track.title}"
         }
     }
 

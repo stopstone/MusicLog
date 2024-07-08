@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.myapplication.data.model.SaveResult
-import com.stopstone.myapplication.data.model.Track
+import com.stopstone.myapplication.data.model.TrackUiState
 import com.stopstone.myapplication.data.repository.TrackRepository
 import com.stopstone.myapplication.util.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ class TrackViewModel @Inject constructor(
     private val _savedTrack = MutableLiveData<SaveResult>()
     val savedTrack: LiveData<SaveResult> = _savedTrack
 
-    fun saveTrack(track: Track) = viewModelScope.launch {
+    fun saveTrack(track: TrackUiState) = viewModelScope.launch {
         _savedTrack.value = try {
             val today = DateUtils.getTodayDate()
             repository.saveDailyTrack(track, today)

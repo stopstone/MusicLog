@@ -83,9 +83,9 @@ class HomeFragment : Fragment() {
                 val track = dailyTrack.track
                 toggleTodayMusicVisibility(true) // 트랙이 있을때
 
-                todayMusic.tvTrackTitle.text = track.name
-                todayMusic.tvTrackArtist.text = track.artists.joinToString(", ") { it.name }
-                track.album.images.firstOrNull()?.url?.let { todayMusic.ivTrackImage.loadImage(it) }
+                todayMusic.tvTrackTitle.text = track.title
+                todayMusic.tvTrackArtist.text = track.artist
+                track.imageUrl?.let { todayMusic.ivTrackImage.loadImage(it) }
             } else {
                 toggleTodayMusicVisibility(false) // 트랙이 없을때
             }

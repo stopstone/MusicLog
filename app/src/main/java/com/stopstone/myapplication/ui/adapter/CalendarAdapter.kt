@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.myapplication.data.model.CalendarDay
 import com.stopstone.myapplication.data.model.Track
+import com.stopstone.myapplication.data.model.TrackUiState
 import com.stopstone.myapplication.databinding.ItemCalendarDayBinding
 import com.stopstone.myapplication.util.loadImage
 
@@ -32,7 +33,7 @@ class CalendarAdapter : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHol
 
         fun bind(calendarDay: CalendarDay) {
             when {
-                calendarDay.day == 0 -> setViewVisibility( dateVisible = false, albumVisible = false) // 다른 달인 경우 date, cover 모두 INVISIBLE
+                calendarDay.day == 0 -> setViewVisibility(dateVisible = false, albumVisible = false) // 다른 달인 경우 date, cover 모두 INVISIBLE
                 calendarDay.track != null -> showAlbumCover(calendarDay.track)
                 else -> showDateText(calendarDay.day) // 노래만 등록 안된 경우 date만 VISIBLE
             }
@@ -43,11 +44,9 @@ class CalendarAdapter : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHol
             binding.ivCalendarAlbumCover.visibility = if (albumVisible) View.VISIBLE else View.GONE
         }
 
-        private fun showAlbumCover(track: Track) {
+        private fun showAlbumCover(track: TrackUiState) {
             setViewVisibility(dateVisible = false, albumVisible = true)
-            track.album.images.firstOrNull()?.url?.let {
-                binding.ivCalendarAlbumCover.loadImage(it)
-            }
+            track.imageUrl?.let { binding.ivCalendarAlbumCover.loadImage(it) }
         }
 
         private fun showDateText(day: Int) {

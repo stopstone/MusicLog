@@ -7,5 +7,5 @@ import java.util.Date
 @Entity(tableName = "daily_tracks")
 data class DailyTrack(
     @PrimaryKey val date: Date,
-    val track: Track
+    val track: TrackUiState
 )

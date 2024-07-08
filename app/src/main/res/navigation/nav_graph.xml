@@ -28,6 +28,6 @@
         tools:layout="@layout/fragment_track_confirm_dialog" >
         <argument
             android:name="track"
-            app:argType="com.stopstone.myapplication.data.model.Track" />
+            app:argType="com.stopstone.myapplication.data.model.TrackUiState" />
     </dialog>
 </navigation>

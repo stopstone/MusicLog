@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.stopstone.myapplication.data.model.Track
+import com.stopstone.myapplication.data.model.TrackUiState
 import java.util.Date
 
 class Converters {
@@ -18,13 +19,13 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromTrack(track: Track): String {
+    fun fromTrack(track: TrackUiState): String {
         return Gson().toJson(track)
     }
 
     @TypeConverter
-    fun toTrack(trackString: String): Track {
-        val type = object : TypeToken<Track>() {}.type
+    fun toTrack(trackString: String): TrackUiState {
+        val type = object : TypeToken<TrackUiState>() {}.type
         return Gson().fromJson(trackString, type)
     }
 }

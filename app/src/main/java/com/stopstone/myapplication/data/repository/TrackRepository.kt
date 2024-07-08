@@ -3,6 +3,7 @@ package com.stopstone.myapplication.data.repository
 import com.stopstone.myapplication.data.db.DailyTrackDao
 import com.stopstone.myapplication.data.model.DailyTrack
 import com.stopstone.myapplication.data.model.Track
+import com.stopstone.myapplication.data.model.TrackUiState
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -10,7 +11,7 @@ import javax.inject.Inject
 class TrackRepository @Inject constructor(
     private val dailyTrackDao: DailyTrackDao
 ) {
-    suspend fun saveDailyTrack(track: Track, date: Date) {
+    suspend fun saveDailyTrack(track: TrackUiState, date: Date) {
         val dailyTrack = DailyTrack(track = track, date = date)
         dailyTrackDao.insert(dailyTrack)
     }
