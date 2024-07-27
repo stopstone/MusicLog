@@ -25,9 +25,14 @@
         android:id="@+id/navigation_track_confirm_dialog"
         android:name="com.stopstone.myapplication.ui.view.search.TrackConfirmDialogFragment"
         android:label="TrackConfirmDialogFragment"
-        tools:layout="@layout/fragment_track_confirm_dialog" >
+        tools:layout="@layout/fragment_track_confirm_dialog">
         <argument
             android:name="track"
             app:argType="com.stopstone.myapplication.domain.model.TrackUiState" />
     </dialog>
+    <fragment
+        android:id="@+id/navigation_play_list"
+        android:name="com.stopstone.myapplication.ui.view.playlist.PlayListFragment"
+        android:label="PlayListFragment"
+        tools:layout="@layout/fragment_play_list" />
 </navigation>

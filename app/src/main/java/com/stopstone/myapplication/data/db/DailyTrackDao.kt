@@ -17,4 +17,7 @@ interface DailyTrackDao {
 
     @Query("SELECT * FROM daily_tracks WHERE date BETWEEN :startDate AND :endDate")
     suspend fun getTracksForDateRange(startDate: Date, endDate: Date): List<DailyTrack>
+
+    @Query("SELECT * FROM daily_tracks ORDER BY date DESC")
+    suspend fun getAllTracks(): List<DailyTrack>
 }
