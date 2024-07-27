@@ -1,6 +1,8 @@
 package com.stopstone.myapplication.ui.view.home
 
+import android.content.Intent
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -114,11 +116,28 @@ class HomeFragment : Fragment() {
         binding.calendarContent.btnNextMonth.setOnClickListener {
             viewModel.nextMonth()
         }
+
+        binding.btnYoutube.setOnClickListener {
+            viewModel.todayTrack.value?.let { track ->
+                val track = track.track
+                openYouTube("${track.title} ${track.artist}")
+            }
+        }
     }
 
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {
         binding.layoutTodayMusic.itemTrack.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
         binding.groupTodayMusicEmpty.visibility = if (showTrack) View.INVISIBLE else View.VISIBLE
+    }
+
+    private fun openYouTube(query: String) {
+        val encodedQuery = Uri.encode(query)
+        val youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://results?search_query=$encodedQuery"))
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=$encodedQuery"))
+
+        val chooser = Intent.createChooser(webIntent, "Open with")
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(youtubeIntent))
+        startActivity(chooser)
     }
 
     override fun onDestroyView() {
