@@ -10,12 +10,17 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.databinding.FragmentHomeBinding
 import com.stopstone.myapplication.ui.adapter.CalendarAdapter
 import com.stopstone.myapplication.ui.viewmodel.HomeViewModel
 import com.stopstone.myapplication.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -38,9 +43,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setCalendar()
         setWeekdays()
-        setObservers()
         setListeners()
         viewModel.loadTodayTrack()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { collectCalendarDates() }
+                launch { collectCurrentMonth() }
+                launch { collectTodayTrack() }
+            }
+        }
     }
 
     private fun setCalendar() {
@@ -52,42 +64,44 @@ class HomeFragment : Fragment() {
     }
 
     private fun setWeekdays() {
-        val weekdays =
-            resources.getStringArray(R.array.week_days) // string resources 에서 weekday 배열 가져오기
+        val weekdays = resources.getStringArray(R.array.week_days)
 
         weekdays.forEach { day ->
-            val weekday = TextView(context).apply { // TextView 생성
+            val weekday = TextView(context).apply {
                 text = day
-                layoutParams =
-                    LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 gravity = Gravity.CENTER
                 setPadding(0, 8, 0, 8)
                 setTypeface(null, Typeface.BOLD)
             }
-            binding.calendarContent.llWeekDays.addView(weekday) // LinearLayout 에 TextView 추가
+            binding.calendarContent.llWeekDays.addView(weekday)
         }
     }
 
-    private fun setObservers() {
-        viewModel.calendarDates.observe(viewLifecycleOwner) { dates ->
-            adapter.submitList(dates.toList())
+    private suspend fun collectCalendarDates() {
+        viewModel.calendarDates.collectLatest { dates ->
+            adapter.submitList(dates)
         }
+    }
 
-        viewModel.currentMonth.observe(viewLifecycleOwner) { month ->
+    private suspend fun collectCurrentMonth() {
+        viewModel.currentMonth.collectLatest { month ->
             binding.calendarContent.tvCurrentMonth.text = month
         }
+    }
 
-        viewModel.todayTrack.observe(viewLifecycleOwner) { dailyTrack ->
+    private suspend fun collectTodayTrack() {
+        viewModel.todayTrack.collectLatest { dailyTrack ->
             val todayMusic = binding.layoutTodayMusic
             if (dailyTrack != null) {
                 val track = dailyTrack.track
-                toggleTodayMusicVisibility(true) // 트랙이 있을때
+                toggleTodayMusicVisibility(true)
 
                 todayMusic.tvTrackTitle.text = track.title
                 todayMusic.tvTrackArtist.text = track.artist
                 track.imageUrl?.let { todayMusic.ivTrackImage.loadImage(it) }
             } else {
-                toggleTodayMusicVisibility(false) // 트랙이 없을때
+                toggleTodayMusicVisibility(false)
             }
         }
     }

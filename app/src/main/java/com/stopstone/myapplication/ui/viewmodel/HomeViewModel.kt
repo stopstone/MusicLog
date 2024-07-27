@@ -12,6 +12,9 @@ import com.stopstone.myapplication.domain.usecase.GetTodayTrackUseCase
 import com.stopstone.myapplication.domain.usecase.GetTracksForMonthUseCase
 import com.stopstone.myapplication.util.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -23,18 +26,17 @@ class HomeViewModel @Inject constructor(
     private val getTodayTrackUseCase: GetTodayTrackUseCase,
     private val getTracksForMonthUseCase: GetTracksForMonthUseCase
 ) : ViewModel() {
-    private val _calendarDates = MutableLiveData<List<CalendarDay>>()
-    val calendarDates: LiveData<List<CalendarDay>> = _calendarDates
+    private val _calendarDates = MutableStateFlow<List<CalendarDay>>(emptyList())
+    val calendarDates: StateFlow<List<CalendarDay>> = _calendarDates.asStateFlow()
 
-    private val _currentMonth = MutableLiveData<String>()
-    val currentMonth: LiveData<String> = _currentMonth
+    private val _currentMonth = MutableStateFlow("")
+    val currentMonth: StateFlow<String> = _currentMonth.asStateFlow()
+
+    private val _todayTrack = MutableStateFlow<DailyTrack?>(null)
+    val todayTrack: StateFlow<DailyTrack?> = _todayTrack
 
     private var currentYear: Int = EMPTY_YEAR
     private var currentMonthValue: Int = EMPTY_MONTH
-
-
-    private val _todayTrack = MutableLiveData<DailyTrack?>()
-    val todayTrack: LiveData<DailyTrack?> = _todayTrack
 
     fun loadTodayTrack() = viewModelScope.launch {
         val today = DateUtils.getTodayDate()

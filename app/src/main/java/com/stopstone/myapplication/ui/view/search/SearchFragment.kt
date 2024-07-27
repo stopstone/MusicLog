@@ -10,12 +10,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.databinding.FragmentSearchBinding
 import com.stopstone.myapplication.ui.adapter.TrackAdapter
 import com.stopstone.myapplication.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -36,8 +41,13 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvSearchTrackList.adapter = adapter
-        observeTracks()
         setListeners()
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { observeTracks() }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -54,8 +64,8 @@ class SearchFragment : Fragment() {
         hideKeyboard()
     }
 
-    private fun observeTracks() {
-        viewModel.tracksUiState.observe(viewLifecycleOwner) { trackList ->
+    private suspend fun observeTracks() {
+        viewModel.tracksUiState.collectLatest { trackList ->
             if (trackList.isEmpty()) {
                 binding.layoutTracksEmpty.root.visibility = View.VISIBLE
             } else {

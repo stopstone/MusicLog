@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.stopstone.myapplication.data.model.SaveResult
@@ -14,6 +17,8 @@ import com.stopstone.myapplication.databinding.FragmentTrackConfirmDialogBinding
 import com.stopstone.myapplication.ui.viewmodel.TrackViewModel
 import com.stopstone.myapplication.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
@@ -35,7 +40,11 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
         setListeners()
-        observeViewModel()
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { observeViewModel() }
+            }
+        }
     }
 
     private fun setLayout() {
@@ -55,8 +64,8 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun observeViewModel() {
-        viewModel.savedTrack.observe(viewLifecycleOwner) { result ->
+    private suspend fun observeViewModel() {
+        viewModel.savedTrack.collectLatest { result ->
             when (result) {
                 is SaveResult.Success -> {
                     Toast.makeText(context, "트랙이 저장되었습니다.", Toast.LENGTH_SHORT).show()
