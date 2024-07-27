@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stopstone.myapplication.data.model.CalendarDay
+import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.data.model.DailyTrack
-import com.stopstone.myapplication.data.repository.CalendarRepository
-import com.stopstone.myapplication.data.repository.TrackRepository
+import com.stopstone.myapplication.domain.usecase.GetCalendarDatesUseCase
+import com.stopstone.myapplication.domain.usecase.GetFormattedMonthUseCase
+import com.stopstone.myapplication.domain.usecase.GetTodayTrackUseCase
+import com.stopstone.myapplication.domain.usecase.GetTracksForMonthUseCase
 import com.stopstone.myapplication.util.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,8 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val calendarRepository: CalendarRepository,
-    private val trackRepository: TrackRepository
+    private val getCalendarDatesUseCase: GetCalendarDatesUseCase,
+    private val getFormattedMonthUseCase: GetFormattedMonthUseCase,
+    private val getTodayTrackUseCase: GetTodayTrackUseCase,
+    private val getTracksForMonthUseCase: GetTracksForMonthUseCase
 ) : ViewModel() {
     private val _calendarDates = MutableLiveData<List<CalendarDay>>()
     val calendarDates: LiveData<List<CalendarDay>> = _calendarDates
@@ -34,7 +38,7 @@ class HomeViewModel @Inject constructor(
 
     fun loadTodayTrack() = viewModelScope.launch {
         val today = DateUtils.getTodayDate()
-        val track = trackRepository.getTodayTrack(today)
+        val track = getTodayTrackUseCase(today)
         _todayTrack.value = track
     }
 
@@ -42,9 +46,9 @@ class HomeViewModel @Inject constructor(
         currentYear = year
         currentMonthValue = month
 
-        val calendarDays = calendarRepository.getCalendarDates(year, month)
-        val tracksForMonth = trackRepository.getTracksForMonth(year, month)
-        _currentMonth.value = calendarRepository.getFormattedMonth(year, month)
+        val calendarDays = getCalendarDatesUseCase(year, month)
+        val tracksForMonth = getTracksForMonthUseCase(year, month)
+        _currentMonth.value = getFormattedMonthUseCase(year, month)
 
         val calendar = Calendar.getInstance()
         val updatedCalendarDays = calendarDays.map { calendarDay ->

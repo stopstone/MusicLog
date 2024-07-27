@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.stopstone.myapplication.data.model.CalendarDay
-import com.stopstone.myapplication.data.model.Track
-import com.stopstone.myapplication.data.model.TrackUiState
+import com.stopstone.myapplication.domain.model.TrackUiState
 import com.stopstone.myapplication.databinding.ItemCalendarDayBinding
+import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.util.loadImage
 
 class CalendarAdapter : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHolder>(CalendarDayDiffCallback()) {

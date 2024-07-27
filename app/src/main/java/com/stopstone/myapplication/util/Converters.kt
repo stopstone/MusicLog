@@ -3,8 +3,7 @@ package com.stopstone.myapplication.util
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.stopstone.myapplication.data.model.Track
-import com.stopstone.myapplication.data.model.TrackUiState
+import com.stopstone.myapplication.domain.model.TrackUiState
 import java.util.Date
 
 class Converters {

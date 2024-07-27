@@ -1,13 +1,14 @@
 package com.stopstone.myapplication.data.repository
 
-import com.stopstone.myapplication.data.model.CalendarDay
+import com.stopstone.myapplication.domain.model.CalendarDay
+import com.stopstone.myapplication.domain.repository.CalendarRepository
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 
-class CalendarRepository @Inject constructor() {
+class CalendarRepositoryImpl @Inject constructor(): CalendarRepository {
 
-    fun getCalendarDates(year: Int, month: Int): List<CalendarDay> {
+    override fun getCalendarDates(year: Int, month: Int): List<CalendarDay> {
         val calendar = Calendar.getInstance()
         calendar.set(year, month - 1, START_DAY)
 
@@ -29,7 +30,7 @@ class CalendarRepository @Inject constructor() {
         return dates
     }
 
-    fun getFormattedMonth(year: Int, month: Int): String {
+    override fun getFormattedMonth(year: Int, month: Int): String {
         return String.format(Locale.getDefault(), MONTH_FORMAT, year, month)
     }
 

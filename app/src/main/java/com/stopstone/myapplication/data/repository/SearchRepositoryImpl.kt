@@ -7,16 +7,17 @@ import com.stopstone.myapplication.data.api.SpotifyApi
 import com.stopstone.myapplication.data.api.SpotifyAuthApi
 import com.stopstone.myapplication.data.model.TokenResponse
 import com.stopstone.myapplication.data.model.Track
+import com.stopstone.myapplication.domain.repository.SearchRepository
 import javax.inject.Inject
 
-class SearchRepository @Inject constructor(
+class SearchRepositoryImpl @Inject constructor(
     private val spotifyAuthApi: SpotifyAuthApi,
     private val spotifyApi: SpotifyApi,
-) {
+): SearchRepository {
     private var cachedToken: String? = null
     private var tokenExpirationTime: Long = 0
 
-    suspend fun searchTracks(query: String): List<Track> = try {
+    override suspend fun searchTracks(query: String): List<Track> = try {
         val token = getValidAccessToken()
         val trackResponse = spotifyApi.searchTracks("Bearer $token", query)
         trackResponse.tracks.items

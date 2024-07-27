@@ -1,4 +1,4 @@
-package com.stopstone.myapplication.data.model
+package com.stopstone.myapplication.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

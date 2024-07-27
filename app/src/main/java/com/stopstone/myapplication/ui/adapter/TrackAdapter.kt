@@ -4,8 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.stopstone.myapplication.data.model.Track
-import com.stopstone.myapplication.data.model.TrackUiState
+import com.stopstone.myapplication.domain.model.TrackUiState
 import com.stopstone.myapplication.databinding.ItemTrackBinding
 import com.stopstone.myapplication.util.loadImage
 
