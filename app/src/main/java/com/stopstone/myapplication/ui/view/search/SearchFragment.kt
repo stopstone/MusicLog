@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -46,6 +47,14 @@ class SearchFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { observeTracks() }
+            }
+        }
+
+        binding.etSearchTrack.doAfterTextChanged { text ->
+            binding.btnCancelSearch.visibility = if (text.isNullOrEmpty()) {
+                View.GONE
+            } else {
+                View.VISIBLE
             }
         }
     }
@@ -91,8 +100,13 @@ class SearchFragment : Fragment() {
                     searchTracks()
                     true
                 }
+
                 else -> false
             }
+        }
+
+        binding.btnCancelSearch.setOnClickListener {
+            binding.etSearchTrack.text.clear()
         }
     }
 

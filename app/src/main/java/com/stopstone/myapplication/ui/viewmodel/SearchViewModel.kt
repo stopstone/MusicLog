@@ -28,6 +28,7 @@ class SearchViewModel @Inject constructor(
         _tracks.value = tracks
     }
 
+
     private fun Track.toUiState(): TrackUiState {
         return TrackUiState(
             id = id,
