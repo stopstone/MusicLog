@@ -1,9 +1,11 @@
 package com.stopstone.myapplication.di
 
+import com.stopstone.myapplication.data.repository.AuthRepositoryImpl
 import com.stopstone.myapplication.data.repository.CalendarRepositoryImpl
 import com.stopstone.myapplication.data.repository.PlayListRepositoryImpl
 import com.stopstone.myapplication.data.repository.SearchRepositoryImpl
 import com.stopstone.myapplication.data.repository.TrackRepositoryImpl
+import com.stopstone.myapplication.domain.repository.AuthRepository
 import com.stopstone.myapplication.domain.repository.CalendarRepository
 import com.stopstone.myapplication.domain.repository.PlayListRepository
 import com.stopstone.myapplication.domain.repository.SearchRepository
@@ -41,4 +43,10 @@ abstract class RepositoryModule {
     abstract fun bindPlayListRepository(
         repository: PlayListRepositoryImpl
     ): PlayListRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(
+        repository: AuthRepositoryImpl
+    ): AuthRepository
 }

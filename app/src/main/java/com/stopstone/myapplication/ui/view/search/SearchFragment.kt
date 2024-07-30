@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.databinding.FragmentSearchBinding
 import com.stopstone.myapplication.ui.adapter.TrackAdapter
+import com.stopstone.myapplication.ui.viewmodel.SearchState
 import com.stopstone.myapplication.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -46,7 +48,7 @@ class SearchFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { observeTracks() }
+                launch { observeSearchState() }
             }
         }
 
@@ -66,20 +68,30 @@ class SearchFragment : Fragment() {
 
     private fun searchTracks() {
         val track = binding.etSearchTrack.text.toString()
-        when (track.isNotEmpty()) {
-            true -> viewModel.searchTracks(track)
-            false -> showToastMessage(getString(R.string.search_empty_message))
+        when {
+            track.isNotEmpty() -> viewModel.searchTracks(track)
+            else -> showToastMessage(getString(R.string.search_empty_message))
         }
         hideKeyboard()
     }
 
-    private suspend fun observeTracks() {
-        viewModel.tracksUiState.collectLatest { trackList ->
-            if (trackList.isEmpty()) {
-                binding.layoutTracksEmpty.root.visibility = View.VISIBLE
-            } else {
-                binding.layoutTracksEmpty.root.visibility = View.GONE
-                adapter.submitList(trackList)
+    private suspend fun observeSearchState() {
+        viewModel.searchState.collectLatest { state ->
+            when (state) {
+                is SearchState.Initial -> {
+                }
+
+                is SearchState.Loading -> {
+                }
+
+                is SearchState.Success -> state.tracks.also { tracks ->
+                    binding.layoutTracksEmpty.root.isVisible = tracks.isEmpty()
+                    binding.rvSearchTrackList.isVisible = tracks.isNotEmpty()
+                    adapter.submitList(tracks)
+                }
+                is SearchState.Error -> {
+                    showToastMessage(state.message)
+                }
             }
         }
     }
@@ -94,7 +106,7 @@ class SearchFragment : Fragment() {
             searchTracks()
         }
 
-        binding.etSearchTrack.setOnEditorActionListener { v, actionId, event ->
+        binding.etSearchTrack.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     searchTracks()

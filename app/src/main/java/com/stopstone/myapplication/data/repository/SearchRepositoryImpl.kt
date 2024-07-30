@@ -1,48 +1,27 @@
 package com.stopstone.myapplication.data.repository
 
-import android.util.Base64
 import android.util.Log
-import com.stopstone.myapplication.BuildConfig
 import com.stopstone.myapplication.data.api.SpotifyApi
-import com.stopstone.myapplication.data.api.SpotifyAuthApi
-import com.stopstone.myapplication.data.model.TokenResponse
+import com.stopstone.myapplication.data.local.TokenManager
 import com.stopstone.myapplication.data.model.Track
 import com.stopstone.myapplication.domain.repository.SearchRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
-    private val spotifyAuthApi: SpotifyAuthApi,
     private val spotifyApi: SpotifyApi,
-): SearchRepository {
-    private var cachedToken: String? = null
-    private var tokenExpirationTime: Long = 0
+) : SearchRepository {
 
-    override suspend fun searchTracks(query: String): List<Track> = try {
-        val token = getValidAccessToken()
-        val trackResponse = spotifyApi.searchTracks("Bearer $token", query)
-        trackResponse.tracks.items
-    } catch (e: Exception) {
-        Log.e("SearchRepository", "Error searching tracks: ${e.message}")
-        emptyList()
-    }
+    override suspend fun searchTracks(query: String): List<Track> {
+        Log.d("SearchRepositoryImpl", "쿼리로 트랙 검색 중: $query")
 
-    private suspend fun getValidAccessToken(): String {
-        val currentTime = System.currentTimeMillis()
-        if (cachedToken == null || currentTime >= tokenExpirationTime) {
-            val tokenResponse = getAccessToken()
-            cachedToken = tokenResponse.accessToken
-            tokenExpirationTime = currentTime + (tokenResponse.expiresIn * 1000)
+        return try {
+            val response = spotifyApi.searchTracks(query)
+            Log.d("SearchRepositoryImpl", "응답: $response")
+            response.tracks.items
+        } catch (e: Exception) {
+            Log.e("SearchRepositoryImpl", "트랙 검색 중 오류 발생", e)
+            emptyList()
         }
-        return cachedToken!!
-    }
-
-    private suspend fun getAccessToken(): TokenResponse {
-        val credentials = "${BuildConfig.CLIENT_ID}:${BuildConfig.CLIENT_SECRET}"
-        val base64Credentials = Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
-        val response = spotifyAuthApi.getToken(
-            "Basic $base64Credentials",
-            "client_credentials"
-        )
-        return response
     }
 }

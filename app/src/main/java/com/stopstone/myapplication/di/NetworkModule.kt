@@ -2,6 +2,8 @@ package com.stopstone.myapplication.di
 
 import com.stopstone.myapplication.data.api.SpotifyApi
 import com.stopstone.myapplication.data.api.SpotifyAuthApi
+import com.stopstone.myapplication.data.local.TokenManager
+import com.stopstone.myapplication.util.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,34 +22,39 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideAuthInterceptor(tokenManager: TokenManager): AuthInterceptor {
+        return AuthInterceptor(tokenManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
 
         return OkHttpClient.Builder()
             .addInterceptor(logging)
+            .addInterceptor(authInterceptor)
+            .build()
+    }
+
+    private fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     @Provides
     @Singleton
     fun provideSpotifyAuthApi(okHttpClient: OkHttpClient): SpotifyAuthApi {
-        return Retrofit.Builder()
-            .baseUrl(AUTH_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(SpotifyAuthApi::class.java)
+        return provideRetrofit(AUTH_BASE_URL, okHttpClient).create(SpotifyAuthApi::class.java)
     }
 
     @Provides
     @Singleton
     fun provideSpotifyApi(okHttpClient: OkHttpClient): SpotifyApi {
-        return Retrofit.Builder()
-            .baseUrl(API_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(SpotifyApi::class.java)
+        return provideRetrofit(API_BASE_URL, okHttpClient).create(SpotifyApi::class.java)
     }
 }
