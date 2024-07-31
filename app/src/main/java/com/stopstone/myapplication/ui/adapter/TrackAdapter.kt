@@ -2,11 +2,11 @@ package com.stopstone.myapplication.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.stopstone.myapplication.domain.model.TrackUiState
+import com.stopstone.myapplication.BaseDiffCallback
 import com.stopstone.myapplication.databinding.ItemTrackBinding
+import com.stopstone.myapplication.domain.model.TrackUiState
 import com.stopstone.myapplication.util.loadImage
 
 class TrackAdapter(
@@ -49,12 +49,7 @@ class TrackAdapter(
     }
 }
 
-class TrackDiffCallback : DiffUtil.ItemCallback<TrackUiState>() {
-    override fun areItemsTheSame(oldItem: TrackUiState, newItem: TrackUiState): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(oldItem: TrackUiState, newItem: TrackUiState): Boolean {
-        return oldItem == newItem
-    }
+class TrackDiffCallback : BaseDiffCallback<TrackUiState>() {
+    override fun getItemId(item: TrackUiState): Any = item.id
+    override fun areContentsEqual(oldItem: TrackUiState, newItem: TrackUiState): Boolean = oldItem == newItem
 }

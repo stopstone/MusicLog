@@ -2,15 +2,15 @@ package com.stopstone.myapplication.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.stopstone.myapplication.BaseDiffCallback
 import com.stopstone.myapplication.data.model.SearchHistory
 import com.stopstone.myapplication.databinding.ItemSearchHistoryListBinding
 
 class SearchHistoryAdapter(
     private val listener: OnItemClickListener
-) : ListAdapter<SearchHistory, SearchHistoryAdapter.SearchHistoryViewHolder>(RecentSearchDiffCallback()) {
+) : ListAdapter<SearchHistory, SearchHistoryAdapter.SearchHistoryViewHolder>(SearchHistoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHistoryViewHolder {
         val binding =
@@ -47,15 +47,11 @@ class SearchHistoryAdapter(
     }
 }
 
-class RecentSearchDiffCallback : DiffUtil.ItemCallback<SearchHistory>() {
-    override fun areItemsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean {
-        return oldItem == newItem
-    }
+class SearchHistoryDiffCallback : BaseDiffCallback<SearchHistory>() {
+    override fun getItemId(item: SearchHistory): Any = item.id
+    override fun areContentsEqual(oldItem: SearchHistory, newItem: SearchHistory): Boolean = oldItem == newItem
 }
+
 
 interface OnItemClickListener {
     fun onItemClick(item: Any)

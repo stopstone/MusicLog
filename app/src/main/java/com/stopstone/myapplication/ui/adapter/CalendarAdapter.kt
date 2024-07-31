@@ -3,12 +3,12 @@ package com.stopstone.myapplication.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.stopstone.myapplication.domain.model.TrackUiState
+import com.stopstone.myapplication.BaseDiffCallback
 import com.stopstone.myapplication.databinding.ItemCalendarDayBinding
 import com.stopstone.myapplication.domain.model.CalendarDay
+import com.stopstone.myapplication.domain.model.TrackUiState
 import com.stopstone.myapplication.util.loadImage
 
 class CalendarAdapter(
@@ -62,7 +62,7 @@ class CalendarAdapter(
 
         private fun showAlbumCover(track: TrackUiState) {
             setViewVisibility(dateVisible = false, albumVisible = true)
-            track.imageUrl?.let { binding.ivCalendarAlbumCover.loadImage(it) }
+            binding.ivCalendarAlbumCover.loadImage(track.imageUrl)
         }
 
         private fun showDateText(day: Int) {
@@ -72,12 +72,7 @@ class CalendarAdapter(
     }
 }
 
-private class CalendarDayDiffCallback : DiffUtil.ItemCallback<CalendarDay>() {
-    override fun areItemsTheSame(oldItem: CalendarDay, newItem: CalendarDay): Boolean {
-        return oldItem.day == newItem.day
-    }
-
-    override fun areContentsTheSame(oldItem: CalendarDay, newItem: CalendarDay): Boolean {
-        return oldItem == newItem
-    }
+class CalendarDayDiffCallback : BaseDiffCallback<CalendarDay>() {
+    override fun getItemId(item: CalendarDay): Any = item.day
+    override fun areContentsEqual(oldItem: CalendarDay, newItem: CalendarDay): Boolean = oldItem == newItem
 }
