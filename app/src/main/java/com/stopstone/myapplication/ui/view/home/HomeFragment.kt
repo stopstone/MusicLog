@@ -52,9 +52,9 @@ class HomeFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { collectTodayTrack() }
                 launch { collectCalendarDates() }
                 launch { collectCurrentMonth() }
-                launch { collectTodayTrack() }
             }
         }
     }
@@ -135,17 +135,23 @@ class HomeFragment : Fragment() {
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {
         binding.layoutTodayMusic.itemTrack.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
         binding.groupTodayMusicEmpty.visibility = if (showTrack) View.INVISIBLE else View.VISIBLE
+        binding.btnYoutube.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
     }
 
     private fun openYouTube(query: String) {
         val encodedQuery = Uri.encode(query)
-        val youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://results?search_query=$encodedQuery"))
-        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=$encodedQuery"))
+        val youtubeUri = Uri.parse("vnd.youtube://results?search_query=$encodedQuery")
+        val webUri = Uri.parse("https://www.youtube.com/results?search_query=$encodedQuery")
 
-        val chooser = Intent.createChooser(webIntent, "Open with")
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(youtubeIntent))
-        startActivity(chooser)
+        val youtubeIntent = Intent(Intent.ACTION_VIEW, youtubeUri)
+        val webIntent = Intent(Intent.ACTION_VIEW, webUri)
+
+        val chooserIntent = Intent.createChooser(webIntent, "다음 앱으로 열기").apply {
+            putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(youtubeIntent))
+        }
+        startActivity(chooserIntent)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
