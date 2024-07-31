@@ -1,26 +1,28 @@
 package com.stopstone.myapplication.ui.view
 
 import android.os.Bundle
+import android.os.SystemClock
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    private val doubleBackPressInterval: Long = 2000L
+    private var lastBackPressedTime: Long = 0L
+    private lateinit var backPressedCallback: OnBackPressedCallback
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         initBottomNavigation()
+        onBackPressCallback()
     }
 
     private fun initBottomNavigation() {
@@ -30,14 +32,21 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationHome.setupWithNavController(navController)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        clearDataStore()
-    }
-
-    private fun clearDataStore() = runBlocking {
-        dataStore.edit { preferences ->
-            preferences.clear()
+    private fun onBackPressCallback() {
+        backPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val currentTime = SystemClock.elapsedRealtime()
+                if (currentTime - lastBackPressedTime < doubleBackPressInterval) {
+                    moveTaskToBack(true)
+                } else {
+                    lastBackPressedTime = currentTime
+                    Toast.makeText(
+                        this@MainActivity,
+                        "뒤로 가기 버튼을 한 번 더 누르면 앱이 백그라운드로 이동합니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 }

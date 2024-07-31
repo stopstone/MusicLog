@@ -1,13 +1,10 @@
 package com.stopstone.myapplication.ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.data.model.DailyTrack
+import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.domain.usecase.GetCalendarDatesUseCase
-import com.stopstone.myapplication.domain.usecase.GetFormattedMonthUseCase
 import com.stopstone.myapplication.domain.usecase.GetTodayTrackUseCase
 import com.stopstone.myapplication.domain.usecase.GetTracksForMonthUseCase
 import com.stopstone.myapplication.util.DateUtils
@@ -17,12 +14,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCalendarDatesUseCase: GetCalendarDatesUseCase,
-    private val getFormattedMonthUseCase: GetFormattedMonthUseCase,
     private val getTodayTrackUseCase: GetTodayTrackUseCase,
     private val getTracksForMonthUseCase: GetTracksForMonthUseCase
 ) : ViewModel() {
@@ -50,7 +47,7 @@ class HomeViewModel @Inject constructor(
 
         val calendarDays = getCalendarDatesUseCase(year, month)
         val tracksForMonth = getTracksForMonthUseCase(year, month)
-        _currentMonth.value = getFormattedMonthUseCase(year, month)
+        _currentMonth.value = getFormattedMonth(year, month)
 
         val calendar = Calendar.getInstance()
         val updatedCalendarDays = calendarDays.map { calendarDay ->
@@ -60,8 +57,11 @@ class HomeViewModel @Inject constructor(
             }?.track
             calendarDay.copy(track = track)
         }
-
         _calendarDates.value = updatedCalendarDays
+    }
+
+    private fun getFormattedMonth(year: Int, month: Int): String {
+        return String.format(Locale.KOREA, MONTH_FORMAT, year, month)
     }
 
     fun nextMonth() {
@@ -87,5 +87,6 @@ class HomeViewModel @Inject constructor(
         private const val FIRST_MONTH = 1
         private const val EMPTY_YEAR = 0
         private const val EMPTY_MONTH = 0
+        private const val MONTH_FORMAT = "%d년 %d월"
     }
 }

@@ -3,7 +3,6 @@ package com.stopstone.myapplication.data.repository
 import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.domain.repository.CalendarRepository
 import java.util.Calendar
-import java.util.Locale
 import javax.inject.Inject
 
 class CalendarRepositoryImpl @Inject constructor(): CalendarRepository {
@@ -30,12 +29,7 @@ class CalendarRepositoryImpl @Inject constructor(): CalendarRepository {
         return dates
     }
 
-    override fun getFormattedMonth(year: Int, month: Int): String {
-        return String.format(Locale.getDefault(), MONTH_FORMAT, year, month)
-    }
-
     companion object {
-        private const val MONTH_FORMAT = "%d년 %d월"
         private const val START_DAY = 1
         private const val EMPTY_DAY = 0
     }
