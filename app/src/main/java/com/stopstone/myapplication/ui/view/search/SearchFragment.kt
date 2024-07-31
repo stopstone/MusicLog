@@ -1,12 +1,10 @@
 package com.stopstone.myapplication.ui.view.search
 
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -17,19 +15,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.stopstone.myapplication.R
+import com.stopstone.myapplication.data.model.SearchHistory
 import com.stopstone.myapplication.databinding.FragmentSearchBinding
+import com.stopstone.myapplication.ui.adapter.OnItemClickListener
+import com.stopstone.myapplication.ui.adapter.SearchHistoryAdapter
 import com.stopstone.myapplication.ui.adapter.TrackAdapter
 import com.stopstone.myapplication.ui.viewmodel.SearchState
 import com.stopstone.myapplication.ui.viewmodel.SearchViewModel
+import com.stopstone.myapplication.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), OnItemClickListener {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val adapter: TrackAdapter by lazy { TrackAdapter() }
+    private val trackAdapter: TrackAdapter by lazy { TrackAdapter() }
+    private val searchHistoryAdapter: SearchHistoryAdapter by lazy { SearchHistoryAdapter(this) }
     private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
@@ -43,22 +46,9 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvSearchTrackList.adapter = adapter
+        observeViewModel()
+        setRecyclerView()
         setListeners()
-
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { observeSearchState() }
-            }
-        }
-
-        binding.etSearchTrack.doAfterTextChanged { text ->
-            binding.btnCancelSearch.visibility = if (text.isNullOrEmpty()) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
-        }
     }
 
     override fun onDestroyView() {
@@ -66,29 +56,56 @@ class SearchFragment : Fragment() {
         _binding = null
     }
 
-    private fun searchTracks() {
-        val track = binding.etSearchTrack.text.toString()
-        when {
-            track.isNotEmpty() -> viewModel.searchTracks(track)
-            else -> showToastMessage(getString(R.string.search_empty_message))
+    override fun onItemClick(search: SearchHistory) {
+        binding.etSearchTrack.setText(search.query).toString()
+        searchTracks()
+        viewModel.addSearch(search.query)
+    }
+
+    override fun onDeleteClick(search: SearchHistory) {
+        viewModel.deleteSearch(search)
+    }
+
+    private fun setRecyclerView() {
+        binding.rvSearchTrackList.adapter = trackAdapter
+        binding.rvSearchHistoryList.adapter = searchHistoryAdapter
+    }
+
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { observeSearchState() }
+                launch { observeSearchHistory() }
+            }
         }
-        hideKeyboard()
+    }
+
+    private suspend fun observeSearchHistory() {
+        viewModel.searchHistory.collect { searches ->
+            if (searches.isEmpty()) {
+                binding.groupRecentSearches.visibility = View.GONE
+            } else {
+                binding.groupRecentSearches.visibility = View.VISIBLE
+            }
+            searchHistoryAdapter.submitList(searches)
+
+        }
     }
 
     private suspend fun observeSearchState() {
         viewModel.searchState.collectLatest { state ->
             when (state) {
                 is SearchState.Initial -> {
-                }
-
-                is SearchState.Loading -> {
+                    viewModel.loadSearchHistory()
                 }
 
                 is SearchState.Success -> state.tracks.also { tracks ->
+                    binding.groupRecentSearches.isVisible = false
                     binding.layoutTracksEmpty.root.isVisible = tracks.isEmpty()
                     binding.rvSearchTrackList.isVisible = tracks.isNotEmpty()
-                    adapter.submitList(tracks)
+                    trackAdapter.submitList(tracks)
                 }
+
                 is SearchState.Error -> {
                     showToastMessage(state.message)
                 }
@@ -96,8 +113,21 @@ class SearchFragment : Fragment() {
         }
     }
 
+    private fun searchTracks() {
+        val track = binding.etSearchTrack.text.toString().trim()
+        when (track.isNotEmpty()) {
+            true -> {
+                viewModel.searchTracks(track)
+                viewModel.addSearch(track)
+            }
+
+            false -> showToastMessage(getString(R.string.search_empty_message))
+        }
+        view?.hideKeyboard()
+    }
+
     private fun setListeners() {
-        adapter.setOnItemClickListener { track ->
+        trackAdapter.setOnItemClickListener { track ->
             val action = SearchFragmentDirections.actionSearchToTrackConfirmDialog(track)
             findNavController().navigate(action)
         }
@@ -117,17 +147,27 @@ class SearchFragment : Fragment() {
             }
         }
 
+        binding.etSearchTrack.doAfterTextChanged { text ->
+            if (text.isNullOrEmpty()) {
+                binding.groupRecentSearches.visibility = View.VISIBLE
+                binding.btnCancelSearch.visibility = View.GONE
+                binding.rvSearchTrackList.visibility = View.GONE
+            } else {
+                binding.groupRecentSearches.visibility = View.GONE
+                binding.btnCancelSearch.visibility = View.VISIBLE
+            }
+        }
+
         binding.btnCancelSearch.setOnClickListener {
             binding.etSearchTrack.text.clear()
+        }
+
+        binding.tvClearAll.setOnClickListener {
+            viewModel.clearAllSearches()
         }
     }
 
     private fun showToastMessage(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun hideKeyboard() {
-        val imm = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 }

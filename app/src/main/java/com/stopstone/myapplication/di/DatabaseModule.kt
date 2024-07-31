@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.stopstone.myapplication.data.db.AppDatabase
 import com.stopstone.myapplication.data.db.DailyTrackDao
+import com.stopstone.myapplication.data.db.SearchHistoryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,5 +29,10 @@ object DatabaseModule {
     @Provides
     fun provideDailyTrackDao(database: AppDatabase): DailyTrackDao {
         return database.dailyTrackDao()
+    }
+
+    @Provides
+    fun provideSearchHistoryDao(database: AppDatabase): SearchHistoryDao {
+        return database.searchHistoryDao()
     }
 }

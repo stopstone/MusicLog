@@ -1,12 +1,8 @@
 package com.stopstone.myapplication.ui.view.detail
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.navArgs
-import com.stopstone.myapplication.R
 import com.stopstone.myapplication.databinding.ActivityTrackDetailBinding
 import com.stopstone.myapplication.util.loadImage
 
