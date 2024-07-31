@@ -124,7 +124,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
                 todayMusic.tvTrackTitle.text = track.title
                 todayMusic.tvTrackArtist.text = track.artist
-                track.imageUrl?.let { todayMusic.ivTrackImage.loadImage(it) }
+                todayMusic.ivTrackImage.loadImage(track.imageUrl)
             } else {
                 toggleTodayMusicVisibility(false)
             }
@@ -141,8 +141,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
         }
 
         binding.btnYoutube.setOnClickListener {
-            viewModel.todayTrack.value?.let { track ->
-                val track = track.track
+            viewModel.todayTrack.value?.let {
+                val track = it.track
                 openYouTube("${track.title} ${track.artist}")
             }
         }
