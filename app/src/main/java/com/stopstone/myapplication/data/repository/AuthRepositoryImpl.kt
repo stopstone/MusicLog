@@ -2,8 +2,8 @@ package com.stopstone.myapplication.data.repository
 
 import android.util.Log
 import com.stopstone.myapplication.BuildConfig
-import com.stopstone.myapplication.data.api.SpotifyAuthApi
-import com.stopstone.myapplication.data.local.TokenManager
+import com.stopstone.myapplication.data.remote.api.SpotifyAuthApi
+import com.stopstone.myapplication.data.local.auth.TokenManager
 import com.stopstone.myapplication.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject

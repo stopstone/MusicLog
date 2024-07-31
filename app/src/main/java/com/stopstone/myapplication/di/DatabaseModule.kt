@@ -2,9 +2,9 @@ package com.stopstone.myapplication.di
 
 import android.content.Context
 import androidx.room.Room
-import com.stopstone.myapplication.data.db.AppDatabase
-import com.stopstone.myapplication.data.db.DailyTrackDao
-import com.stopstone.myapplication.data.db.SearchHistoryDao
+import com.stopstone.myapplication.data.local.database.AppDatabase
+import com.stopstone.myapplication.data.local.dao.DailyTrackDao
+import com.stopstone.myapplication.data.local.dao.SearchHistoryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

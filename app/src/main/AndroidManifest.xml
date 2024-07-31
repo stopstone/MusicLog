@@ -16,10 +16,10 @@
         android:theme="@style/Theme.MusicLog"
         tools:targetApi="31">
         <activity
-            android:name=".ui.view.detail.TrackDetailActivity"
+            android:name=".presentation.ui.detail.TrackDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.splash.SplashActivity"
+            android:name=".presentation.ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.view.MainActivity"
+            android:name=".presentation.ui.MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing"></activity>
     </application>

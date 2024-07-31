@@ -1,11 +1,9 @@
 package com.stopstone.myapplication.data.repository
 
 import android.util.Log
-import com.stopstone.myapplication.data.api.SpotifyApi
-import com.stopstone.myapplication.data.local.TokenManager
-import com.stopstone.myapplication.data.model.Track
+import com.stopstone.myapplication.data.remote.api.SpotifyApi
+import com.stopstone.myapplication.data.model.response.Track
 import com.stopstone.myapplication.domain.repository.SearchRepository
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(

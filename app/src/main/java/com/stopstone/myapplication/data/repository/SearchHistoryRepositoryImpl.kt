@@ -1,7 +1,7 @@
 package com.stopstone.myapplication.data.repository
 
-import com.stopstone.myapplication.data.db.SearchHistoryDao
-import com.stopstone.myapplication.data.model.SearchHistory
+import com.stopstone.myapplication.data.local.dao.SearchHistoryDao
+import com.stopstone.myapplication.data.model.entity.SearchHistory
 import com.stopstone.myapplication.domain.repository.SearchHistoryRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

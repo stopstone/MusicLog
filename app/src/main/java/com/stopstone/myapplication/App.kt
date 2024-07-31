@@ -1,7 +1,7 @@
 package com.stopstone.myapplication
 
 import android.app.Application
-import com.stopstone.myapplication.data.local.TokenManager
+import com.stopstone.myapplication.data.local.auth.TokenManager
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

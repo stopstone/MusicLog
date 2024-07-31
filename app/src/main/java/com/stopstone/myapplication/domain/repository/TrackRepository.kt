@@ -1,6 +1,6 @@
 package com.stopstone.myapplication.domain.repository
 
-import com.stopstone.myapplication.data.model.DailyTrack
+import com.stopstone.myapplication.data.model.entity.DailyTrack
 import com.stopstone.myapplication.domain.model.TrackUiState
 import java.util.Date
 

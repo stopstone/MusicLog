@@ -1,6 +1,6 @@
 package com.stopstone.myapplication.domain.repository
 
-import com.stopstone.myapplication.data.model.SearchHistory
+import com.stopstone.myapplication.data.model.entity.SearchHistory
 import kotlinx.coroutines.flow.Flow
 
 interface SearchHistoryRepository {

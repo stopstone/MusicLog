@@ -1,7 +1,7 @@
 package com.stopstone.myapplication.data.repository
 
-import com.stopstone.myapplication.data.db.DailyTrackDao
-import com.stopstone.myapplication.data.model.DailyTrack
+import com.stopstone.myapplication.data.local.dao.DailyTrackDao
+import com.stopstone.myapplication.data.model.entity.DailyTrack
 import com.stopstone.myapplication.domain.model.TrackUiState
 import com.stopstone.myapplication.domain.repository.TrackRepository
 import java.util.Calendar

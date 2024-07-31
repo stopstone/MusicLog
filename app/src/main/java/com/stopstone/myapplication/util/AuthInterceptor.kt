@@ -1,6 +1,6 @@
 package com.stopstone.myapplication.util
 
-import com.stopstone.myapplication.data.local.TokenManager
+import com.stopstone.myapplication.data.local.auth.TokenManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor

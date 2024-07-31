@@ -1,6 +1,6 @@
 package com.stopstone.myapplication.domain.usecase
 
-import com.stopstone.myapplication.data.model.DailyTrack
+import com.stopstone.myapplication.data.model.entity.DailyTrack
 import com.stopstone.myapplication.domain.repository.TrackRepository
 import javax.inject.Inject
 

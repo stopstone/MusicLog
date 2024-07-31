@@ -1,7 +1,7 @@
 package com.stopstone.myapplication.domain.usecase
 
 import android.util.Log
-import com.stopstone.myapplication.data.model.Track
+import com.stopstone.myapplication.data.model.response.Track
 import com.stopstone.myapplication.domain.repository.AuthRepository
 import com.stopstone.myapplication.domain.repository.SearchRepository
 import javax.inject.Inject
