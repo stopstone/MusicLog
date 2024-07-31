@@ -58,7 +58,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
     }
 
     override fun onItemClick(item: Any) {
-        when(item) {
+        when (item) {
             is SearchHistory -> {
                 binding.etSearchTrack.setText(item.query).toString()
                 searchTracks()
@@ -92,13 +92,12 @@ class SearchFragment : Fragment(), OnItemClickListener {
 
     private suspend fun observeSearchHistory() {
         viewModel.searchHistory.collect { searches ->
-            if (searches.isEmpty()) {
-                binding.groupRecentSearches.visibility = View.GONE
+            binding.groupRecentSearches.visibility = if (searches.isEmpty()) {
+                View.GONE
             } else {
-                binding.groupRecentSearches.visibility = View.VISIBLE
+                View.VISIBLE
             }
             searchHistoryAdapter.submitList(searches)
-
         }
     }
 
