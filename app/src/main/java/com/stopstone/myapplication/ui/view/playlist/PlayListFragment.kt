@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.stopstone.myapplication.databinding.FragmentPlayListBinding
+import com.stopstone.myapplication.ui.adapter.OnItemClickListener
 import com.stopstone.myapplication.ui.adapter.TrackAdapter
 import com.stopstone.myapplication.ui.viewmodel.PlayListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 class PlayListFragment: Fragment() {
     private var _binding: FragmentPlayListBinding? = null
     private val binding get() = _binding!!
-    private val adapter: TrackAdapter by lazy { TrackAdapter() }
+    private val adapter: TrackAdapter by lazy { TrackAdapter(null) }
     private val viewModel: PlayListViewModel by viewModels()
 
     override fun onCreateView(

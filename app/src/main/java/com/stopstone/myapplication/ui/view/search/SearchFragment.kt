@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.data.model.SearchHistory
 import com.stopstone.myapplication.databinding.FragmentSearchBinding
+import com.stopstone.myapplication.domain.model.TrackUiState
 import com.stopstone.myapplication.ui.adapter.OnItemClickListener
 import com.stopstone.myapplication.ui.adapter.SearchHistoryAdapter
 import com.stopstone.myapplication.ui.adapter.TrackAdapter
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment(), OnItemClickListener {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val trackAdapter: TrackAdapter by lazy { TrackAdapter() }
+    private val trackAdapter: TrackAdapter by lazy { TrackAdapter(this) }
     private val searchHistoryAdapter: SearchHistoryAdapter by lazy { SearchHistoryAdapter(this) }
     private val viewModel: SearchViewModel by viewModels()
 
@@ -56,10 +57,19 @@ class SearchFragment : Fragment(), OnItemClickListener {
         _binding = null
     }
 
-    override fun onItemClick(search: SearchHistory) {
-        binding.etSearchTrack.setText(search.query).toString()
-        searchTracks()
-        viewModel.addSearch(search.query)
+    override fun onItemClick(item: Any) {
+        when(item) {
+            is SearchHistory -> {
+                binding.etSearchTrack.setText(item.query).toString()
+                searchTracks()
+                viewModel.addSearch(item.query)
+            }
+
+            is TrackUiState -> {
+                val action = SearchFragmentDirections.actionSearchToTrackConfirmDialog(item)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     override fun onDeleteClick(search: SearchHistory) {
@@ -127,11 +137,6 @@ class SearchFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setListeners() {
-        trackAdapter.setOnItemClickListener { track ->
-            val action = SearchFragmentDirections.actionSearchToTrackConfirmDialog(track)
-            findNavController().navigate(action)
-        }
-
         binding.btnSearchTrack.setOnClickListener {
             searchTracks()
         }

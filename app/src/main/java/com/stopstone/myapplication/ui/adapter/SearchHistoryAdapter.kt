@@ -58,6 +58,6 @@ class RecentSearchDiffCallback : DiffUtil.ItemCallback<SearchHistory>() {
 }
 
 interface OnItemClickListener {
-    fun onItemClick(search: SearchHistory)
+    fun onItemClick(item: Any)
     fun onDeleteClick(search: SearchHistory)
 }

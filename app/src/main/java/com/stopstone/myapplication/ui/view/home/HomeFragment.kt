@@ -17,8 +17,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.stopstone.myapplication.R
+import com.stopstone.myapplication.data.model.SearchHistory
 import com.stopstone.myapplication.databinding.FragmentHomeBinding
+import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.ui.adapter.CalendarAdapter
+import com.stopstone.myapplication.ui.adapter.OnItemClickListener
 import com.stopstone.myapplication.ui.viewmodel.HomeViewModel
 import com.stopstone.myapplication.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,11 +30,11 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnItemClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
-    private val adapter: CalendarAdapter by lazy { CalendarAdapter() }
+    private val adapter: CalendarAdapter by lazy { CalendarAdapter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +59,25 @@ class HomeFragment : Fragment() {
                 launch { collectCurrentMonth() }
             }
         }
+    }
+
+    override fun onItemClick(item: Any) {
+        when(item) {
+            is CalendarDay -> {
+                val action = HomeFragmentDirections.actionHomeToTrackDetail(item)
+                findNavController().navigate(action)
+            }
+        }
+    }
+
+    override fun onDeleteClick(search: SearchHistory) {
+        TODO("Not yet implemented")
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setCalendar() {
@@ -124,11 +146,6 @@ class HomeFragment : Fragment() {
                 openYouTube("${track.title} ${track.artist}")
             }
         }
-
-        adapter.onDayClickListener = { dailyTrack ->
-            val action = HomeFragmentDirections.actionHomeToTrackDetail(dailyTrack)
-            findNavController().navigate(action)
-        }
     }
 
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {
@@ -149,11 +166,5 @@ class HomeFragment : Fragment() {
             putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(youtubeIntent))
         }
         startActivity(chooserIntent)
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -11,20 +11,20 @@ import com.stopstone.myapplication.databinding.ItemCalendarDayBinding
 import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.util.loadImage
 
-class CalendarAdapter :
-    ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHolder>(CalendarDayDiffCallback()) {
-    var onDayClickListener: ((CalendarDay) -> Unit)? = null
+class CalendarAdapter(
+    private val listener: OnItemClickListener?
+) : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHolder>(CalendarDayDiffCallback()) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
+        val binding = ItemCalendarDayBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return CalendarViewHolder(
-            ItemCalendarDayBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ),
-            onDayClickListener = {
-                onDayClickListener?.invoke(getItem(it))
-            }
+            binding,
+            onClickListener = { position -> listener?.onItemClick(getItem(position)) }
         )
     }
 
@@ -34,15 +34,15 @@ class CalendarAdapter :
 
     class CalendarViewHolder(
         private val binding: ItemCalendarDayBinding,
-        private val onDayClickListener: (index: Int) -> Unit,
+        private val onClickListener: (position: Int) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.ivCalendarAlbumCover.setOnClickListener {
-                onDayClickListener.invoke(adapterPosition)
+            init {
+                binding.ivCalendarAlbumCover.setOnClickListener {
+                    onClickListener(adapterPosition)
+                }
             }
-        }
 
         fun bind(calendarDay: CalendarDay) {
             when {
