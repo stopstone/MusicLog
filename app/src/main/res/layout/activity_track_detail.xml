@@ -7,18 +7,66 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.detail.TrackDetailActivity">
 
-    <View
-        android:id="@+id/view_today_music"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_track_detail"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/background_blue300"
-        app:layout_constraintBottom_toBottomOf="@id/track_detail_info"
-        app:layout_constraintEnd_toEndOf="@id/track_detail_info"
-        app:layout_constraintStart_toStartOf="@id/track_detail_info"
-        app:layout_constraintTop_toTopOf="@id/track_detail_info" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back" />
 
-    <include
-        android:id="@+id/track_detail_info"
-        layout="@layout/item_track" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_track_detail_album_cover"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/gray_500"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="@id/guideline_track_detail_info_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_track_detail_info_start"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_track_detail"
+        app:shapeAppearanceOverlay="@style/AppRoundedImage" />
 
+    <TextView
+        android:id="@+id/tv_track_detail_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_track_detail_album_cover"
+        tools:text="Track Title" />
+
+    <TextView
+        android:id="@+id/tv_track_detail_artist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_track_detail_title"
+        tools:text="Track Title" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_track_detail_info_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_track_detail_info_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
 </androidx.constraintlayout.widget.ConstraintLayout>

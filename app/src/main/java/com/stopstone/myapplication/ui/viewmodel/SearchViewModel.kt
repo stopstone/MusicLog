@@ -36,7 +36,7 @@ class SearchViewModel @Inject constructor(
     private fun Track.toUiState(): TrackUiState {
         return TrackUiState(
             id = id,
-            imageUrl = album.images.firstOrNull()?.url,
+            imageUrl = album.images.first().url,
             title = name,
             artist = artists.joinToString(", ") { it.name }
         )

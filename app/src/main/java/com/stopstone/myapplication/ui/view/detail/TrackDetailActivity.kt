@@ -17,13 +17,11 @@ class TrackDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val track = args.DailyTrack.track
-        track?.let { track ->
-            with(binding.trackDetailInfo) {
-                tvTrackTitle.text = track.title
-                tvTrackArtist.text = track.artist
-                track.imageUrl?.let { ivTrackImage.loadImage(it) }
-            }
+        val track = args.DailyTrack.track!!
+        with(binding) {
+            ivTrackDetailAlbumCover.loadImage(track.imageUrl)
+            tvTrackDetailTitle.text = track.title
+            tvTrackDetailArtist.text = track.artist
         }
     }
 }
