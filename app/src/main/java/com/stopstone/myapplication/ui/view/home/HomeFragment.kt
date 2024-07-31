@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.databinding.FragmentHomeBinding
 import com.stopstone.myapplication.ui.adapter.CalendarAdapter
@@ -122,6 +124,11 @@ class HomeFragment : Fragment() {
                 val track = track.track
                 openYouTube("${track.title} ${track.artist}")
             }
+        }
+
+        adapter.onDayClickListener = { dailyTrack ->
+            val action = HomeFragmentDirections.actionHomeToTrackDetail(dailyTrack)
+            findNavController().navigate(action)
         }
     }
 

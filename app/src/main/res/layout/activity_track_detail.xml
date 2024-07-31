@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.detail.TrackDetailActivity">
+
+    <View
+        android:id="@+id/view_today_music"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_blue300"
+        app:layout_constraintBottom_toBottomOf="@id/track_detail_info"
+        app:layout_constraintEnd_toEndOf="@id/track_detail_info"
+        app:layout_constraintStart_toStartOf="@id/track_detail_info"
+        app:layout_constraintTop_toTopOf="@id/track_detail_info" />
+
+    <include
+        android:id="@+id/track_detail_info"
+        layout="@layout/item_track" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

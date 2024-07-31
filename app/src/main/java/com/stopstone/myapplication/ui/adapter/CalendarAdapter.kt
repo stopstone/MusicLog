@@ -11,7 +11,9 @@ import com.stopstone.myapplication.databinding.ItemCalendarDayBinding
 import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.util.loadImage
 
-class CalendarAdapter : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHolder>(CalendarDayDiffCallback()) {
+class CalendarAdapter :
+    ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHolder>(CalendarDayDiffCallback()) {
+    var onDayClickListener: ((CalendarDay) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         return CalendarViewHolder(
@@ -19,7 +21,10 @@ class CalendarAdapter : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHol
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            onDayClickListener = {
+                onDayClickListener?.invoke(getItem(it))
+            }
         )
     }
 
@@ -27,12 +32,24 @@ class CalendarAdapter : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHol
         holder.bind(getItem(position))
     }
 
-    class CalendarViewHolder(private val binding: ItemCalendarDayBinding) :
+    class CalendarViewHolder(
+        private val binding: ItemCalendarDayBinding,
+        private val onDayClickListener: (index: Int) -> Unit,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.ivCalendarAlbumCover.setOnClickListener {
+                onDayClickListener.invoke(adapterPosition)
+            }
+        }
 
         fun bind(calendarDay: CalendarDay) {
             when {
-                calendarDay.day == 0 -> setViewVisibility(dateVisible = false, albumVisible = false) // 다른 달인 경우 date, cover 모두 INVISIBLE
+                calendarDay.day == 0 -> setViewVisibility(
+                    dateVisible = false,
+                    albumVisible = false
+                ) // 다른 달인 경우 date, cover 모두 INVISIBLE
                 calendarDay.track != null -> showAlbumCover(calendarDay.track)
                 else -> showDateText(calendarDay.day) // 노래만 등록 안된 경우 date만 VISIBLE
             }
