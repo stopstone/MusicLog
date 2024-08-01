@@ -2,7 +2,6 @@ package com.stopstone.myapplication.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stopstone.myapplication.data.local.dao.DailyTrackDao
 import com.stopstone.myapplication.domain.usecase.GetCommentUseCase
 import com.stopstone.myapplication.domain.usecase.UpdateCommentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

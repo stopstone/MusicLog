@@ -1,12 +1,13 @@
 <resources>
-    <!-- Base application theme. -->
     <style name="Base.Theme.MusicLog" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
         <item name="android:colorBackground">@color/white</item>
         <item name="android:statusBarColor">@android:color/white</item>
-        <item name="android:windowLightStatusBar" >true</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialog</item>
 
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_symbol</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
     </style>
 
     <style name="Theme.MusicLog" parent="Base.Theme.MusicLog" />

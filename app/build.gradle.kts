@@ -54,6 +54,8 @@ android {
 }
 
 dependencies {
+    // Splash
+    implementation(libs.androidx.core.splashscreen)
     // DataStore
     implementation(libs.androidx.datastore.preferences)
 
