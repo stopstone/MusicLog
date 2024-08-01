@@ -8,5 +8,6 @@ import java.util.Date
 @Entity(tableName = "daily_tracks")
 data class DailyTrack(
     @PrimaryKey val date: Date,
-    val track: TrackUiState
+    val track: TrackUiState,
+    val comment: String? = null,
 )

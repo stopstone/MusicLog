@@ -20,4 +20,10 @@ interface DailyTrackDao {
 
     @Query("SELECT * FROM daily_tracks ORDER BY date DESC")
     suspend fun getAllTracks(): List<DailyTrack>
+
+    @Query("UPDATE daily_tracks SET comment = :comment WHERE date = :date")
+    suspend fun updateComment(date: Date, comment: String)
+
+    @Query("SELECT comment FROM daily_tracks WHERE date = :date")
+    suspend fun getComment(date: Date): String?
 }

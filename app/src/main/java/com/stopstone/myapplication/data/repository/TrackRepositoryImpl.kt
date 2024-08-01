@@ -20,6 +20,14 @@ class TrackRepositoryImpl @Inject constructor(
         return dailyTrackDao.getDailyTrack(date)
     }
 
+    override suspend fun getComment(date: Date): String? {
+        return dailyTrackDao.getComment(date)
+    }
+
+    override suspend fun updateComment(date: Date, comment: String) {
+        dailyTrackDao.updateComment(date, comment)
+    }
+
     override suspend fun getTracksForMonth(year: Int, month: Int): List<DailyTrack> {
         val startDate = Calendar.getInstance().apply {
             set(year, month - 1, 1)
