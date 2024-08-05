@@ -3,7 +3,7 @@ package com.stopstone.myapplication.di
 import com.stopstone.myapplication.data.remote.api.SpotifyApi
 import com.stopstone.myapplication.data.remote.api.SpotifyAuthApi
 import com.stopstone.myapplication.data.local.auth.TokenManager
-import com.stopstone.myapplication.util.AuthInterceptor
+import com.stopstone.myapplication.data.local.auth.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
