@@ -1,4 +1,4 @@
-package com.stopstone.myapplication.domain.model
+package com.stopstone.myapplication.ui.model
 
 import android.os.Parcelable
 import com.stopstone.myapplication.base.BaseIdModel

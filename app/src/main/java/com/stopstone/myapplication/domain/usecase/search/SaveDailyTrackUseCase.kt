@@ -1,6 +1,6 @@
 package com.stopstone.myapplication.domain.usecase.search
 
-import com.stopstone.myapplication.domain.model.TrackUiState
+import com.stopstone.myapplication.ui.model.TrackUiState
 import com.stopstone.myapplication.domain.repository.common.TrackRepository
 import java.util.Date
 import javax.inject.Inject

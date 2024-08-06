@@ -2,7 +2,7 @@ package com.stopstone.myapplication.ui.common.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stopstone.myapplication.domain.model.TrackUiState
+import com.stopstone.myapplication.ui.model.TrackUiState
 import com.stopstone.myapplication.domain.usecase.common.GetPlayAllListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

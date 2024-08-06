@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.myapplication.base.BaseDiffCallback
 import com.stopstone.myapplication.databinding.ItemCalendarDayBinding
 import com.stopstone.myapplication.domain.model.CalendarDay
-import com.stopstone.myapplication.domain.model.TrackUiState
+import com.stopstone.myapplication.ui.model.TrackUiState
 import com.stopstone.myapplication.ui.search.adapter.OnItemClickListener
 import com.stopstone.myapplication.util.loadImage
 
