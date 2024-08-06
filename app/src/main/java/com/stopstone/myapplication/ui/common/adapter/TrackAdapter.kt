@@ -12,7 +12,7 @@ import com.stopstone.myapplication.util.loadImage
 
 class TrackAdapter(
     private val listener: OnItemClickListener?
-) : ListAdapter<TrackUiState, TrackAdapter.TrackViewHolder>(TrackDiffCallback()) {
+) : ListAdapter<TrackUiState, TrackAdapter.TrackViewHolder>(BaseDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         return TrackViewHolder(
@@ -48,9 +48,4 @@ class TrackAdapter(
             }
         }
     }
-}
-
-class TrackDiffCallback : BaseDiffCallback<TrackUiState>() {
-    override fun getItemId(item: TrackUiState): Any = item.id
-    override fun areContentsEqual(oldItem: TrackUiState, newItem: TrackUiState): Boolean = oldItem == newItem
 }

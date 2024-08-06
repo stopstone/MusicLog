@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.stopstone.myapplication.data.model.entity.DailyTrack
 import com.stopstone.myapplication.data.model.response.Track
 import com.stopstone.myapplication.domain.model.CalendarDay
-import com.stopstone.myapplication.domain.repository.home.RecommendRepository
 import com.stopstone.myapplication.domain.usecase.home.GetCalendarDatesUseCase
 import com.stopstone.myapplication.domain.usecase.home.GetRecommendationUseCase
 import com.stopstone.myapplication.domain.usecase.home.GetTodayTrackUseCase
@@ -96,7 +95,7 @@ class HomeViewModel @Inject constructor(
         val updatedCalendarDays = calendarDays.map { calendarDay ->
             val track = tracksForMonth.find { dailyTrack ->
                 calendar.time = dailyTrack.date
-                calendar.get(Calendar.DAY_OF_MONTH) == calendarDay.day
+                calendar.get(Calendar.DAY_OF_MONTH) == calendarDay.id
             }?.track
             calendarDay.copy(track = track)
         }

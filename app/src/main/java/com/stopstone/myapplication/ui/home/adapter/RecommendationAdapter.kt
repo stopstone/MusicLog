@@ -9,7 +9,7 @@ import com.stopstone.myapplication.data.model.response.Track
 import com.stopstone.myapplication.databinding.ItemRecommendationTrackBinding
 import com.stopstone.myapplication.util.loadImage
 
-class RecommendationAdapter: ListAdapter<Track, RecommendationAdapter.RecommendationViewHolder>(RecommendationDiffCallback()) {
+class RecommendationAdapter: ListAdapter<Track, RecommendationAdapter.RecommendationViewHolder>(BaseDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendationViewHolder {
         return RecommendationViewHolder(
@@ -39,9 +39,4 @@ class RecommendationAdapter: ListAdapter<Track, RecommendationAdapter.Recommenda
             binding.tvRecommendationTrackArtist.text = item.artists.firstOrNull()?.name
         }
     }
-}
-
-class RecommendationDiffCallback : BaseDiffCallback<Track>() {
-    override fun getItemId(item: Track): Any = item.id
-    override fun areContentsEqual(oldItem: Track, newItem: Track): Boolean = oldItem == newItem
 }

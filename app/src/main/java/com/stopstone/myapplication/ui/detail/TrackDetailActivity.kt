@@ -28,7 +28,7 @@ class TrackDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val track = args.DailyTrack.track!!
-        val day = args.DailyTrack.day
+        val day = args.DailyTrack.id
         Log.d("TrackDetailActivity", "onCreate: $track")
         Log.d("TrackDetailActivity", "onCreate: $day")
 

@@ -14,7 +14,7 @@ import com.stopstone.myapplication.util.loadImage
 
 class CalendarAdapter(
     private val listener: OnItemClickListener?
-) : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHolder>(CalendarDayDiffCallback()) {
+) : ListAdapter<CalendarDay, CalendarAdapter.CalendarViewHolder>(BaseDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
@@ -47,12 +47,12 @@ class CalendarAdapter(
 
         fun bind(calendarDay: CalendarDay) {
             when {
-                calendarDay.day == 0 -> setViewVisibility(
+                calendarDay.id == 0 -> setViewVisibility(
                     dateVisible = false,
                     albumVisible = false
                 ) // 다른 달인 경우 date, cover 모두 INVISIBLE
                 calendarDay.track != null -> showAlbumCover(calendarDay.track)
-                else -> showDateText(calendarDay.day) // 노래만 등록 안된 경우 date만 VISIBLE
+                else -> showDateText(calendarDay.id) // 노래만 등록 안된 경우 date만 VISIBLE
             }
         }
 
@@ -71,9 +71,4 @@ class CalendarAdapter(
             binding.tvCalendarDate.text = day.toString()
         }
     }
-}
-
-class CalendarDayDiffCallback : BaseDiffCallback<CalendarDay>() {
-    override fun getItemId(item: CalendarDay): Any = item.day
-    override fun areContentsEqual(oldItem: CalendarDay, newItem: CalendarDay): Boolean = oldItem == newItem
 }
