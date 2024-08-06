@@ -11,7 +11,7 @@ import com.stopstone.myapplication.databinding.ItemSearchHistoryListBinding
 class SearchHistoryAdapter(
     private val listener: OnItemClickListener
 ) : ListAdapter<SearchHistory, SearchHistoryAdapter.SearchHistoryViewHolder>(
-    SearchHistoryDiffCallback()
+    BaseDiffCallback()
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHistoryViewHolder {
@@ -48,12 +48,6 @@ class SearchHistoryAdapter(
         }
     }
 }
-
-class SearchHistoryDiffCallback : BaseDiffCallback<SearchHistory>() {
-    override fun getItemId(item: SearchHistory): Any = item.id
-    override fun areContentsEqual(oldItem: SearchHistory, newItem: SearchHistory): Boolean = oldItem == newItem
-}
-
 
 interface OnItemClickListener {
     fun onItemClick(item: Any)

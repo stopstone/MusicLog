@@ -1,21 +1,19 @@
 package com.stopstone.myapplication.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.stopstone.myapplication.domain.model.SaveResult
 import com.stopstone.myapplication.databinding.FragmentTrackConfirmDialogBinding
 import com.stopstone.myapplication.ui.search.viewmodel.TrackViewModel
 import com.stopstone.myapplication.util.loadImage
+import com.stopstone.myapplication.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -40,11 +38,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
         setListeners()
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { observeViewModel() }
-            }
-        }
+        observeViewModel()
     }
 
     private fun setLayout() {
@@ -58,23 +52,23 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private fun setListeners() {
         binding.btnTrackConfirm.setOnClickListener {
             viewModel.saveTrack(args.track)
+            dismiss()
         }
         binding.btnTrackCancel.setOnClickListener {
             dismiss()
         }
     }
 
-    private suspend fun observeViewModel() {
-        viewModel.savedTrack.collectLatest { result ->
-            when (result) {
-                is SaveResult.Success -> {
-                    Toast.makeText(context, "트랙이 저장되었습니다.", Toast.LENGTH_SHORT).show()
-                }
-                is SaveResult.Error -> {
-                    Log.e("TrackConfirmDialogFragment", "저장에 실패했습니다: ${result.message}")
+    private fun observeViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.trackSaved.collectLatest { trackSaved ->
+                    when (trackSaved) {
+                        true -> requireContext().showToast("저장에 성공했습니다.")
+                        false -> requireContext().showToast("저장에 실패했습니다.")
+                    }
                 }
             }
-            dismiss()
         }
     }
 

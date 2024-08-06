@@ -1,6 +1,7 @@
 package com.stopstone.myapplication.data.model.response
 
 import android.os.Parcelable
+import com.stopstone.myapplication.base.BaseIdModel
 import kotlinx.parcelize.Parcelize
 
 data class Tracks(
@@ -9,11 +10,11 @@ data class Tracks(
 
 @Parcelize
 data class Track(
-    val id: String,
+    override val id: String,
     val name: String,
     val artists: List<Artist>,
     val album: Album,
-) : Parcelable
+) : Parcelable, BaseIdModel
 
 @Parcelize
 data class Artist(

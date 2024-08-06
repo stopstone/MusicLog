@@ -1,9 +1,8 @@
 package com.stopstone.myapplication.data.repository.common
 
-import android.util.Log
 import com.stopstone.myapplication.BuildConfig
-import com.stopstone.myapplication.data.remote.api.SpotifyAuthApi
 import com.stopstone.myapplication.data.local.auth.TokenManager
+import com.stopstone.myapplication.data.remote.api.SpotifyAuthApi
 import com.stopstone.myapplication.domain.repository.common.AuthRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -14,56 +13,40 @@ class AuthRepositoryImpl @Inject constructor(
     private val spotifyAuthApi: SpotifyAuthApi,
     private val tokenManager: TokenManager
 ) : AuthRepository {
-    private val TEST_EXPIRATION_TIME = 10 * 1000L
 
-    override suspend fun getToken(): Result<String> = try {
+    override suspend fun getToken(): String = try {
         val storedToken = tokenManager.getToken().first()
-        if (storedToken != null && !isTokenExpired()) {
-            Log.d(TAG, "저장된 토큰 사용: $storedToken")
-            Result.success(storedToken)
-        } else {
-            Log.d(TAG, "토큰이 만료되었거나 없습니다. 토큰을 새로 고칩니다.")
-            refreshToken()
-        }
+        storedToken.takeIf { it != null && !isTokenExpired() } ?: refreshToken() // false일때 null
     } catch (e: Exception) {
-        Log.e(TAG, "토큰 가져오기 오류", e)
-        Result.failure(e)
+        throw e
     }
 
-    private suspend fun refreshToken(): Result<String> = try {
+    override suspend fun refreshToken(): String = try {
         clearTokenData()
         val response = spotifyAuthApi.getToken(
-            "client_credentials",
+            GRANT_TYPE,
             BuildConfig.CLIENT_ID,
             BuildConfig.CLIENT_SECRET
         )
         val newToken = response.accessToken
-        val newExpirationTime = System.currentTimeMillis() + TEST_EXPIRATION_TIME
+        val newExpirationTime = System.currentTimeMillis() + response.expiresIn * 1000
 
         tokenManager.saveToken(newToken)
         tokenManager.saveTokenExpireTime(newExpirationTime)
-
-        Log.d(TAG, "새 토큰: $newToken")
-        Log.d(TAG, "새 만료 시간: $newExpirationTime")
-        Result.success(newToken)
+        newToken
     } catch (e: Exception) {
-        Log.e(TAG, "토큰 새로 고침 오류", e)
-        Result.failure(e)
+        throw e
     }
 
-    override suspend fun clearTokenData() {
-        Log.d(TAG, "토큰 데이터 초기화")
-        tokenManager.clearAll()
-    }
+    override suspend fun clearTokenData() = tokenManager.clearAll()
 
     override suspend fun isTokenExpired(): Boolean {
         val expirationTime = tokenManager.getTokenExpireTime().first() ?: 0L
-        val isExpired = System.currentTimeMillis() > expirationTime
-        Log.d(TAG, "토큰 만료 여부: $isExpired")
-        return isExpired
+        return System.currentTimeMillis() > expirationTime
     }
 
     companion object {
-        private const val TAG = "AuthRepository"
+        private const val GRANT_TYPE = "client_credentials"
     }
 }
+

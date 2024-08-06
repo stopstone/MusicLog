@@ -2,15 +2,11 @@ package com.stopstone.myapplication.ui.detail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stopstone.myapplication.domain.model.SaveStatus
 import com.stopstone.myapplication.domain.usecase.detail.GetCommentUseCase
 import com.stopstone.myapplication.domain.usecase.detail.UpdateCommentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -24,9 +20,6 @@ class TrackDetailViewModel @Inject constructor(
     private val _comment = MutableStateFlow("")
     val comment: StateFlow<String> = _comment.asStateFlow()
 
-    private val _saveStatus = MutableSharedFlow<SaveStatus>()
-    val saveStatus: SharedFlow<SaveStatus> = _saveStatus.asSharedFlow()
-
     private var currentDate: Date = Date()
 
     fun setCurrentDate(date: Date) {
@@ -39,11 +32,8 @@ class TrackDetailViewModel @Inject constructor(
     fun updateComment(newComment: String) {
         _comment.value = newComment
         viewModelScope.launch {
-            try {
+            runCatching {
                 updateCommentUseCase(currentDate, newComment)
-                _saveStatus.emit(SaveStatus.Success)
-            } catch (e: Exception) {
-                _saveStatus.emit(SaveStatus.Error(e.message ?: "Unknown error"))
             }
         }
     }

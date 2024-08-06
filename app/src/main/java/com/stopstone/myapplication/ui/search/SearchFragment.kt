@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -17,13 +16,13 @@ import androidx.navigation.fragment.findNavController
 import com.stopstone.myapplication.R
 import com.stopstone.myapplication.data.model.entity.SearchHistory
 import com.stopstone.myapplication.databinding.FragmentSearchBinding
-import com.stopstone.myapplication.domain.model.TrackUiState
 import com.stopstone.myapplication.ui.common.adapter.TrackAdapter
+import com.stopstone.myapplication.ui.model.TrackUiState
 import com.stopstone.myapplication.ui.search.adapter.OnItemClickListener
 import com.stopstone.myapplication.ui.search.adapter.SearchHistoryAdapter
-import com.stopstone.myapplication.ui.search.viewmodel.SearchState
 import com.stopstone.myapplication.ui.search.viewmodel.SearchViewModel
 import com.stopstone.myapplication.util.hideKeyboard
+import com.stopstone.myapplication.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -102,22 +101,14 @@ class SearchFragment : Fragment(), OnItemClickListener {
     }
 
     private suspend fun observeSearchState() {
-        viewModel.searchState.collectLatest { state ->
-            when (state) {
-                is SearchState.Initial -> {
-                    viewModel.loadSearchHistory()
-                }
-
-                is SearchState.Success -> state.tracks.also { tracks ->
-                    binding.groupRecentSearches.isVisible = false
-                    binding.layoutTracksEmpty.root.isVisible = tracks.isEmpty()
-                    binding.rvSearchTrackList.isVisible = tracks.isNotEmpty()
-                    trackAdapter.submitList(tracks)
-                }
-
-                is SearchState.Error -> {
-                    showToastMessage(state.message)
-                }
+        viewModel.searchList.collectLatest { tracks ->
+            if (tracks.isNotEmpty()) {
+                binding.groupRecentSearches.isVisible = false
+                binding.layoutTracksEmpty.root.isVisible = tracks.isEmpty()
+                binding.rvSearchTrackList.isVisible = tracks.isNotEmpty()
+                trackAdapter.submitList(tracks)
+            } else {
+                viewModel.loadSearchHistory()
             }
         }
     }
@@ -130,7 +121,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
                 viewModel.addSearch(track)
             }
 
-            false -> showToastMessage(getString(R.string.search_empty_message))
+            false -> requireContext().showToast(getString(R.string.search_empty_message))
         }
         view?.hideKeyboard()
     }
@@ -169,9 +160,5 @@ class SearchFragment : Fragment(), OnItemClickListener {
         binding.tvClearAll.setOnClickListener {
             viewModel.clearAllSearches()
         }
-    }
-
-    private fun showToastMessage(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

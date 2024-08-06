@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.myapplication.base.BaseDiffCallback
 import com.stopstone.myapplication.databinding.ItemTrackBinding
-import com.stopstone.myapplication.domain.model.TrackUiState
+import com.stopstone.myapplication.ui.model.TrackUiState
 import com.stopstone.myapplication.ui.search.adapter.OnItemClickListener
 import com.stopstone.myapplication.util.loadImage
 
 class TrackAdapter(
     private val listener: OnItemClickListener?
-) : ListAdapter<TrackUiState, TrackAdapter.TrackViewHolder>(TrackDiffCallback()) {
+) : ListAdapter<TrackUiState, TrackAdapter.TrackViewHolder>(BaseDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         return TrackViewHolder(
@@ -48,9 +48,4 @@ class TrackAdapter(
             }
         }
     }
-}
-
-class TrackDiffCallback : BaseDiffCallback<TrackUiState>() {
-    override fun getItemId(item: TrackUiState): Any = item.id
-    override fun areContentsEqual(oldItem: TrackUiState, newItem: TrackUiState): Boolean = oldItem == newItem
 }
