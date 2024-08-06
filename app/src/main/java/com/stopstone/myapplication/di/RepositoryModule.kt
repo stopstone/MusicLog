@@ -6,12 +6,14 @@ import com.stopstone.myapplication.data.repository.common.PlayListRepositoryImpl
 import com.stopstone.myapplication.data.repository.search.SearchHistoryRepositoryImpl
 import com.stopstone.myapplication.data.repository.search.SearchRepositoryImpl
 import com.stopstone.myapplication.data.repository.common.TrackRepositoryImpl
+import com.stopstone.myapplication.data.repository.home.RecommendRepositoryImpl
 import com.stopstone.myapplication.domain.repository.common.AuthRepository
 import com.stopstone.myapplication.domain.repository.home.CalendarRepository
 import com.stopstone.myapplication.domain.repository.common.PlayListRepository
 import com.stopstone.myapplication.domain.repository.search.SearchHistoryRepository
 import com.stopstone.myapplication.domain.repository.search.SearchRepository
 import com.stopstone.myapplication.domain.repository.common.TrackRepository
+import com.stopstone.myapplication.domain.repository.home.RecommendRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -57,4 +59,10 @@ abstract class RepositoryModule {
     abstract fun bindSearchHistoryRepository(
         repository: SearchHistoryRepositoryImpl
     ): SearchHistoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRecommendRepository(
+        repository: RecommendRepositoryImpl
+    ): RecommendRepository
 }

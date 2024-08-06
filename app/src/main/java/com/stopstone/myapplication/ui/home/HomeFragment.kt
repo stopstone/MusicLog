@@ -21,6 +21,7 @@ import com.stopstone.myapplication.data.model.entity.SearchHistory
 import com.stopstone.myapplication.databinding.FragmentHomeBinding
 import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.ui.home.adapter.CalendarAdapter
+import com.stopstone.myapplication.ui.home.adapter.RecommendationAdapter
 import com.stopstone.myapplication.ui.home.viewmodel.HomeViewModel
 import com.stopstone.myapplication.ui.search.adapter.OnItemClickListener
 import com.stopstone.myapplication.util.loadImage
@@ -34,7 +35,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
-    private val adapter: CalendarAdapter by lazy { CalendarAdapter(this) }
+    private val calendarAdapter: CalendarAdapter by lazy { CalendarAdapter(this) }
+    private val recommendationAdapter: RecommendationAdapter by lazy { RecommendationAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +59,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 launch { collectTodayTrack() }
                 launch { collectCalendarDates() }
                 launch { collectCurrentMonth() }
+                launch { collectRecommendations() }
             }
         }
     }
@@ -81,7 +84,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setCalendar() {
-        binding.calendarContent.rvCalendar.adapter = adapter
+        binding.calendarContent.rvCalendar.adapter = calendarAdapter
         binding.calendarContent.rvCalendar.itemAnimator = null
 
         val calendar = Calendar.getInstance()
@@ -105,7 +108,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
     private suspend fun collectCalendarDates() {
         viewModel.calendarDates.collectLatest { dates ->
-            adapter.submitList(dates)
+            calendarAdapter.submitList(dates)
         }
     }
 
@@ -130,6 +133,14 @@ class HomeFragment : Fragment(), OnItemClickListener {
             }
         }
     }
+
+    private suspend fun collectRecommendations() {
+        viewModel.recommendations.collect {
+            binding.rvRecommendationMusicList.adapter = recommendationAdapter
+            recommendationAdapter.submitList(it)
+        }
+    }
+
 
     private fun setListeners() {
         binding.calendarContent.btnPreviousMonth.setOnClickListener {

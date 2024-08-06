@@ -1,5 +1,6 @@
 package com.stopstone.myapplication.ui.search.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.myapplication.domain.model.SaveResult

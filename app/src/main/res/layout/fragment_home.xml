@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -86,7 +87,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_calendar"
         android:layout_width="0dp"
-        android:layout_height="340dp"
+        android:layout_height="300dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="12dp"
@@ -100,5 +101,29 @@
             layout="@layout/layout_calendar_content" />
 
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_recommendation_music_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="유사한 음악 추천"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/cv_calendar"
+        app:layout_constraintTop_toBottomOf="@id/cv_calendar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recommendation_music_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="24dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommendation_music_label"
+        tools:listitem="@layout/item_recommendation_track" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

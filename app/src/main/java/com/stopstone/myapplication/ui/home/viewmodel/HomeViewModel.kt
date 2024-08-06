@@ -1,10 +1,14 @@
 package com.stopstone.myapplication.ui.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.myapplication.data.model.entity.DailyTrack
+import com.stopstone.myapplication.data.model.response.Track
 import com.stopstone.myapplication.domain.model.CalendarDay
+import com.stopstone.myapplication.domain.repository.home.RecommendRepository
 import com.stopstone.myapplication.domain.usecase.home.GetCalendarDatesUseCase
+import com.stopstone.myapplication.domain.usecase.home.GetRecommendationUseCase
 import com.stopstone.myapplication.domain.usecase.home.GetTodayTrackUseCase
 import com.stopstone.myapplication.domain.usecase.home.GetTracksForMonthUseCase
 import com.stopstone.myapplication.util.DateUtils
@@ -21,7 +25,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getCalendarDatesUseCase: GetCalendarDatesUseCase,
     private val getTodayTrackUseCase: GetTodayTrackUseCase,
-    private val getTracksForMonthUseCase: GetTracksForMonthUseCase
+    private val getTracksForMonthUseCase: GetTracksForMonthUseCase,
+    private val getRecommendationUseCase: GetRecommendationUseCase
 ) : ViewModel() {
     private val _calendarDates = MutableStateFlow<List<CalendarDay>>(emptyList())
     val calendarDates: StateFlow<List<CalendarDay>> = _calendarDates.asStateFlow()
@@ -32,6 +37,10 @@ class HomeViewModel @Inject constructor(
     private val _todayTrack = MutableStateFlow<DailyTrack?>(null)
     val todayTrack: StateFlow<DailyTrack?> = _todayTrack
 
+    private val _recommendations = MutableStateFlow<List<Track>>(emptyList())
+    val recommendations: StateFlow<List<Track>> = _recommendations.asStateFlow()
+
+
     private var currentYear: Int = EMPTY_YEAR
     private var currentMonthValue: Int = EMPTY_MONTH
 
@@ -39,7 +48,41 @@ class HomeViewModel @Inject constructor(
         val today = DateUtils.getTodayDate()
         val track = getTodayTrackUseCase(today)
         _todayTrack.value = track
+
+        track?.let {
+            Log.d("HomeViewModel", "Today's Track: ${it.track}")
+            loadRecommendations(it.track.id)
+        } ?: Log.d("HomeViewModel", "No track for today")
     }
+
+    private fun loadRecommendations(trackId: String) = viewModelScope.launch {
+        try {
+            val recommendations = getRecommendationUseCase(trackId, 10)
+            Log.d("HomeViewModel", "Recommendations size: ${recommendations.size}")
+            if (recommendations.isNotEmpty()) {
+                _recommendations.value = recommendations
+                logRecommendations(recommendations)
+            } else {
+                Log.d("HomeViewModel", "No recommendations found")
+            }
+        } catch (e: Exception) {
+            Log.e("HomeViewModel", "Error fetching recommendations", e)
+        }
+    }
+
+    private fun logRecommendations(tracks: List<Track>) {
+        if (tracks.isEmpty()) {
+            Log.d("HomeViewModel", "Recommendation list is empty")
+            return
+        }
+        tracks.forEachIndexed { index, track ->
+            Log.d(
+                "HomeViewModel",
+                "Recommendation ${index + 1}: ${track.name} by ${track.artists.joinToString { it.name }}"
+            )
+        }
+    }
+
 
     fun loadCalendar(year: Int, month: Int) = viewModelScope.launch {
         currentYear = year
