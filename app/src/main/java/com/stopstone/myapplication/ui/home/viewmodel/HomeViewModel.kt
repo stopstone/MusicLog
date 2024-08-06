@@ -57,10 +57,8 @@ class HomeViewModel @Inject constructor(
     private fun loadRecommendations(trackId: String) = viewModelScope.launch {
         try {
             val recommendations = getRecommendationUseCase(trackId, 10)
-            Log.d("HomeViewModel", "Recommendations size: ${recommendations.size}")
             if (recommendations.isNotEmpty()) {
                 _recommendations.value = recommendations
-                logRecommendations(recommendations)
             } else {
                 Log.d("HomeViewModel", "No recommendations found")
             }
@@ -68,20 +66,6 @@ class HomeViewModel @Inject constructor(
             Log.e("HomeViewModel", "Error fetching recommendations", e)
         }
     }
-
-    private fun logRecommendations(tracks: List<Track>) {
-        if (tracks.isEmpty()) {
-            Log.d("HomeViewModel", "Recommendation list is empty")
-            return
-        }
-        tracks.forEachIndexed { index, track ->
-            Log.d(
-                "HomeViewModel",
-                "Recommendation ${index + 1}: ${track.name} by ${track.artists.joinToString { it.name }}"
-            )
-        }
-    }
-
 
     fun loadCalendar(year: Int, month: Int) = viewModelScope.launch {
         currentYear = year

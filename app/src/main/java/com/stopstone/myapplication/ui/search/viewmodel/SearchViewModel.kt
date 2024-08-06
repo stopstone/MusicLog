@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.myapplication.data.model.entity.SearchHistory
 import com.stopstone.myapplication.data.model.response.Track
-import com.stopstone.myapplication.domain.model.TrackUiState
 import com.stopstone.myapplication.domain.usecase.search.AddSearchUseCase
 import com.stopstone.myapplication.domain.usecase.search.DeleteAllSearchesUseCase
 import com.stopstone.myapplication.domain.usecase.search.DeleteSearchUseCase
 import com.stopstone.myapplication.domain.usecase.search.GetAllSearchHistoryUseCase
 import com.stopstone.myapplication.domain.usecase.search.SearchTracksUseCase
+import com.stopstone.myapplication.ui.model.TrackUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,12 +25,11 @@ class SearchViewModel @Inject constructor(
     private val deleteSearchUseCase: DeleteSearchUseCase,
     private val deleteAllSearchesUseCase: DeleteAllSearchesUseCase
 ) : ViewModel() {
-
-    private val _searchState = MutableStateFlow<SearchState>(SearchState.Initial)
-    val searchState: StateFlow<SearchState> = _searchState
-
     private val _searchHistory = MutableStateFlow<List<SearchHistory>>(emptyList())
     val searchHistory: StateFlow<List<SearchHistory>> = _searchHistory.asStateFlow()
+
+    private val _searchList = MutableStateFlow<List<TrackUiState>>(emptyList())
+    val searchList: StateFlow<List<TrackUiState>> = _searchList.asStateFlow()
 
     fun loadSearchHistory() = viewModelScope.launch {
         getAllSearchHistoryUseCase().collect { history ->
@@ -39,16 +38,13 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchTracks(query: String) = viewModelScope.launch {
-        searchTracksUseCase(query).fold(
-            onSuccess = { tracks ->
-                _searchState.value = SearchState.Success(
-                    tracks.map { it.toTrackUiState() }
-                )
-            },
-            onFailure = { exception ->
-                _searchState.value = SearchState.Error(exception.message ?: "Unknown error")
+        runCatching { searchTracksUseCase(query) }
+            .onSuccess { tracks ->
+                _searchList.value = tracks.map { it.toTrackUiState() }
             }
-        )
+            .onFailure {
+                _searchList.value = emptyList()
+            }
     }
 
     fun addSearch(query: String) = viewModelScope.launch {
@@ -70,9 +66,4 @@ class SearchViewModel @Inject constructor(
             title = name,
             artist = artists.joinToString(", ") { it.name }
         )
-}
-sealed class SearchState {
-    object Initial : SearchState()
-    data class Success(val tracks: List<TrackUiState>) : SearchState()
-    data class Error(val message: String) : SearchState()
 }
