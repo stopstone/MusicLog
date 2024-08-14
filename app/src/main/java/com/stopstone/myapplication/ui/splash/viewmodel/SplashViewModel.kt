@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.myapplication.domain.usecase.splash.GetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,18 +15,17 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val getTokenUseCase: GetTokenUseCase,
 ) : ViewModel() {
-
-    private val _token = MutableStateFlow<String?>(null)
-    val token: StateFlow<String?> = _token.asStateFlow()
+    private val _token = MutableSharedFlow<String?>()
+    val token: SharedFlow<String?> = _token.asSharedFlow()
 
     fun getToken() = viewModelScope.launch {
         runCatching { getTokenUseCase() }
             .onSuccess { token ->
-                _token.value = token
+                _token.emit(token)
                 Log.d(TAG, "토큰을 성공적으로 가져왔습니다: $token")
             }
             .onFailure { e ->
-                _token.value = null
+                _token.emit(null)
                 Log.e(TAG, "토큰 가져오기 실패", e)
             }
     }
