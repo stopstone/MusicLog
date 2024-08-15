@@ -8,5 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CalendarDay(
     override val id: Int,
+    val year: Int,
+    val month: Int,
     val track: TrackUiState? = null
 ): Parcelable, BaseIdModel

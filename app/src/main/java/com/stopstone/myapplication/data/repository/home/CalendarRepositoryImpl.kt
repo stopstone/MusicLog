@@ -18,12 +18,12 @@ class CalendarRepositoryImpl @Inject constructor(): CalendarRepository {
         val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
         val emptyDays = firstDayOfWeek - Calendar.SUNDAY
         repeat(emptyDays) {
-            dates.add(CalendarDay(EMPTY_DAY))
+            dates.add(CalendarDay(EMPTY_DAY, year, month))
         }
 
         // 현재 월 날짜 추가
         for (day in 1..daysInMonth) {
-            dates.add(CalendarDay(day))
+            dates.add(CalendarDay(day, year, month))
         }
 
         return dates

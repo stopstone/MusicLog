@@ -24,10 +24,15 @@ class TrackDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val track = args.DailyTrack.track!!
-        val day = args.DailyTrack.id
+        val date = with(args.DailyTrack) {
+            val day = args.DailyTrack.id
+            val year = args.DailyTrack.year
+            val month = args.DailyTrack.month
+            convertDayToDate(year, month, day)
+        }
 
         with(binding) {
+            val track = args.DailyTrack.track!!
             ivTrackDetailAlbumCover.loadImage(track.imageUrl)
             tvTrackDetailTitle.text = track.title
             tvTrackDetailArtist.text = track.artist
@@ -37,7 +42,6 @@ class TrackDetailActivity : AppCompatActivity() {
             }
         }
 
-        val date = convertDayToDate(day)
         viewModel.setCurrentDate(date)
 
         lifecycleScope.launch {
@@ -50,12 +54,10 @@ class TrackDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun convertDayToDate(day: Int): Date {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        calendar.set(year, month, day, 0, 0, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.time
+    private fun convertDayToDate(year: Int, month: Int, day: Int): Date {
+        return Calendar.getInstance().apply {
+            set(year, month, day, 0, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
     }
 }
