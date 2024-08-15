@@ -26,4 +26,7 @@ interface DailyTrackDao {
 
     @Query("SELECT comment FROM daily_tracks WHERE date = :date")
     suspend fun getComment(date: Date): String?
+
+    @Query("DELETE FROM daily_tracks WHERE date = :date")
+    suspend fun deleteDailyTrack(date: Date)
 }

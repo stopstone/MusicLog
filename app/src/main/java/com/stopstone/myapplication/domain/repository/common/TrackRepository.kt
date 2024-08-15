@@ -10,4 +10,5 @@ interface TrackRepository {
     suspend fun getTracksForMonth(year: Int, month: Int): List<DailyTrack>
     suspend fun getComment(dateMillis: Date): String?
     suspend fun updateComment(dateMillis: Date, comment: String)
+    suspend fun deleteTrackByDate(dateMillis: Date)
 }

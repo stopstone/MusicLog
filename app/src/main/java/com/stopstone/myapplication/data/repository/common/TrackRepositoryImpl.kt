@@ -28,6 +28,10 @@ class TrackRepositoryImpl @Inject constructor(
         dailyTrackDao.updateComment(date, comment)
     }
 
+    override suspend fun deleteTrackByDate(dateMillis: Date) {
+        dailyTrackDao.deleteDailyTrack(dateMillis)
+    }
+
     override suspend fun getTracksForMonth(year: Int, month: Int): List<DailyTrack> {
         val startDate = Calendar.getInstance().apply {
             set(year, month - 1, 1)

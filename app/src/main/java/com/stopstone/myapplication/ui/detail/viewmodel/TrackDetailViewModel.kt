@@ -3,10 +3,13 @@ package com.stopstone.myapplication.ui.detail.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.stopstone.myapplication.domain.usecase.detail.DeleteTrackUseCase
 import com.stopstone.myapplication.domain.usecase.detail.GetCommentUseCase
 import com.stopstone.myapplication.domain.usecase.detail.UpdateCommentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -18,9 +21,13 @@ import javax.inject.Inject
 class TrackDetailViewModel @Inject constructor(
     private val getCommentUseCase: GetCommentUseCase,
     private val updateCommentUseCase: UpdateCommentUseCase,
+    private val deleteTrackUseCase: DeleteTrackUseCase,
 ) : ViewModel() {
     private val _comment = MutableStateFlow("")
     val comment: StateFlow<String> = _comment.asStateFlow()
+
+    private val _deleteResult = MutableSharedFlow<Boolean>()
+    val deleteResult: SharedFlow<Boolean> = _deleteResult
 
     private lateinit var currentDate: Date
 
@@ -57,6 +64,18 @@ class TrackDetailViewModel @Inject constructor(
             Log.d("TrackDetailViewModel", "Comment updated successfully")
         }.onFailure { e ->
             Log.e("TrackDetailViewModel", "Error updating comment", e)
+        }
+    }
+
+    fun deleteTrack() = viewModelScope.launch {
+        runCatching {
+            deleteTrackUseCase(currentDate)
+        }.onSuccess {
+            _deleteResult.emit(true)
+            Log.d("TrackDetailViewModel", "Track deleted successfully")
+        }.onFailure { e ->
+            _deleteResult.emit(false)
+            Log.e("TrackDetailViewModel", "Error deleting track", e)
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.stopstone.myapplication.ui.detail
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -46,6 +47,7 @@ class TrackDetailActivity : AppCompatActivity() {
     private fun collectViewModel() = lifecycleScope.launch {
         repeatOnLifecycle(Lifecycle.State.STARTED) {
             launch { collectComment() }
+            launch { collectDeleteResult() }
         }
     }
 
@@ -56,9 +58,24 @@ class TrackDetailActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun collectDeleteResult() {
+        viewModel.deleteResult.collect { isDeleted ->
+            if (isDeleted) {
+                Toast.makeText(this@TrackDetailActivity, "트랙이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                finish() // 액티비티 종료
+            } else {
+                Toast.makeText(this@TrackDetailActivity, "삭제 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun setListeners() {
         binding.btnTrackDetailSave.setOnClickListener {
             viewModel.updateComment(binding.etTrackDetailComment.text.toString())
+        }
+
+        binding.btnTrackDetailDelete.setOnClickListener {
+            viewModel.deleteTrack()
         }
     }
 
