@@ -1,4 +1,4 @@
-# GithubSearch
+# 음악감정일기 안드로이드 앱
 
 MisicLog 프로젝트는 Spotify API를 활용하여 하루에 하나씩 음악을 지정하고, 메모하는 안드로이드 앱입니다.
 이를 통해 MVVM 아키텍쳐, Retorofit에 대해 활용하였으며 RoomDB의 설계를 고민하였습니다.
