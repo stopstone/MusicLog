@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_home_to_track_detail"
             app:destination="@id/navigation_track_detail" />
+        <action
+            android:id="@+id/action_home_to_setting"
+            app:destination="@id/navigation_setting" />
     </fragment>
 
     <fragment
@@ -48,4 +51,9 @@
             android:name="DailyTrack"
             app:argType="com.stopstone.myapplication.domain.model.CalendarDay" />
     </activity>
+    <activity
+        android:id="@+id/navigation_setting"
+        android:name="com.stopstone.myapplication.ui.setting.SettingActivity"
+        android:label="activity_setting"
+        tools:layout="@layout/activity_setting" />
 </navigation>
