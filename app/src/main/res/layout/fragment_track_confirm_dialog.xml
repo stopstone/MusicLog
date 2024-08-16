@@ -19,9 +19,10 @@
 
     <TextView
         android:id="@+id/tv_confirm_track_info"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +30,31 @@
         tools:text="AKMU - AnswerMe" />
 
     <TextView
-        android:id="@+id/tv_confirm_track_message"
+        android:id="@+id/tv_confirm_track_emotion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/label_confirm_track_emotion"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_confirm_track_info" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup_confirm_track_emotion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/tv_confirm_track_emotion"
+        app:layout_constraintStart_toStartOf="@id/tv_confirm_track_emotion"
+        app:layout_constraintTop_toBottomOf="@id/tv_confirm_track_emotion" />
+
+    <TextView
+        android:id="@+id/tv_track_confirm_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -41,14 +66,14 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_confirm_track_info" />
+        app:layout_constraintTop_toBottomOf="@id/chipGroup_confirm_track_emotion" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_track_cancel"
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="40dp"
         android:text="@string/label_cancel"
@@ -56,7 +81,7 @@
         app:layout_constraintEnd_toStartOf="@id/btn_track_confirm"
         app:layout_constraintHorizontal_weight="0.375"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_confirm_track_info" />
+        app:layout_constraintTop_toBottomOf="@id/tv_track_confirm_message" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_track_confirm"

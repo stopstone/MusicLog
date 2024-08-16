@@ -1,6 +1,7 @@
 package com.stopstone.myapplication.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,10 @@ class TrackDetailActivity : AppCompatActivity() {
         setLayout()
         setListeners()
         collectViewModel()
+
+        Log.d("TrackDetailActivity", "onCreate: ${args.DailyTrack}")
+        Log.d("TrackDetailActivity", "onCreate: ${args.DailyTrack.emotions}")
+
     }
 
     private fun setLayout() {
