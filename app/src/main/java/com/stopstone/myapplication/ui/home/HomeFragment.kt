@@ -157,6 +157,11 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 openYouTube("${track.title} ${track.artist}")
             }
         }
+
+        binding.btnHomeSettings.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeToSetting()
+            findNavController().navigate(action)
+        }
     }
 
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {

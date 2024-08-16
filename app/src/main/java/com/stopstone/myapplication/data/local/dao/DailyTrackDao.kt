@@ -29,4 +29,7 @@ interface DailyTrackDao {
 
     @Query("DELETE FROM daily_tracks WHERE date = :date")
     suspend fun deleteDailyTrack(date: Date)
+
+    @Query("DELETE FROM daily_tracks")
+    suspend fun deleteAllTracks()
 }

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MusicLog"
         tools:targetApi="31">
         <activity
+            android:name=".ui.setting.SettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.detail.TrackDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
