@@ -1,6 +1,7 @@
 package com.stopstone.myapplication.data.repository.search
 
 import android.util.Log
+import com.stopstone.myapplication.data.model.Emotions
 import com.stopstone.myapplication.data.remote.api.SpotifyApi
 import com.stopstone.myapplication.data.model.response.Track
 import com.stopstone.myapplication.domain.repository.search.SearchRepository
@@ -21,5 +22,9 @@ class SearchRepositoryImpl @Inject constructor(
             Log.e("SearchRepositoryImpl", "트랙 검색 중 오류 발생", e)
             emptyList()
         }
+    }
+
+    override suspend fun getEmotions(): List<Emotions> {
+        return Emotions.entries
     }
 }

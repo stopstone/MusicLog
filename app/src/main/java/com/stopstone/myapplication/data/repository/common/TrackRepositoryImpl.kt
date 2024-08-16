@@ -1,6 +1,7 @@
 package com.stopstone.myapplication.data.repository.common
 
 import com.stopstone.myapplication.data.local.dao.DailyTrackDao
+import com.stopstone.myapplication.data.model.Emotions
 import com.stopstone.myapplication.data.model.entity.DailyTrack
 import com.stopstone.myapplication.ui.model.TrackUiState
 import com.stopstone.myapplication.domain.repository.common.TrackRepository
@@ -10,11 +11,11 @@ import javax.inject.Inject
 
 class TrackRepositoryImpl @Inject constructor(
     private val dailyTrackDao: DailyTrackDao
-): TrackRepository {
-    override suspend fun saveDailyTrack(track: TrackUiState, date: Date) {
-        val dailyTrack = DailyTrack(track = track, date = date)
-        dailyTrackDao.insert(dailyTrack)
+) : TrackRepository {
+    override suspend fun saveDailyTrack(dailyTrack: DailyTrack) {
+        return dailyTrackDao.insert(dailyTrack)
     }
+
 
     override suspend fun getTodayTrack(date: Date): DailyTrack? {
         return dailyTrackDao.getDailyTrack(date)

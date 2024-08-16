@@ -64,6 +64,6 @@ class SearchViewModel @Inject constructor(
             id = id,
             imageUrl = album.images.first().url,
             title = name,
-            artist = artists.joinToString(", ") { it.name }
+            artist = artists.joinToString(", ") { it.name },
         )
 }

@@ -77,11 +77,14 @@ class HomeViewModel @Inject constructor(
 
         val calendar = Calendar.getInstance()
         val updatedCalendarDays = calendarDays.map { calendarDay ->
-            val track = tracksForMonth.find { dailyTrack ->
+            val dailyTrack = tracksForMonth.find { dailyTrack ->
                 calendar.time = dailyTrack.date
                 calendar.get(Calendar.DAY_OF_MONTH) == calendarDay.id
-            }?.track
-            calendarDay.copy(track = track)
+            }
+            calendarDay.copy(
+                track = dailyTrack?.track,
+                emotions = dailyTrack?.emotions ?: emptyList()
+            )
         }
         _calendarDates.value = updatedCalendarDays
     }
