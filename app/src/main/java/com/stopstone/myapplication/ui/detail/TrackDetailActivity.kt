@@ -12,6 +12,7 @@ import androidx.navigation.navArgs
 import com.stopstone.myapplication.databinding.ActivityTrackDetailBinding
 import com.stopstone.myapplication.ui.detail.viewmodel.TrackDetailViewModel
 import com.stopstone.myapplication.util.loadImage
+import com.stopstone.myapplication.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,10 +31,6 @@ class TrackDetailActivity : AppCompatActivity() {
         setLayout()
         setListeners()
         collectViewModel()
-
-        Log.d("TrackDetailActivity", "onCreate: ${args.DailyTrack}")
-        Log.d("TrackDetailActivity", "onCreate: ${args.DailyTrack.emotions}")
-
     }
 
     private fun setLayout() {
@@ -66,10 +63,10 @@ class TrackDetailActivity : AppCompatActivity() {
     private suspend fun collectDeleteResult() {
         viewModel.deleteResult.collect { isDeleted ->
             if (isDeleted) {
-                Toast.makeText(this@TrackDetailActivity, "트랙이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                showToast("트랙이 삭제되었습니다.")
                 finish() // 액티비티 종료
             } else {
-                Toast.makeText(this@TrackDetailActivity, "삭제 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                showToast("삭제 중 오류가 발생했습니다.")
             }
         }
     }

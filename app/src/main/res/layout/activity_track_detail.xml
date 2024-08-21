@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/description_track_delete_button"
         android:src="@drawable/ic_delete"
         android:padding="10dp"
         android:layout_marginEnd="6dp"
@@ -74,7 +75,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
         android:gravity="top"
-        android:hint="내용을 입력하세요."
+        android:hint="@string/hint_track_detail_comment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +98,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.3" />
-
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_track_detail_info_end"

@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="설정" />
+        app:title="@string/label_setting" />
 
     <TextView
         android:id="@+id/tv_data_clear"

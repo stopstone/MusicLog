@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
+import com.stopstone.myapplication.R
 import com.stopstone.myapplication.data.model.Emotions
 import com.stopstone.myapplication.databinding.FragmentTrackConfirmDialogBinding
 import com.stopstone.myapplication.ui.search.viewmodel.TrackViewModel
@@ -49,7 +50,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
         val track = args.track
         with(binding) {
             ivConfirmTrackImage.loadImage(track.imageUrl)
-            tvConfirmTrackInfo.text = "${track.artist} - ${track.title}"
+            tvConfirmTrackInfo.text = getString(R.string.track_info_format, track.artist, track.title)
         }
     }
 
@@ -76,8 +77,8 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private suspend fun collectSaveTrack() {
         viewModel.trackSaved.collectLatest { trackSaved ->
             when (trackSaved) {
-                true -> requireContext().showToast("저장에 성공했습니다.")
-                false -> requireContext().showToast("저장에 실패했습니다.")
+                true -> requireContext().showToast(getString(R.string.label_track_saved))
+                false -> requireContext().showToast(getString(R.string.label_track_save_failed))
             }
         }
     }
@@ -93,7 +94,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
             binding.chipGroupConfirmTrackEmotion.removeAllViews()
             emotions.forEach { emotion ->
                 val chip = Chip(requireContext()).apply {
-                    text = emotion.displayName
+                    text = emotion.getDisplayName(context)
                     isCheckable = true
                     setOnCheckedChangeListener { _, _ ->
                         viewModel.toggleEmotion(emotion)
@@ -107,7 +108,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private fun updateChipSelection(selectedEmotions: List<Emotions>) {
         binding.chipGroupConfirmTrackEmotion.children.forEach { child ->
             if (child is Chip) {
-                child.isChecked = selectedEmotions.any { it.displayName == child.text }
+                child.isChecked = selectedEmotions.any { it.getDisplayName(requireContext()) == child.text }
             }
         }
     }

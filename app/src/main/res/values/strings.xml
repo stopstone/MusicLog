@@ -1,31 +1,76 @@
 <resources>
+    <!--  common  -->
     <string name="app_name">MusicLog</string>
     <string name="label_navigation_home">홈</string>
     <string name="label_navigation_search">검색</string>
+    <string name="label_navigation_playlist">플레이리스트</string>
+    <string name="label_setting">설정</string>
+    <string name="description_album_cover_image">앨범 커버</string>
 
-    <string name="hint_search_track">노래 제목 또는 가수를 입력해주세요.</string>
+    <!--  홈  -->
+    <string name="label_home_title">오늘의 음악</string>
+    <string name="label_home_empty_track_title">등록된 음악이 없습니다.</string>
+    <string name="label_home_empty_track_subtitle">오늘의 음악을 등록해보세요.</string>
+    <string name="label_recommend_track">유사한 음악 추천</string>
+    <string name="description_previous_month">이전 달</string>
+    <string name="description_next_month">다음 달</string>
+    <string name="current_month_format">%1$d년 %2$d월</string>
+
+    <!--  검색  -->
+    <string name="label_recent_search">최근 검색어</string>
+    <string name="label_clear_all_recent_search">전체삭제</string>
+    <string name="description_clear_recent_search">최근 검색어 삭제</string>
     <string name="search_empty_message">검색어를 입력해주세요.</string>
+    <string name="hint_search_track">노래 제목 또는 가수를 입력해주세요.</string>
+    <string name="label_track_empty_title">검색된 곡이 없습니다.</string>
+    <string name="label_track_empty_subtitle">다른 곡을 선택해주세요.</string>
+
+    <!--  등록  -->
     <string name="label_track_confirm_message">이 노래를 오늘의 노래로\n등록하시겠습니까?</string>
     <string name="label_cancel">취소</string>
     <string name="label_confirm">등록</string>
-    <string name="description_previous_month">이전 달</string>
-    <string name="description_next_month">다음 달</string>
-
-    <string name="current_month_format">%1$d년 %2$d월</string>
-    <string name="description_album_cover_image">앨범 커버</string>
-    <string name="label_track_empty_title">검색된 곡이 없습니다.</string>
-    <string name="label_track_empty_subtitle">다른 곡을 선택해주세요.</string>
-    <string name="label_navigation_playlist">플레이리스트</string>
-    <string name="label_setting_data_clear">데이터 초기화</string>
     <string name="label_confirm_track_emotion">감정 선택</string>
+    <string name="label_track_saved">노래가 등록되었습니다.</string>
+    <string name="label_track_save_failed">노래 등록에 실패했습니다.</string>
+    <string name="track_info_format">%1$s - %2$s</string>
+
+    <!--  설정  -->
+    <string name="label_setting_data_clear">데이터 초기화</string>
+
+    <!--  상세  -->
+    <string name="hint_track_detail_comment">내용을 입력하세요.</string>
+    <string name="description_track_delete_button">삭제</string>
+
+    <!--  감정  -->
+    <!-- Emotions -->
+    <string name="emotion_happy">행복</string>
+    <string name="emotion_sad">슬픔</string>
+    <string name="emotion_angry">분노</string>
+    <string name="emotion_joyful">기쁨</string>
+    <string name="emotion_anxious">불안</string>
+    <string name="emotion_calm">평온</string>
+    <string name="emotion_excited">흥분</string>
+    <string name="emotion_bored">지루함</string>
+    <string name="emotion_confident">자신감</string>
+    <string name="emotion_fearful">두려움</string>
+    <string name="emotion_grateful">감사</string>
+    <string name="emotion_frustrated">좌절</string>
+    <string name="emotion_hopeful">희망</string>
+    <string name="emotion_lonely">외로움</string>
+    <string name="emotion_loving">사랑</string>
+    <string name="emotion_jealous">질투</string>
+    <string name="emotion_regretful">후회</string>
+    <string name="emotion_surprised">놀람</string>
+    <string name="emotion_confused">혼란</string>
+    <string name="emotion_satisfied">만족</string>
 
     <string-array name="week_days">
-        <item>S</item>
-        <item>M</item>
-        <item>T</item>
-        <item>W</item>
-        <item>T</item>
-        <item>F</item>
-        <item>S</item>
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
     </string-array>
 </resources>
