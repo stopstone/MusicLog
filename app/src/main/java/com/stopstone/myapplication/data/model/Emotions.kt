@@ -1,30 +1,37 @@
 package com.stopstone.myapplication.data.model
 
-enum class Emotions(val displayName: String) {
-    HAPPY("행복"),
-    SAD("슬픔"),
-    ANGRY("분노"),
-    JOYFUL("기쁨"),
-    ANXIOUS("불안"),
-    CALM("평온"),
-    EXCITED("흥분"),
-    BORED("지루함"),
-    CONFIDENT("자신감"),
-    FEARFUL("두려움"),
-    GRATEFUL("감사"),
-    FRUSTRATED("좌절"),
-    HOPEFUL("희망"),
-    LONELY("외로움"),
-    LOVING("사랑"),
-    JEALOUS("질투"),
-    REGRETFUL("후회"),
-    SURPRISED("놀람"),
-    CONFUSED("혼란"),
-    SATISFIED("만족");
+import android.content.Context
+import com.stopstone.myapplication.R
+
+enum class Emotions(val stringResId: Int) {
+    HAPPY(R.string.emotion_happy),
+    SAD(R.string.emotion_sad),
+    ANGRY(R.string.emotion_angry),
+    JOYFUL(R.string.emotion_joyful),
+    ANXIOUS(R.string.emotion_anxious),
+    CALM(R.string.emotion_calm),
+    EXCITED(R.string.emotion_excited),
+    BORED(R.string.emotion_bored),
+    CONFIDENT(R.string.emotion_confident),
+    FEARFUL(R.string.emotion_fearful),
+    GRATEFUL(R.string.emotion_grateful),
+    FRUSTRATED(R.string.emotion_frustrated),
+    HOPEFUL(R.string.emotion_hopeful),
+    LONELY(R.string.emotion_lonely),
+    LOVING(R.string.emotion_loving),
+    JEALOUS(R.string.emotion_jealous),
+    REGRETFUL(R.string.emotion_regretful),
+    SURPRISED(R.string.emotion_surprised),
+    CONFUSED(R.string.emotion_confused),
+    SATISFIED(R.string.emotion_satisfied);
+
+    fun getDisplayName(context: Context): String {
+        return context.getString(stringResId)
+    }
 
     companion object {
-        fun fromDisplayName(displayName: String): Emotions? {
-            return values().find { it.displayName == displayName }
+        fun fromDisplayName(context: Context, displayName: String): Emotions? {
+            return values().find { it.getDisplayName(context) == displayName }
         }
     }
 }

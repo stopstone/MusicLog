@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  common  -->
+    <string name="app_name">MusicLog</string>
+    <string name="label_navigation_home">Home</string>
+    <string name="label_navigation_search">Search</string>
+    <string name="label_navigation_playlist">Playlist</string>
+    <string name="label_setting">Settings</string>
+    <string name="description_album_cover_image">Album cover</string>
+
+    <!--  Home  -->
+    <string name="label_home_title">Today\'s Music</string>
+    <string name="label_home_empty_track_title">No music registered</string>
+    <string name="label_home_empty_track_subtitle">Register your music for today</string>
+    <string name="label_recommend_track">Similar Music Recommendations</string>
+    <string name="description_previous_month">Previous month</string>
+    <string name="description_next_month">Next month</string>
+    <string name="current_month_format">%1$s %2$d</string>
+
+    <!--  Search  -->
+    <string name="label_recent_search">Recent searches</string>
+    <string name="label_clear_all_recent_search">Clear all</string>
+    <string name="description_clear_recent_search">Clear recent searches</string>
+    <string name="search_empty_message">Please enter a search term</string>
+    <string name="hint_search_track">Enter song title or artist</string>
+    <string name="label_track_empty_title">No songs found</string>
+    <string name="label_track_empty_subtitle">Please try another search</string>
+
+    <!--  Register  -->
+    <string name="label_track_confirm_message">Do you want to register\nthis song for today?</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_confirm">Confirm</string>
+    <string name="label_confirm_track_emotion">Select emotion</string>
+    <string name="label_track_saved">Song registered successfully</string>
+    <string name="label_track_save_failed">Failed to register song</string>
+    <string name="track_info_format">%1$s - %2$s</string>
+
+    <!--  Settings  -->
+    <string name="label_setting_data_clear">Clear data</string>
+
+    <!--  Details  -->
+    <string name="hint_track_detail_comment">Enter your comment</string>
+    <string name="description_track_delete_button">Delete</string>
+
+    <!-- Emotions -->
+    <string name="emotion_happy">Happy</string>
+    <string name="emotion_sad">Sad</string>
+    <string name="emotion_angry">Angry</string>
+    <string name="emotion_joyful">Joyful</string>
+    <string name="emotion_anxious">Anxious</string>
+    <string name="emotion_calm">Calm</string>
+    <string name="emotion_excited">Excited</string>
+    <string name="emotion_bored">Bored</string>
+    <string name="emotion_confident">Confident</string>
+    <string name="emotion_fearful">Fearful</string>
+    <string name="emotion_grateful">Grateful</string>
+    <string name="emotion_frustrated">Frustrated</string>
+    <string name="emotion_hopeful">Hopeful</string>
+    <string name="emotion_lonely">Lonely</string>
+    <string name="emotion_loving">Loving</string>
+    <string name="emotion_jealous">Jealous</string>
+    <string name="emotion_regretful">Regretful</string>
+    <string name="emotion_surprised">Surprised</string>
+    <string name="emotion_confused">Confused</string>
+    <string name="emotion_satisfied">Satisfied</string>
+
+    <string-array name="week_days">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
+</resources>

@@ -94,7 +94,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
             binding.chipGroupConfirmTrackEmotion.removeAllViews()
             emotions.forEach { emotion ->
                 val chip = Chip(requireContext()).apply {
-                    text = emotion.displayName
+                    text = emotion.getDisplayName(context)
                     isCheckable = true
                     setOnCheckedChangeListener { _, _ ->
                         viewModel.toggleEmotion(emotion)
@@ -108,7 +108,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private fun updateChipSelection(selectedEmotions: List<Emotions>) {
         binding.chipGroupConfirmTrackEmotion.children.forEach { child ->
             if (child is Chip) {
-                child.isChecked = selectedEmotions.any { it.displayName == child.text }
+                child.isChecked = selectedEmotions.any { it.getDisplayName(requireContext()) == child.text }
             }
         }
     }
