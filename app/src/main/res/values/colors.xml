@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- 라이트 모드 색상 -->
+    <color name="primary_light">@color/black</color>
+    <color name="primary_variant_light">#B8E6FF</color> <!-- primary보다 더 진한 색 -->
+    <color name="background_light">#FFFFFF</color> <!-- 흰색 -->
+    <color name="on_background_light">#000000</color> <!-- 검은색 -->
+
+    <!-- 다크 모드 색상 -->
+    <color name="primary_dark">@color/white</color>
+    <color name="primary_variant_dark">#1565C0</color>
+    <color name="background_dark">#121212</color>
+    <color name="surface_dark">#1E1E1E</color>
+
+    <!-- 공통 색상 -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="blue_300">#B8E6FF</color>
     <color name="gray_400">#B7B7B7</color>
     <color name="gray_500">#9A9A9A</color>
