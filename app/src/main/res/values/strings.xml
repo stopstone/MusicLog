@@ -1,6 +1,6 @@
 <resources>
     <!--  common  -->
-    <string name="app_name">MusicLog</string>
+    <string name="app_name">감정플리</string>
     <string name="label_navigation_home">홈</string>
     <string name="label_navigation_search">검색</string>
     <string name="label_navigation_playlist">플레이리스트</string>
