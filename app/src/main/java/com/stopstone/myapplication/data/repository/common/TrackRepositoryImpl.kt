@@ -13,9 +13,8 @@ class TrackRepositoryImpl @Inject constructor(
     private val dailyTrackDao: DailyTrackDao
 ) : TrackRepository {
     override suspend fun saveDailyTrack(dailyTrack: DailyTrack) {
-        return dailyTrackDao.insert(dailyTrack)
+        dailyTrackDao.upsert(dailyTrack)
     }
-
 
     override suspend fun getTodayTrack(date: Date): DailyTrack? {
         return dailyTrackDao.getDailyTrack(date)
