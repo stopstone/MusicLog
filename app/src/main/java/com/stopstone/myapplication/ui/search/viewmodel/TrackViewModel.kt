@@ -1,5 +1,6 @@
 package com.stopstone.myapplication.ui.search.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.myapplication.data.model.Emotions
@@ -41,12 +42,13 @@ class TrackViewModel @Inject constructor(
 
     fun saveTrack(track: TrackUiState) = viewModelScope.launch {
         val today = DateUtils.getTodayDate()
-        runCatching {
+        try {
             saveDailyTrackUseCase(track, _selectedEmotions.value, today)
-        }.onSuccess {
             _trackSaved.emit(true)
-        }.onFailure {
+            Log.d("TrackViewModel", "트랙 저장/업데이트 성공")
+        } catch (e: Exception) {
             _trackSaved.emit(false)
+            Log.e("TrackViewModel", "트랙 저장/업데이트 실패", e)
         }
     }
 }

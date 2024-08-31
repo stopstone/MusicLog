@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.stopstone.myapplication.data.model.entity.DailyTrack
 import java.util.Date
 
@@ -14,6 +15,16 @@ interface DailyTrackDao {
 
     @Query("SELECT * FROM daily_tracks WHERE date = :date")
     suspend fun getDailyTrack(date: Date): DailyTrack?
+
+    @Transaction
+    suspend fun upsert(dailyTrack: DailyTrack) {
+        val existingTrack = getDailyTrack(dailyTrack.date)
+        if (existingTrack == null) {
+            insert(dailyTrack)
+        } else {
+            insert(dailyTrack.copy(id = existingTrack.id))
+        }
+    }
 
     @Query("SELECT * FROM daily_tracks WHERE date BETWEEN :startDate AND :endDate")
     suspend fun getTracksForDateRange(startDate: Date, endDate: Date): List<DailyTrack>

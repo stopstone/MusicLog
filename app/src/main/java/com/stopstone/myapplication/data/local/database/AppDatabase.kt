@@ -9,7 +9,7 @@ import com.stopstone.myapplication.data.model.entity.DailyTrack
 import com.stopstone.myapplication.data.model.entity.SearchHistory
 import com.stopstone.myapplication.util.Converters
 
-@Database(entities = [DailyTrack::class, SearchHistory::class], version = 7, exportSchema = false)
+@Database(entities = [DailyTrack::class, SearchHistory::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dailyTrackDao(): DailyTrackDao
