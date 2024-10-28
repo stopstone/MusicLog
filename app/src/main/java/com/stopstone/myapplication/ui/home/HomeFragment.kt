@@ -136,8 +136,13 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
     private suspend fun collectRecommendations() {
         viewModel.recommendations.collect {
-            binding.rvRecommendationMusicList.adapter = recommendationAdapter
-            recommendationAdapter.submitList(it)
+            if (it.isEmpty()) {
+                binding.tvRecommendationMusicLabel.visibility = View.GONE
+            } else {
+                binding.tvRecommendationMusicLabel.visibility = View.VISIBLE
+                binding.rvRecommendationMusicList.adapter = recommendationAdapter
+                recommendationAdapter.submitList(it)
+            }
         }
     }
 
