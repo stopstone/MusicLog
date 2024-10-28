@@ -1,5 +1,6 @@
 package com.stopstone.myapplication.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,10 +22,12 @@ import com.stopstone.myapplication.R
 import com.stopstone.myapplication.data.model.entity.SearchHistory
 import com.stopstone.myapplication.databinding.FragmentHomeBinding
 import com.stopstone.myapplication.domain.model.CalendarDay
+import com.stopstone.myapplication.ui.detail.TrackDetailActivity
 import com.stopstone.myapplication.ui.home.adapter.CalendarAdapter
 import com.stopstone.myapplication.ui.home.adapter.RecommendationAdapter
 import com.stopstone.myapplication.ui.home.viewmodel.HomeViewModel
 import com.stopstone.myapplication.ui.search.adapter.OnItemClickListener
+import com.stopstone.myapplication.ui.setting.SettingActivity
 import com.stopstone.myapplication.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -37,6 +41,29 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private val viewModel: HomeViewModel by viewModels()
     private val calendarAdapter: CalendarAdapter by lazy { CalendarAdapter(this) }
     private val recommendationAdapter: RecommendationAdapter by lazy { RecommendationAdapter() }
+
+    private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
+    private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
+
+    // ActivityResult 등록
+    private val trackDetailLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // 데이터가 삭제되었을 때 캘린더 새로고침
+            viewModel.loadCalendar(currentYear, currentMonth)
+        }
+    }
+
+    private val settingLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // 데이터가 전체 삭제되었을 때 캘린더와 오늘의 음악 새로고침
+            viewModel.loadCalendar(currentYear, currentMonth)
+            viewModel.loadTodayTrack()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,13 +89,19 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 launch { collectRecommendations() }
             }
         }
+
     }
 
     override fun onItemClick(item: Any) {
         when(item) {
             is CalendarDay -> {
                 val action = HomeFragmentDirections.actionHomeToTrackDetail(item)
-                findNavController().navigate(action)
+                // findNavController().navigate(action) 대신 ActivityResult 사용
+                val intent = Intent(requireContext(), TrackDetailActivity::class.java)
+                    .apply {
+                        putExtra("DailyTrack", item)
+                    }
+                trackDetailLauncher.launch(intent)
             }
         }
     }
@@ -164,8 +197,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
         }
 
         binding.btnHomeSettings.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeToSetting()
-            findNavController().navigate(action)
+            val intent = Intent(requireContext(), SettingActivity::class.java)
+            settingLauncher.launch(intent)
         }
     }
 
