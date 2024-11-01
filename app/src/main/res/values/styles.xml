@@ -12,4 +12,9 @@
     <style name="AppRoundedImage">
         <item name="cornerSize">8dp</item>
     </style>
+
+    <style name="AppRoundedImage.Large">
+        <item name="cornerSize">24dp</item>
+    </style>
+
 </resources>
