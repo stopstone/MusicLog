@@ -7,11 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.splash.SplashActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        app:shapeAppearanceOverlay="@style/AppRoundedImage.Large"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_symbol"
+        android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
