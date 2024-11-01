@@ -16,11 +16,11 @@ properties.load(FileInputStream(localPropertiesFile))
 
 
 android {
-    namespace = "com.stopstone.myapplication"
+    namespace = "com.stopstone.musicplaylist"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.stopstone.myapplication"
+        applicationId = "com.stopstone.musicplaylist"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

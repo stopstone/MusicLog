@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.stopstone.myapplication.ui.home.HomeFragment"
+        android:name="com.stopstone.musicplaylist.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.stopstone.myapplication.ui.search.SearchFragment"
+        android:name="com.stopstone.musicplaylist.ui.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
@@ -30,30 +30,30 @@
     </fragment>
     <dialog
         android:id="@+id/navigation_track_confirm_dialog"
-        android:name="com.stopstone.myapplication.ui.search.TrackConfirmDialogFragment"
+        android:name="com.stopstone.musicplaylist.ui.search.TrackConfirmDialogFragment"
         android:label="TrackConfirmDialogFragment"
         tools:layout="@layout/fragment_track_confirm_dialog">
         <argument
             android:name="track"
-            app:argType="com.stopstone.myapplication.ui.model.TrackUiState" />
+            app:argType="com.stopstone.musicplaylist.ui.model.TrackUiState" />
     </dialog>
     <fragment
         android:id="@+id/navigation_play_list"
-        android:name="com.stopstone.myapplication.ui.playlist.PlayListFragment"
+        android:name="com.stopstone.musicplaylist.ui.playlist.PlayListFragment"
         android:label="PlayListFragment"
         tools:layout="@layout/fragment_play_list" />
     <activity
         android:id="@+id/navigation_track_detail"
-        android:name="com.stopstone.myapplication.ui.detail.TrackDetailActivity"
+        android:name="com.stopstone.musicplaylist.ui.detail.TrackDetailActivity"
         android:label="activity_track_detail"
         tools:layout="@layout/activity_track_detail" >
         <argument
             android:name="DailyTrack"
-            app:argType="com.stopstone.myapplication.domain.model.CalendarDay" />
+            app:argType="com.stopstone.musicplaylist.domain.model.CalendarDay" />
     </activity>
     <activity
         android:id="@+id/navigation_setting"
-        android:name="com.stopstone.myapplication.ui.setting.SettingActivity"
+        android:name="com.stopstone.musicplaylist.ui.setting.SettingActivity"
         android:label="activity_setting"
         tools:layout="@layout/activity_setting" />
 </navigation>
