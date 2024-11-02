@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityTrackDetailBinding
 import com.stopstone.musicplaylist.ui.detail.viewmodel.TrackDetailViewModel
 import com.stopstone.musicplaylist.util.loadImage
@@ -85,10 +86,10 @@ class TrackDetailActivity : AppCompatActivity() {
 
     private fun setDialogBuilder() {
         MaterialAlertDialogBuilder(this).apply {
-            setTitle("음악 삭제")
-            setMessage("정말로 삭제하시겠습니까?")
-            setNegativeButton("취소", null)
-            setPositiveButton("삭제") { dialogInterface: DialogInterface, i: Int ->
+            setTitle(getString(R.string.delete_track_title))
+            setMessage(getString(R.string.delete_track_message))
+            setNegativeButton(R.string.label_cancel, null)
+            setPositiveButton(R.string.description_track_delete_button) { dialogInterface: DialogInterface, i: Int ->
                 viewModel.deleteTrack()
             }
             show()
