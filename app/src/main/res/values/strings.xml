@@ -8,6 +8,9 @@
     <string name="description_album_cover_image">앨범 커버</string>
     <string name="delete_track_title">음악 삭제</string>
     <string name="delete_track_message">정말로 삭제 하시겠습니까?</string>
+    <string name="label_track_delete">노래가 삭제되었습니다.</string>
+    <string name="label_track_delete_failed">노래 삭제에 실패했습니다.</string>
+
 
     <!--  홈  -->
     <string name="label_home_title">감정플리</string>

@@ -66,10 +66,10 @@ class TrackDetailActivity : AppCompatActivity() {
         viewModel.deleteResult.collect { isDeleted ->
             if (isDeleted) {
                 setResult(Activity.RESULT_OK)  // 삭제 성공 결과 전달
-                showToast("트랙이 삭제되었습니다.")
+                showToast(getString(R.string.label_track_delete))
                 finish()
             } else {
-                showToast("삭제 중 오류가 발생했습니다.")
+                showToast(getString(R.string.label_track_delete_failed))
             }
         }
     }
