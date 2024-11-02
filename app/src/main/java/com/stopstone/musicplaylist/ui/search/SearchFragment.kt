@@ -2,6 +2,7 @@ package com.stopstone.musicplaylist.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -59,7 +60,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
     override fun onItemClick(item: Any) {
         when (item) {
             is SearchHistory -> {
-                binding.etSearchTrack.setText(item.query).toString()
+                binding.etSearchTrack.editText?.setText(item.query).toString()
                 searchTracks()
                 viewModel.addSearch(item.query)
             }
@@ -114,7 +115,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
     }
 
     private fun searchTracks() {
-        val track = binding.etSearchTrack.text.toString().trim()
+        val track = binding.etSearchTrack.editText?.text.toString().trim()
         when (track.isNotEmpty()) {
             true -> {
                 viewModel.searchTracks(track)
@@ -131,7 +132,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
             searchTracks()
         }
 
-        binding.etSearchTrack.setOnEditorActionListener { _, actionId, _ ->
+        binding.etSearchTrack.editText?.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     searchTracks()
@@ -142,23 +143,24 @@ class SearchFragment : Fragment(), OnItemClickListener {
             }
         }
 
-        binding.etSearchTrack.doAfterTextChanged { text ->
+        binding.etSearchTrack.editText?.doAfterTextChanged { text ->
             if (text.isNullOrEmpty()) {
                 binding.groupRecentSearches.visibility = View.VISIBLE
-                binding.btnCancelSearch.visibility = View.GONE
                 binding.rvSearchTrackList.visibility = View.GONE
             } else {
                 binding.groupRecentSearches.visibility = View.GONE
-                binding.btnCancelSearch.visibility = View.VISIBLE
             }
-        }
-
-        binding.btnCancelSearch.setOnClickListener {
-            binding.etSearchTrack.text.clear()
         }
 
         binding.tvClearAll.setOnClickListener {
             viewModel.clearAllSearches()
+        }
+
+        binding.root.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                view?.hideKeyboard()
+            }
+            true
         }
     }
 }
