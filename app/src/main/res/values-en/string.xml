@@ -7,6 +7,8 @@
     <string name="label_navigation_playlist">Playlist</string>
     <string name="label_setting">Settings</string>
     <string name="description_album_cover_image">Album cover</string>
+    <string name="delete_track_title">Music Delete</string>
+    <string name="delete_track_message">Are you sure you want to delete it?</string>
 
     <!--  Home  -->
     <string name="label_home_title">Today\'s Music</string>
