@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivitySettingBinding
 import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,11 +32,11 @@ class SettingActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.clearDataResult.collect { isCleared ->
                     if (isCleared) {
-                        showToast("모든 데이터가 삭제되었습니다.")
+                        showToast(getString(R.string.label_track_delete))
                         setResult(Activity.RESULT_OK)
                         finish()
                     } else {
-                        showToast("데이터 삭제 중 오류가 발생했습니다.")
+                        showToast(getString(R.string.label_track_delete_failed))
                     }
                 }
             }
@@ -52,13 +54,15 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun showDeleteConfirmDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("데이터 삭제")
-            .setMessage("모든 데이터를 삭제하시겠습니까?")
-            .setPositiveButton("삭제") { _, _ ->
+        MaterialAlertDialogBuilder(this).apply {
+            setTitle(getString(R.string.delete_track_title))
+            setMessage(getString(R.string.delete_track_message))
+            setNegativeButton(R.string.label_cancel, null)
+            setPositiveButton(R.string.description_track_delete_button) { _, _ ->
                 viewModel.clearData()
             }
-            .setNegativeButton("취소", null)
-            .show()
+            show()
+        }
+
     }
 }
