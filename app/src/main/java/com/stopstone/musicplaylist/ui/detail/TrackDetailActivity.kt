@@ -1,6 +1,7 @@
 package com.stopstone.musicplaylist.ui.detail
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityTrackDetailBinding
 import com.stopstone.musicplaylist.ui.detail.viewmodel.TrackDetailViewModel
 import com.stopstone.musicplaylist.util.loadImage
@@ -77,7 +80,19 @@ class TrackDetailActivity : AppCompatActivity() {
         }
 
         binding.btnTrackDetailDelete.setOnClickListener {
-            viewModel.deleteTrack()
+            setDialogBuilder()
+        }
+    }
+
+    private fun setDialogBuilder() {
+        MaterialAlertDialogBuilder(this).apply {
+            setTitle(getString(R.string.delete_track_title))
+            setMessage(getString(R.string.delete_track_message))
+            setNegativeButton(R.string.label_cancel, null)
+            setPositiveButton(R.string.description_track_delete_button) { dialogInterface: DialogInterface, i: Int ->
+                viewModel.deleteTrack()
+            }
+            show()
         }
     }
 
