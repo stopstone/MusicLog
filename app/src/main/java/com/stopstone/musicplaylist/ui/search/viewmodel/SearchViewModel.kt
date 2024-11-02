@@ -41,6 +41,10 @@ class SearchViewModel @Inject constructor(
         runCatching { searchTracksUseCase(query) }
             .onSuccess { tracks ->
                 _searchList.value = tracks.map { it.toTrackUiState() }
+                // 검색 결과가 없을 때도 빈 리스트를 emit
+                if (tracks.isEmpty()) {
+                    _searchList.value = emptyList()
+                }
             }
             .onFailure {
                 _searchList.value = emptyList()

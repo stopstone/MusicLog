@@ -90,27 +90,34 @@ class SearchFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    private suspend fun observeSearchHistory() {
-        viewModel.searchHistory.collect { searches ->
-            binding.groupRecentSearches.visibility = if (searches.isEmpty()) {
-                View.GONE
-            } else {
-                View.VISIBLE
+    private suspend fun observeSearchState() {
+        viewModel.searchList.collectLatest { tracks ->
+            val isSearching = !binding.etSearchTrack.editText?.text.isNullOrEmpty()
+
+            when {
+                isSearching -> {
+                    // 검색 중일 때
+                    binding.groupRecentSearches.isVisible = false
+                    binding.layoutTracksEmpty.root.isVisible = tracks.isEmpty()
+                    binding.rvSearchTrackList.isVisible = tracks.isNotEmpty()
+                    trackAdapter.submitList(tracks)
+                }
+                else -> {
+                    // 검색어가 없을 때
+                    viewModel.loadSearchHistory()
+                    binding.rvSearchTrackList.isVisible = false
+                    binding.layoutTracksEmpty.root.isVisible = false
+                    binding.groupRecentSearches.isVisible = true
+                }
             }
-            searchHistoryAdapter.submitList(searches)
         }
     }
 
-    private suspend fun observeSearchState() {
-        viewModel.searchList.collectLatest { tracks ->
-            if (tracks.isNotEmpty()) {
-                binding.groupRecentSearches.isVisible = false
-                binding.layoutTracksEmpty.root.isVisible = tracks.isEmpty()
-                binding.rvSearchTrackList.isVisible = tracks.isNotEmpty()
-                trackAdapter.submitList(tracks)
-            } else {
-                viewModel.loadSearchHistory()
-            }
+    private suspend fun observeSearchHistory() {
+        viewModel.searchHistory.collect { searches ->
+            binding.groupRecentSearches.isVisible = binding.etSearchTrack.editText?.text.toString().isEmpty()
+            binding.layoutTracksEmpty.root.isVisible = searches.isEmpty() && binding.etSearchTrack.editText?.text.toString().isEmpty()
+            searchHistoryAdapter.submitList(searches)
         }
     }
 
