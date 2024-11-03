@@ -101,8 +101,8 @@
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:layout_marginTop="16dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="10dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="1dp"
         app:layout_constraintEnd_toEndOf="@id/view_today_music"
         app:layout_constraintStart_toStartOf="@id/view_today_music"
         app:layout_constraintTop_toBottomOf="@id/view_today_music">
