@@ -3,6 +3,7 @@ package com.stopstone.musicplaylist.ui.detail
 import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -13,6 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityTrackDetailBinding
 import com.stopstone.musicplaylist.ui.detail.viewmodel.TrackDetailViewModel
+import com.stopstone.musicplaylist.util.hideKeyboard
 import com.stopstone.musicplaylist.util.loadImage
 import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,6 +83,12 @@ class TrackDetailActivity : AppCompatActivity() {
 
         binding.btnTrackDetailDelete.setOnClickListener {
             setDialogBuilder()
+        }
+        binding.root.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                v.hideKeyboard()
+            }
+            true
         }
     }
 
