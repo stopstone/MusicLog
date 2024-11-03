@@ -51,6 +51,7 @@
         android:layout_margin="16dp"
         android:text="@string/label_recent_search"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_search_track" />
 
@@ -61,6 +62,7 @@
         android:layout_marginEnd="16dp"
         android:padding="5dp"
         android:text="@string/label_clear_all_recent_search"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/tv_search_history_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_search_history_label" />
@@ -84,7 +86,6 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:constraint_referenced_ids="tv_search_history_label,tv_clear_all,rv_search_history_list" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_search_track_list"
