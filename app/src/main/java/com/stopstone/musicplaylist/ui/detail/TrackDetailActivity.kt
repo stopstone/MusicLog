@@ -90,6 +90,10 @@ class TrackDetailActivity : AppCompatActivity() {
             }
             true
         }
+
+        binding.toolbarTrackDetail.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setDialogBuilder() {
