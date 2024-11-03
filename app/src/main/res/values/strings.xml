@@ -70,12 +70,12 @@
     <string name="emotion_satisfied">만족</string>
 
     <string-array name="week_days">
+        <item>일</item>
         <item>월</item>
         <item>화</item>
         <item>수</item>
         <item>목</item>
         <item>금</item>
         <item>토</item>
-        <item>일</item>
     </string-array>
 </resources>
