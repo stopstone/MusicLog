@@ -106,8 +106,8 @@ class SearchFragment : Fragment(), OnItemClickListener {
                     // 검색어가 없을 때
                     viewModel.loadSearchHistory()
                     binding.rvSearchTrackList.isVisible = false
-                    binding.layoutTracksEmpty.root.isVisible = false
-                    binding.groupRecentSearches.isVisible = true
+                    binding.layoutTracksEmpty.root.isVisible = true
+                    binding.groupRecentSearches.isVisible = false
                 }
             }
         }
@@ -151,11 +151,14 @@ class SearchFragment : Fragment(), OnItemClickListener {
         }
 
         binding.etSearchTrack.editText?.doAfterTextChanged { text ->
-            if (text.isNullOrEmpty()) {
-                binding.groupRecentSearches.visibility = View.VISIBLE
-                binding.rvSearchTrackList.visibility = View.GONE
-            } else {
-                binding.groupRecentSearches.visibility = View.GONE
+            when(text.isNullOrEmpty()) {
+                true -> {
+                    binding.groupRecentSearches.visibility = View.VISIBLE
+                    binding.rvSearchTrackList.visibility = View.GONE
+                }
+                false -> {
+                    binding.groupRecentSearches.visibility = View.GONE
+                }
             }
         }
 
@@ -169,5 +172,6 @@ class SearchFragment : Fragment(), OnItemClickListener {
             }
             true
         }
+
     }
 }
