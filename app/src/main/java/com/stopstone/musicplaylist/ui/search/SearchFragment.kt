@@ -2,6 +2,7 @@ package com.stopstone.musicplaylist.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -59,7 +60,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
     override fun onItemClick(item: Any) {
         when (item) {
             is SearchHistory -> {
-                binding.etSearchTrack.setText(item.query).toString()
+                binding.etSearchTrack.editText?.setText(item.query).toString()
                 searchTracks()
                 viewModel.addSearch(item.query)
             }
@@ -89,32 +90,39 @@ class SearchFragment : Fragment(), OnItemClickListener {
         }
     }
 
+    private suspend fun observeSearchState() {
+        viewModel.searchList.collectLatest { tracks ->
+            val isSearching = !binding.etSearchTrack.editText?.text.isNullOrEmpty()
+
+            when {
+                isSearching -> {
+                    // 검색 중일 때
+                    binding.groupRecentSearches.isVisible = false
+                    binding.layoutTracksEmpty.root.isVisible = tracks.isEmpty()
+                    binding.rvSearchTrackList.isVisible = tracks.isNotEmpty()
+                    trackAdapter.submitList(tracks)
+                }
+                else -> {
+                    // 검색어가 없을 때
+                    viewModel.loadSearchHistory()
+                    binding.rvSearchTrackList.isVisible = false
+                    binding.layoutTracksEmpty.root.isVisible = true
+                    binding.groupRecentSearches.isVisible = false
+                }
+            }
+        }
+    }
+
     private suspend fun observeSearchHistory() {
         viewModel.searchHistory.collect { searches ->
-            binding.groupRecentSearches.visibility = if (searches.isEmpty()) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
+            binding.groupRecentSearches.isVisible = binding.etSearchTrack.editText?.text.toString().isEmpty()
+            binding.layoutTracksEmpty.root.isVisible = searches.isEmpty() && binding.etSearchTrack.editText?.text.toString().isEmpty()
             searchHistoryAdapter.submitList(searches)
         }
     }
 
-    private suspend fun observeSearchState() {
-        viewModel.searchList.collectLatest { tracks ->
-            if (tracks.isNotEmpty()) {
-                binding.groupRecentSearches.isVisible = false
-                binding.layoutTracksEmpty.root.isVisible = tracks.isEmpty()
-                binding.rvSearchTrackList.isVisible = tracks.isNotEmpty()
-                trackAdapter.submitList(tracks)
-            } else {
-                viewModel.loadSearchHistory()
-            }
-        }
-    }
-
     private fun searchTracks() {
-        val track = binding.etSearchTrack.text.toString().trim()
+        val track = binding.etSearchTrack.editText?.text.toString().trim()
         when (track.isNotEmpty()) {
             true -> {
                 viewModel.searchTracks(track)
@@ -131,7 +139,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
             searchTracks()
         }
 
-        binding.etSearchTrack.setOnEditorActionListener { _, actionId, _ ->
+        binding.etSearchTrack.editText?.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     searchTracks()
@@ -142,23 +150,28 @@ class SearchFragment : Fragment(), OnItemClickListener {
             }
         }
 
-        binding.etSearchTrack.doAfterTextChanged { text ->
-            if (text.isNullOrEmpty()) {
-                binding.groupRecentSearches.visibility = View.VISIBLE
-                binding.btnCancelSearch.visibility = View.GONE
-                binding.rvSearchTrackList.visibility = View.GONE
-            } else {
-                binding.groupRecentSearches.visibility = View.GONE
-                binding.btnCancelSearch.visibility = View.VISIBLE
+        binding.etSearchTrack.editText?.doAfterTextChanged { text ->
+            when(text.isNullOrEmpty()) {
+                true -> {
+                    binding.groupRecentSearches.visibility = View.VISIBLE
+                    binding.rvSearchTrackList.visibility = View.GONE
+                }
+                false -> {
+                    binding.groupRecentSearches.visibility = View.GONE
+                }
             }
-        }
-
-        binding.btnCancelSearch.setOnClickListener {
-            binding.etSearchTrack.text.clear()
         }
 
         binding.tvClearAll.setOnClickListener {
             viewModel.clearAllSearches()
         }
+
+        binding.root.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                view?.hideKeyboard()
+            }
+            true
+        }
+
     }
 }
