@@ -41,8 +41,8 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
-        setListeners()
         observeViewModel()
+        setListeners()
     }
 
     private fun setLayout() {
@@ -56,7 +56,6 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private fun setListeners() {
         binding.btnTrackConfirm.setOnClickListener {
             viewModel.saveTrack(args.track)
-            dismiss()
         }
         binding.btnTrackCancel.setOnClickListener {
             dismiss()
@@ -79,6 +78,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
                 true -> requireContext().showToast(getString(R.string.label_track_saved))
                 false -> requireContext().showToast(getString(R.string.label_track_save_failed))
             }
+            dismiss()
         }
     }
 
