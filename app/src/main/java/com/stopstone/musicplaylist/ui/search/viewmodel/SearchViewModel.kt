@@ -25,33 +25,44 @@ class SearchViewModel @Inject constructor(
     private val deleteSearchUseCase: DeleteSearchUseCase,
     private val deleteAllSearchesUseCase: DeleteAllSearchesUseCase
 ) : ViewModel() {
+    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Initial)
+    val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
+
     private val _searchHistory = MutableStateFlow<List<SearchHistory>>(emptyList())
     val searchHistory: StateFlow<List<SearchHistory>> = _searchHistory.asStateFlow()
 
-    private val _searchList = MutableStateFlow<List<TrackUiState>>(emptyList())
-    val searchList: StateFlow<List<TrackUiState>> = _searchList.asStateFlow()
+    init {
+        loadSearchHistory()
+    }
 
-    fun loadSearchHistory() = viewModelScope.launch {
+    private fun loadSearchHistory() = viewModelScope.launch {
         getAllSearchHistoryUseCase().collect { history ->
             _searchHistory.value = history
+            if (_uiState.value is SearchUiState.Initial) {
+                _uiState.value = SearchUiState.ShowHistory
+            }
         }
     }
 
     fun searchTracks(query: String) = viewModelScope.launch {
+        _uiState.value = SearchUiState.Loading
+
         runCatching { searchTracksUseCase(query) }
             .onSuccess { tracks ->
-                _searchList.value = tracks.map { it.toTrackUiState() }
-                // 검색 결과가 없을 때도 빈 리스트를 emit
-                if (tracks.isEmpty()) {
-                    _searchList.value = emptyList()
+                val trackUiStates = tracks.map { it.toTrackUiState() }
+                _uiState.value = if (trackUiStates.isEmpty()) {
+                    SearchUiState.Empty
+                } else {
+                    SearchUiState.Success(trackUiStates)
                 }
+                addSearch(query)
             }
             .onFailure {
-                _searchList.value = emptyList()
+                _uiState.value = SearchUiState.Error
             }
     }
 
-    fun addSearch(query: String) = viewModelScope.launch {
+    private fun addSearch(query: String) = viewModelScope.launch {
         addSearchUseCase(query)
     }
 
@@ -63,6 +74,10 @@ class SearchViewModel @Inject constructor(
         deleteAllSearchesUseCase()
     }
 
+    fun resetToHistory() {
+        _uiState.value = SearchUiState.ShowHistory
+    }
+
     private fun Track.toTrackUiState(): TrackUiState =
         TrackUiState(
             id = id,
@@ -70,4 +85,13 @@ class SearchViewModel @Inject constructor(
             title = name,
             artist = artists.joinToString(", ") { it.name },
         )
+}
+
+sealed class SearchUiState {
+    object Initial : SearchUiState()
+    object ShowHistory : SearchUiState()
+    object Loading : SearchUiState()
+    data class Success(val tracks: List<TrackUiState>) : SearchUiState()
+    object Empty : SearchUiState()
+    object Error : SearchUiState()
 }
