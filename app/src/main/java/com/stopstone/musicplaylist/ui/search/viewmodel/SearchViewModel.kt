@@ -31,6 +31,9 @@ class SearchViewModel @Inject constructor(
     private val _searchHistory = MutableStateFlow<List<SearchHistory>>(emptyList())
     val searchHistory: StateFlow<List<SearchHistory>> = _searchHistory.asStateFlow()
 
+    private val _query = MutableStateFlow("")
+    val query: StateFlow<String> = _query.asStateFlow()
+
     init {
         loadSearchHistory()
     }
@@ -42,6 +45,10 @@ class SearchViewModel @Inject constructor(
                 _uiState.value = SearchUiState.ShowHistory
             }
         }
+    }
+
+    fun updateQuery(newQuery: String) {
+        _query.value = newQuery
     }
 
     fun searchTracks(query: String) = viewModelScope.launch {

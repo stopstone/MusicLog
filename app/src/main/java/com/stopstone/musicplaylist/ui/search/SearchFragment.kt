@@ -26,7 +26,6 @@ import com.stopstone.musicplaylist.ui.search.viewmodel.SearchViewModel
 import com.stopstone.musicplaylist.util.hideKeyboard
 import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -72,6 +71,15 @@ class SearchFragment : Fragment(), OnItemClickListener {
                         searchHistoryAdapter.submitList(searches)
                     }
                 }
+                launch {
+                    viewModel.query.collect { query ->
+                        val editText = binding.etSearchTrack.editText
+                        if (editText?.text.toString() != query) {
+                            editText?.setText(query)
+                            editText?.setSelection(query.length)
+                        }
+                    }
+                }
             }
         }
     }
@@ -107,6 +115,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
             }
 
             etSearchTrack.editText?.doAfterTextChanged { text ->
+                viewModel.updateQuery(text?.toString() ?: "")
                 if (text.isNullOrEmpty()) {
                     viewModel.resetToHistory()
                 }
@@ -139,7 +148,10 @@ class SearchFragment : Fragment(), OnItemClickListener {
     override fun onItemClick(item: Any) {
         when (item) {
             is SearchHistory -> {
-                binding.etSearchTrack.editText?.setText(item.query)
+                val query = item.query
+                viewModel.updateQuery(query)
+                binding.etSearchTrack.editText?.setText(query)
+                binding.etSearchTrack.editText?.setSelection(query.length)
                 performSearch()
             }
             is TrackUiState -> {
