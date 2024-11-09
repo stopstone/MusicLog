@@ -4,6 +4,7 @@ import com.stopstone.musicplaylist.data.remote.api.SpotifyApi
 import com.stopstone.musicplaylist.data.remote.api.SpotifyAuthApi
 import com.stopstone.musicplaylist.data.local.auth.TokenManager
 import com.stopstone.musicplaylist.data.local.auth.AuthInterceptor
+import com.stopstone.musicplaylist.data.local.auth.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,20 +23,55 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthInterceptor(tokenManager: TokenManager): AuthInterceptor {
-        return AuthInterceptor(tokenManager)
+    fun provideAuthInterceptor(
+        tokenManager: TokenManager,
+        authService: AuthService
+    ): AuthInterceptor {
+        return AuthInterceptor(tokenManager, authService)
     }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
+    @BaseHttpClient
+    fun provideBaseOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
 
         return OkHttpClient.Builder()
             .addInterceptor(logging)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @AuthHttpClient
+    fun provideAuthOkHttpClient(
+        @BaseHttpClient baseClient: OkHttpClient
+    ): OkHttpClient {
+        return baseClient.newBuilder().build()
+    }
+
+    @Provides
+    @Singleton
+    @ApiHttpClient
+    fun provideApiOkHttpClient(
+        @BaseHttpClient baseClient: OkHttpClient,
+        authInterceptor: AuthInterceptor
+    ): OkHttpClient {
+        return baseClient.newBuilder()
             .addInterceptor(authInterceptor)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthService(
+        tokenManager: TokenManager,
+        @BaseHttpClient baseClient: OkHttpClient
+    ): AuthService {
+        val authApi = provideRetrofit(AUTH_BASE_URL, baseClient)
+            .create(SpotifyAuthApi::class.java)
+        return AuthService(authApi, tokenManager)
     }
 
     private fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient): Retrofit {
@@ -48,13 +84,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideSpotifyAuthApi(okHttpClient: OkHttpClient): SpotifyAuthApi {
-        return provideRetrofit(AUTH_BASE_URL, okHttpClient).create(SpotifyAuthApi::class.java)
+    fun provideSpotifyAuthApi(
+        @AuthHttpClient authClient: OkHttpClient
+    ): SpotifyAuthApi {
+        return provideRetrofit(AUTH_BASE_URL, authClient)
+            .create(SpotifyAuthApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideSpotifyApi(okHttpClient: OkHttpClient): SpotifyApi {
-        return provideRetrofit(API_BASE_URL, okHttpClient).create(SpotifyApi::class.java)
+    fun provideSpotifyApi(
+        @ApiHttpClient apiClient: OkHttpClient
+    ): SpotifyApi {
+        return provideRetrofit(API_BASE_URL, apiClient)
+            .create(SpotifyApi::class.java)
     }
 }
