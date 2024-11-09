@@ -69,6 +69,18 @@ class SearchFragment : Fragment(), OnItemClickListener {
                 launch {
                     viewModel.searchHistory.collect { searches ->
                         searchHistoryAdapter.submitList(searches)
+
+                        if (viewModel.uiState.value !is SearchUiState.Success &&
+                            viewModel.uiState.value !is SearchUiState.Loading) {
+                            if (viewModel.uiState.value is SearchUiState.Initial ||
+                                viewModel.uiState.value is SearchUiState.ShowHistory) {
+                                binding.groupRecentSearches.isVisible = searches.isNotEmpty()
+                                binding.layoutTracksEmpty.apply {
+                                    root.isVisible = searches.isEmpty()
+                                    tvTrackEmptySubtitle.text = getString(R.string.label_history_empty_subtitle)
+                                }
+                            }
+                        }
                     }
                 }
                 launch {
@@ -87,12 +99,34 @@ class SearchFragment : Fragment(), OnItemClickListener {
     private fun updateUiState(state: SearchUiState) {
         binding.progressBar.isVisible = state is SearchUiState.Loading
 
-        binding.groupRecentSearches.isVisible = state is SearchUiState.ShowHistory
-        binding.rvSearchTrackList.isVisible = state is SearchUiState.Success
-        binding.layoutTracksEmpty.root.isVisible = state is SearchUiState.Empty
-
         when (state) {
-            is SearchUiState.Success -> trackAdapter.submitList(state.tracks)
+            is SearchUiState.Initial,
+            is SearchUiState.ShowHistory -> {
+                binding.groupRecentSearches.isVisible =
+                    viewModel.searchHistory.value.isNotEmpty()
+                binding.layoutTracksEmpty.root.isVisible =
+                    viewModel.searchHistory.value.isEmpty()
+                binding.rvSearchTrackList.isVisible = false
+            }
+            is SearchUiState.Success -> {
+                binding.layoutTracksEmpty.root.isVisible = false
+                binding.groupRecentSearches.isVisible = false
+                binding.rvSearchTrackList.isVisible = true
+                trackAdapter.submitList(state.tracks)
+            }
+            is SearchUiState.Empty -> {
+                binding.layoutTracksEmpty.apply {
+                    root.isVisible = true
+                    tvTrackEmptySubtitle.text = getString(R.string.label_track_empty_subtitle)
+                }
+                binding.groupRecentSearches.isVisible = false
+                binding.rvSearchTrackList.isVisible = false
+            }
+            is SearchUiState.Loading -> {
+                binding.layoutTracksEmpty.root.isVisible = false
+                binding.groupRecentSearches.isVisible = false
+                binding.rvSearchTrackList.isVisible = false
+            }
             else -> {}
         }
     }
