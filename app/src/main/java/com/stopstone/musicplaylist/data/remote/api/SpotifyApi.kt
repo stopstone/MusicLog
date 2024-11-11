@@ -4,6 +4,7 @@ import com.stopstone.musicplaylist.data.model.entity.AudioFeatures
 import com.stopstone.musicplaylist.data.model.response.RecommendationsResponse
 import com.stopstone.musicplaylist.data.model.response.SearchResponse
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -11,7 +12,9 @@ interface SpotifyApi {
     @GET("v1/search")
     suspend fun searchTracks(
         @Query("q") query: String,
-        @Query("type") type: String = "track"
+        @Query("type") type: String = "track",
+        @Query("market") market: String,
+        @Header("Accept-Language") language: String
     ): SearchResponse
 
     @GET("v1/audio-features/{id}")
