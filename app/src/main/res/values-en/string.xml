@@ -30,6 +30,8 @@
     <string name="hint_search_track">Enter song title or artist</string>
     <string name="label_track_empty_title">No songs found</string>
     <string name="label_track_empty_subtitle">Please try another search</string>
+    <string name="label_history_empty_subtitle">How are you feeling today?</string>
+
 
     <!--  Register  -->
     <string name="label_track_confirm_message">Do you want to register\nthis song for today?</string>
