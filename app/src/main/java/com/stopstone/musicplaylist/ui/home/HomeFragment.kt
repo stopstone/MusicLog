@@ -92,15 +92,13 @@ class HomeFragment : Fragment(), OnItemClickListener {
     }
 
     override fun onItemClick(item: Any) {
-        when(item) {
+        when (item) {
             is CalendarDay -> {
-                val action = HomeFragmentDirections.actionHomeToTrackDetail(item)
-                // findNavController().navigate(action) 대신 ActivityResult 사용
-                val intent = Intent(requireContext(), TrackDetailActivity::class.java)
+                Intent(requireContext(), TrackDetailActivity::class.java)
                     .apply {
                         putExtra("DailyTrack", item)
+                        trackDetailLauncher.launch(this)
                     }
-                trackDetailLauncher.launch(intent)
             }
         }
     }
@@ -127,14 +125,16 @@ class HomeFragment : Fragment(), OnItemClickListener {
         val weekdays = resources.getStringArray(R.array.week_days)
 
         weekdays.forEach { day ->
-            val weekday = TextView(context).apply {
+            TextView(context).apply {
                 text = day
-                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                layoutParams =
+                    LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 gravity = Gravity.CENTER
                 setPadding(0, 8, 0, 8)
                 setTypeface(null, Typeface.BOLD)
+                
+                binding.calendarContent.llWeekDays.addView(this)
             }
-            binding.calendarContent.llWeekDays.addView(weekday)
         }
     }
 
@@ -202,7 +202,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
     }
 
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {
-        binding.layoutTodayMusic.itemTrack.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
+        binding.layoutTodayMusic.itemTrack.visibility =
+            if (showTrack) View.VISIBLE else View.INVISIBLE
         binding.groupTodayMusicEmpty.visibility = if (showTrack) View.INVISIBLE else View.VISIBLE
         binding.btnYoutube.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
     }
