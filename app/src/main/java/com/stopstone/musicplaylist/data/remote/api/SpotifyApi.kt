@@ -27,6 +27,8 @@ interface SpotifyApi {
         @Query("target_energy") targetEnergy: Float,
         @Query("target_valence") targetValence: Float,
         @Query("target_acousticness") targetAcousticness: Float,
-        @Query("limit") limit: Int
+        @Query("limit") limit: Int,
+        @Query("market") market: String,
+        @Header("Accept-Language") language: String
     ): RecommendationsResponse
 }
