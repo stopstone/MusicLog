@@ -4,6 +4,7 @@ import com.stopstone.musicplaylist.data.model.entity.AudioFeatures
 import com.stopstone.musicplaylist.data.model.response.Track
 import com.stopstone.musicplaylist.data.remote.api.SpotifyApi
 import com.stopstone.musicplaylist.domain.repository.home.RecommendRepository
+import java.util.Locale
 import javax.inject.Inject
 
 class RecommendRepositoryImpl @Inject constructor(
@@ -18,14 +19,23 @@ class RecommendRepositoryImpl @Inject constructor(
         audioFeatures: AudioFeatures,
         limit: Int
     ): List<Track> {
+        val (market, language) = getMarketLanguageByLocale()
+
         val response = spotifyApi.getRecommendations(
             seedTracks = trackId,
             targetDanceability = audioFeatures.danceability,
             targetEnergy = audioFeatures.energy,
             targetValence = audioFeatures.valence,
             targetAcousticness = audioFeatures.acousticness,
-            limit = limit
+            limit = limit,
+            market = market,
+            language = language,
         )
         return response.tracks
+    }
+
+    private fun getMarketLanguageByLocale() = when (Locale.getDefault().language) {
+        "ko" -> Pair("KR", "ko-KR")
+        else -> Pair("US", "en-US")
     }
 }
