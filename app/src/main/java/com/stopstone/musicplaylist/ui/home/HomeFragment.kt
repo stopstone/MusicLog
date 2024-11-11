@@ -44,28 +44,9 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
 
-    // ActivityResult 등록
-    private val trackDetailLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // 데이터가 삭제되었을 때 캘린더 새로고침
-            viewModel.loadCalendar(currentYear, currentMonth)
-            viewModel.loadTodayTrack()
-            recommendationAdapter.submitList(emptyList())
-            binding.tvRecommendationMusicLabel.visibility = View.GONE
-        }
-    }
-
-    private val settingLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // 데이터가 전체 삭제되었을 때 캘린더와 오늘의 음악 새로고침
-            viewModel.loadCalendar(currentYear, currentMonth)
-            viewModel.loadTodayTrack()
-            recommendationAdapter.submitList(emptyList())
-            binding.tvRecommendationMusicLabel.visibility = View.GONE
+    private val activityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> handleDataRefresh()
         }
     }
 
@@ -99,11 +80,10 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onItemClick(item: Any) {
         when (item) {
             is CalendarDay -> {
-                Intent(requireContext(), TrackDetailActivity::class.java)
-                    .apply {
-                        putExtra("DailyTrack", item)
-                        trackDetailLauncher.launch(this)
-                    }
+                Intent(requireContext(), TrackDetailActivity::class.java).apply {
+                    putExtra("DailyTrack", item)
+                    activityLauncher.launch(this)
+                }
             }
         }
     }
@@ -122,8 +102,9 @@ class HomeFragment : Fragment(), OnItemClickListener {
         binding.calendarContent.rvCalendar.adapter = calendarAdapter
         binding.calendarContent.rvCalendar.itemAnimator = null
 
-        val calendar = Calendar.getInstance()
-        viewModel.loadCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
+        Calendar.getInstance().apply {
+            viewModel.loadCalendar(get(Calendar.YEAR), get(Calendar.MONTH) + 1)
+        }
     }
 
     private fun setWeekdays() {
@@ -137,7 +118,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 gravity = Gravity.CENTER
                 setPadding(0, 8, 0, 8)
                 setTypeface(null, Typeface.BOLD)
-                
+
                 binding.calendarContent.llWeekDays.addView(this)
             }
         }
@@ -201,9 +182,17 @@ class HomeFragment : Fragment(), OnItemClickListener {
         }
 
         binding.btnHomeSettings.setOnClickListener {
-            val intent = Intent(requireContext(), SettingActivity::class.java)
-            settingLauncher.launch(intent)
+            Intent(requireContext(), SettingActivity::class.java).apply {
+                activityLauncher.launch(this)
+            }
         }
+    }
+
+    private fun handleDataRefresh() {
+        viewModel.loadCalendar(currentYear, currentMonth)
+        viewModel.loadTodayTrack()
+        recommendationAdapter.submitList(emptyList())
+        binding.tvRecommendationMusicLabel.visibility = View.GONE
     }
 
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {
