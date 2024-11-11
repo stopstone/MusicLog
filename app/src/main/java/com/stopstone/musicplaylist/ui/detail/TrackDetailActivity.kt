@@ -3,15 +3,26 @@ package com.stopstone.musicplaylist.ui.detail
 import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginEnd
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.stopstone.musicplaylist.R
+import com.stopstone.musicplaylist.data.model.Emotions
 import com.stopstone.musicplaylist.databinding.ActivityTrackDetailBinding
 import com.stopstone.musicplaylist.ui.detail.viewmodel.TrackDetailViewModel
 import com.stopstone.musicplaylist.util.hideKeyboard
@@ -25,7 +36,11 @@ import java.util.Date
 
 @AndroidEntryPoint
 class TrackDetailActivity : AppCompatActivity() {
-    private val binding: ActivityTrackDetailBinding by lazy { ActivityTrackDetailBinding.inflate(layoutInflater) }
+    private val binding: ActivityTrackDetailBinding by lazy {
+        ActivityTrackDetailBinding.inflate(
+            layoutInflater
+        )
+    }
     private val args: TrackDetailActivityArgs by navArgs()
     private val viewModel: TrackDetailViewModel by viewModels()
 
@@ -38,6 +53,7 @@ class TrackDetailActivity : AppCompatActivity() {
     }
 
     private fun setLayout() {
+        Log.d("TrackDetailActivity", args.DailyTrack.toString())
         with(args.DailyTrack) {
             convertDayToDate(year, month, id) // 저장된 트랙의 날짜를, date 타입의 시간으로 변경
         }.also { viewModel.setCurrentDate(it) }
@@ -47,6 +63,7 @@ class TrackDetailActivity : AppCompatActivity() {
             ivTrackDetailAlbumCover.loadImage(track.imageUrl)
             tvTrackDetailTitle.text = track.title
             tvTrackDetailArtist.text = track.artist
+            addEmotionTags()
         }
     }
 
@@ -106,6 +123,25 @@ class TrackDetailActivity : AppCompatActivity() {
             }
             show()
         }
+    }
+
+    private fun addEmotionTags() {
+        args.DailyTrack.emotions.forEach { emotion ->
+            val textView = createEmotionTextView(emotion)
+            addTextViewToLayout(textView)
+        }
+    }
+
+    private fun createEmotionTextView(emotion: Emotions) = TextView(this).apply {
+        id = View.generateViewId()
+        text = emotion.getDisplayName(this@TrackDetailActivity)
+        background = AppCompatResources.getDrawable(context, R.drawable.background_gray)
+        setPadding(16, 8, 16, 8)
+    }
+
+    private fun addTextViewToLayout(textView: TextView) {
+        binding.root.addView(textView, ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
+        binding.flowEmotion.addView(textView)
     }
 
     private fun convertDayToDate(year: Int, month: Int, day: Int): Date {
