@@ -51,6 +51,9 @@ class HomeFragment : Fragment(), OnItemClickListener {
         if (result.resultCode == Activity.RESULT_OK) {
             // 데이터가 삭제되었을 때 캘린더 새로고침
             viewModel.loadCalendar(currentYear, currentMonth)
+            viewModel.loadTodayTrack()
+            recommendationAdapter.submitList(emptyList())
+            binding.tvRecommendationMusicLabel.visibility = View.GONE
         }
     }
 
@@ -61,6 +64,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
             // 데이터가 전체 삭제되었을 때 캘린더와 오늘의 음악 새로고침
             viewModel.loadCalendar(currentYear, currentMonth)
             viewModel.loadTodayTrack()
+            recommendationAdapter.submitList(emptyList())
+            binding.tvRecommendationMusicLabel.visibility = View.GONE
         }
     }
 
