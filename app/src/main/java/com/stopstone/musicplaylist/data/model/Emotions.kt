@@ -23,7 +23,22 @@ enum class Emotions(val stringResId: Int) {
     REGRETFUL(R.string.emotion_regretful),
     SURPRISED(R.string.emotion_surprised),
     CONFUSED(R.string.emotion_confused),
-    SATISFIED(R.string.emotion_satisfied);
+    SATISFIED(R.string.emotion_satisfied),
+    MELANCHOLIC(R.string.emotion_melancholic),
+    NOSTALGIC(R.string.emotion_nostalgic),
+    DREAMY(R.string.emotion_dreamy),
+    ENERGETIC(R.string.emotion_energetic),
+    PEACEFUL(R.string.emotion_peaceful),
+    ROMANTIC(R.string.emotion_romantic),
+    EMPOWERED(R.string.emotion_empowered),
+    REFLECTIVE(R.string.emotion_reflective),
+    TOUCHED(R.string.emotion_touched),
+    UPLIFTED(R.string.emotion_uplifted),
+    DETERMINED(R.string.emotion_determined),
+    SENTIMENTAL(R.string.emotion_sentimental),
+    FREE(R.string.emotion_free),
+    COMFORTED(R.string.emotion_comforted),
+    PASSIONATE(R.string.emotion_passionate);
 
     fun getDisplayName(context: Context): String {
         return context.getString(stringResId)

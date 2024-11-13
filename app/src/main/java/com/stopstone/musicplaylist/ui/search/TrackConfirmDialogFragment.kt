@@ -10,6 +10,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.stopstone.musicplaylist.R
@@ -50,6 +52,12 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
         with(binding) {
             ivConfirmTrackImage.loadImage(track.imageUrl)
             tvConfirmTrackInfo.text = getString(R.string.track_info_format, track.artist, track.title)
+        }
+
+        // BottomSheet 높이 설정
+        (dialog as? BottomSheetDialog)?.behavior?.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED
+            skipCollapsed = true
         }
     }
 

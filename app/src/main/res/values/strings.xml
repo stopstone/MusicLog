@@ -69,6 +69,21 @@
     <string name="emotion_surprised">놀람</string>
     <string name="emotion_confused">혼란</string>
     <string name="emotion_satisfied">만족</string>
+    <string name="emotion_melancholic">우울</string>
+    <string name="emotion_nostalgic">그리움</string>
+    <string name="emotion_dreamy">몽환적</string>
+    <string name="emotion_energetic">활기찬</string>
+    <string name="emotion_peaceful">평화로움</string>
+    <string name="emotion_romantic">로맨틱</string>
+    <string name="emotion_empowered">힘이 나는</string>
+    <string name="emotion_reflective">사색적인</string>
+    <string name="emotion_touched">감동적인</string>
+    <string name="emotion_uplifted">고양된</string>
+    <string name="emotion_determined">결연한</string>
+    <string name="emotion_sentimental">감상적인</string>
+    <string name="emotion_free">자유로운</string>
+    <string name="emotion_comforted">위로받는</string>
+    <string name="emotion_passionate">열정적인</string>
 
     <string-array name="week_days">
         <item>일</item>
