@@ -70,6 +70,21 @@
     <string name="emotion_surprised">Surprised</string>
     <string name="emotion_confused">Confused</string>
     <string name="emotion_satisfied">Satisfied</string>
+    <string name="emotion_melancholic">Melancholic</string>
+    <string name="emotion_nostalgic">Nostalgic</string>
+    <string name="emotion_dreamy">Dreamy</string>
+    <string name="emotion_energetic">Energetic</string>
+    <string name="emotion_peaceful">Peaceful</string>
+    <string name="emotion_romantic">Romantic</string>
+    <string name="emotion_empowered">Empowered</string>
+    <string name="emotion_reflective">Reflective</string>
+    <string name="emotion_touched">Touched</string>
+    <string name="emotion_uplifted">Uplifted</string>
+    <string name="emotion_determined">Determined</string>
+    <string name="emotion_sentimental">Sentimental</string>
+    <string name="emotion_free">Free</string>
+    <string name="emotion_comforted">Comforted</string>
+    <string name="emotion_passionate">Passionate</string>
 
     <string-array name="week_days">
         <item>S</item>
