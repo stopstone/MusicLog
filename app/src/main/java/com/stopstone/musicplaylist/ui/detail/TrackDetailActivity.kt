@@ -96,6 +96,7 @@ class TrackDetailActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.btnTrackDetailSave.setOnClickListener {
             viewModel.updateComment(binding.etTrackDetailComment.text.toString())
+            it.hideKeyboard()
         }
 
         binding.btnTrackDetailDelete.setOnClickListener {
