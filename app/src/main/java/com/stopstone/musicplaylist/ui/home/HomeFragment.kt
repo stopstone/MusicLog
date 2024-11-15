@@ -138,14 +138,13 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
     private suspend fun collectTodayTrack() {
         viewModel.todayTrack.collectLatest { dailyTrack ->
-            val todayMusic = binding.layoutTodayMusic
             if (dailyTrack != null) {
                 val track = dailyTrack.track
                 toggleTodayMusicVisibility(true)
 
-                todayMusic.tvTrackTitle.text = track.title
-                todayMusic.tvTrackArtist.text = track.artist
-                todayMusic.ivTrackImage.loadImage(track.imageUrl)
+                binding.tvTrackTitle.text = track.title
+                binding.tvTrackArtist.text = track.artist
+                binding.ivTrackImage.loadImage(track.imageUrl)
             } else {
                 toggleTodayMusicVisibility(false)
             }
@@ -196,7 +195,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
     }
 
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {
-        binding.layoutTodayMusic.itemTrack.visibility =
+        binding.groupHomeTrack.visibility =
             if (showTrack) View.VISIBLE else View.INVISIBLE
         binding.groupTodayMusicEmpty.visibility = if (showTrack) View.INVISIBLE else View.VISIBLE
         binding.btnYoutube.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
