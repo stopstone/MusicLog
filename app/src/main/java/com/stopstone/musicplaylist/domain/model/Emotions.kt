@@ -3,7 +3,7 @@ package com.stopstone.musicplaylist.domain.model
 import android.content.Context
 import com.stopstone.musicplaylist.R
 
-enum class Emotions(val stringResId: Int) {
+enum class Emotions(private val stringResId: Int) {
     HAPPY(R.string.emotion_happy),
     SAD(R.string.emotion_sad),
     ANGRY(R.string.emotion_angry),
