@@ -1,4 +1,4 @@
-package com.stopstone.musicplaylist.data.model
+package com.stopstone.musicplaylist.domain.model
 
 import android.content.Context
 import com.stopstone.musicplaylist.R

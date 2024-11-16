@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.stopstone.musicplaylist.R
-import com.stopstone.musicplaylist.data.model.Emotions
+import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.databinding.FragmentTrackConfirmDialogBinding
 import com.stopstone.musicplaylist.ui.search.viewmodel.TrackViewModel
 import com.stopstone.musicplaylist.util.loadImage

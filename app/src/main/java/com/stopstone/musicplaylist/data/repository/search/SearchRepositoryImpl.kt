@@ -1,7 +1,7 @@
 package com.stopstone.musicplaylist.data.repository.search
 
 import android.util.Log
-import com.stopstone.musicplaylist.data.model.Emotions
+import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.data.remote.api.SpotifyApi
 import com.stopstone.musicplaylist.data.model.response.Track
 import com.stopstone.musicplaylist.domain.repository.search.SearchRepository

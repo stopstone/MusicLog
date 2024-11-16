@@ -2,7 +2,6 @@ package com.stopstone.musicplaylist.domain.model
 
 import android.os.Parcelable
 import com.stopstone.musicplaylist.base.BaseIdModel
-import com.stopstone.musicplaylist.data.model.Emotions
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import kotlinx.parcelize.Parcelize
 

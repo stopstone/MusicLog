@@ -1,6 +1,6 @@
 package com.stopstone.musicplaylist.domain.usecase.search
 
-import com.stopstone.musicplaylist.data.model.Emotions
+import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.domain.repository.search.SearchRepository
 import javax.inject.Inject
 
