@@ -3,7 +3,7 @@ package com.stopstone.musicplaylist.ui.search.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stopstone.musicplaylist.data.model.Emotions
+import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import com.stopstone.musicplaylist.domain.usecase.search.SaveDailyTrackUseCase
 import com.stopstone.musicplaylist.util.DateUtils

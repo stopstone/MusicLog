@@ -1,9 +1,9 @@
-package com.stopstone.musicplaylist.data.model
+package com.stopstone.musicplaylist.domain.model
 
 import android.content.Context
 import com.stopstone.musicplaylist.R
 
-enum class Emotions(val stringResId: Int) {
+enum class Emotions(private val stringResId: Int) {
     HAPPY(R.string.emotion_happy),
     SAD(R.string.emotion_sad),
     ANGRY(R.string.emotion_angry),
@@ -42,11 +42,5 @@ enum class Emotions(val stringResId: Int) {
 
     fun getDisplayName(context: Context): String {
         return context.getString(stringResId)
-    }
-
-    companion object {
-        fun fromDisplayName(context: Context, displayName: String): Emotions? {
-            return values().find { it.getDisplayName(context) == displayName }
-        }
     }
 }
