@@ -43,10 +43,4 @@ enum class Emotions(val stringResId: Int) {
     fun getDisplayName(context: Context): String {
         return context.getString(stringResId)
     }
-
-    companion object {
-        fun fromDisplayName(context: Context, displayName: String): Emotions? {
-            return values().find { it.getDisplayName(context) == displayName }
-        }
-    }
 }
