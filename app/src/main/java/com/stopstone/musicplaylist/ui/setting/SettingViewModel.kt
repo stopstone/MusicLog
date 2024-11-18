@@ -3,7 +3,7 @@ package com.stopstone.musicplaylist.ui.setting
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stopstone.musicplaylist.domain.usecase.DeleteAllTracksUseCase
+import com.stopstone.musicplaylist.domain.usecase.setting.DeleteAllTracksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
