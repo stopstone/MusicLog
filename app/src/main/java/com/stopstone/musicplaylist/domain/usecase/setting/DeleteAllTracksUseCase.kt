@@ -1,4 +1,4 @@
-package com.stopstone.musicplaylist.domain.usecase
+package com.stopstone.musicplaylist.domain.usecase.setting
 
 import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
 import javax.inject.Inject
