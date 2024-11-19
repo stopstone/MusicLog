@@ -7,11 +7,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.stopstone.musicplaylist.R
 
 fun ImageView.loadImage(url: String) {
     Glide.with(context)
         .load(url)
         .centerCrop()
+        .error(R.drawable.background_button_gray_200)
         .into(this)
 }
 
