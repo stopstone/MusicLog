@@ -11,7 +11,6 @@
     <string name="label_track_delete">노래가 삭제되었습니다.</string>
     <string name="label_track_delete_failed">노래 삭제에 실패했습니다.</string>
 
-
     <!--  홈  -->
     <string name="label_home_title">감정플리</string>
     <string name="label_home_empty_track_title">등록된 음악이 없습니다.</string>
@@ -20,6 +19,7 @@
     <string name="description_previous_month">이전 달</string>
     <string name="description_next_month">다음 달</string>
     <string name="current_month_format">%1$d년 %2$d월</string>
+    <string name="message_press_back_to_exit">뒤로 가기 버튼을 한 번 더 누르면 종료됩니다.</string>
 
     <!--  검색  -->
     <string name="label_recent_search">최근 검색어</string>

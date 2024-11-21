@@ -11,7 +11,7 @@
     <string name="delete_track_message">Are you sure you want to delete it?</string>
     <string name="label_track_delete">The song has been deleted.</string>
     <string name="label_track_delete_failed">Failed to delete song.</string>
-
+    <string name="message_press_back_to_exit">Press back again to exit</string>
 
     <!--  Home  -->
     <string name="label_home_title">Today\'s Music</string>
