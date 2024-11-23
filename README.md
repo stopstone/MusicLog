@@ -9,6 +9,8 @@ Spotify API로 음악을 검색하고, 캘린더를 통해 과거의 기록을 �
 또한 현재 선택한 음악과 비슷한 곡들을 추천받아 새로운 음악을 발견할 수도 있습니다.
 MVVM과 Clean Architecture를 적용하여 확장 가능하고 유지보수가 용이한 구조로 설계했습니다.
 
+PlayStore: https://play.google.com/store/apps/details?id=com.stopstone.musicplaylist
+
 ![MusicLogBanner](https://github.com/user-attachments/assets/a9a7d0b3-4ae4-4ade-94e8-2efabfaa9684)
 
 ### 프로젝트 목표
