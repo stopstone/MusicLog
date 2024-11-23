@@ -1,5 +1,5 @@
 # 감정플리 - 음악감정일기 안드로이드 앱
-> 개인 프로젝트
+> 개인 프로젝트  
 > PlayStore: https://play.google.com/store/apps/details?id=com.stopstone.musicplaylist
 
 ## 📌 프로젝트 개요
