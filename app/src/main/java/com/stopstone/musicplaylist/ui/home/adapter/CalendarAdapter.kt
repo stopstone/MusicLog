@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.base.BaseDiffCallback
 import com.stopstone.musicplaylist.databinding.ItemCalendarDayBinding
 import com.stopstone.musicplaylist.domain.model.CalendarDay
@@ -46,6 +47,9 @@ class CalendarAdapter(
             }
 
         fun bind(calendarDay: CalendarDay) {
+            if (calendarDay.isToday) {
+                binding.root.setBackgroundResource(R.drawable.background_blue300)
+            }
             when {
                 calendarDay.id == 0 -> setViewVisibility(
                     dateVisible = false,
