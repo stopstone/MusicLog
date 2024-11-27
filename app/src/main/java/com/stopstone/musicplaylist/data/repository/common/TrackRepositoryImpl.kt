@@ -3,6 +3,8 @@ package com.stopstone.musicplaylist.data.repository.common
 import com.stopstone.musicplaylist.data.local.dao.DailyTrackDao
 import com.stopstone.musicplaylist.data.model.entity.DailyTrack
 import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
+import com.stopstone.musicplaylist.util.DateUtils.getMonthEnd
+import com.stopstone.musicplaylist.util.DateUtils.getMonthStart
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -35,21 +37,9 @@ class TrackRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTracksForMonth(year: Int, month: Int): List<DailyTrack> {
-        val startDate = Calendar.getInstance().apply {
-            set(year, month - 1, 1)
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.time
-
-        val endDate = Calendar.getInstance().apply {
-            set(year, month - 1, getActualMaximum(Calendar.DAY_OF_MONTH))
-            set(Calendar.HOUR_OF_DAY, 23)
-            set(Calendar.MINUTE, 59)
-            set(Calendar.SECOND, 59)
-            set(Calendar.MILLISECOND, 999)
-        }.time
+        val calendar = Calendar.getInstance()
+        val startDate = calendar.getMonthStart(year, month)
+        val endDate = calendar.getMonthEnd(year, month)
 
         return dailyTrackDao.getTracksForDateRange(startDate, endDate)
     }

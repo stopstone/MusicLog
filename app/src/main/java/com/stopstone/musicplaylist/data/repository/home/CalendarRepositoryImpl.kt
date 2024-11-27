@@ -2,6 +2,9 @@ package com.stopstone.musicplaylist.data.repository.home
 
 import com.stopstone.musicplaylist.domain.model.CalendarDay
 import com.stopstone.musicplaylist.domain.repository.home.CalendarRepository
+import com.stopstone.musicplaylist.util.DateUtils.getDay
+import com.stopstone.musicplaylist.util.DateUtils.getMonth
+import com.stopstone.musicplaylist.util.DateUtils.getYear
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -16,9 +19,9 @@ class CalendarRepositoryImpl @Inject constructor(): CalendarRepository {
 
         // 오늘 날짜 계산
         val today = Calendar.getInstance()
-        val todayYear = today.get(Calendar.YEAR)
-        val todayMonth = today.get(Calendar.MONTH) + 1 // 월은 0부터 시작하므로 +1
-        val todayDay = today.get(Calendar.DAY_OF_MONTH)
+        val todayYear = today.getYear()
+        val todayMonth = today.getMonth()
+        val todayDay = today.getDay()
 
         // 현재 월의 1일 이전의 빈 칸 추가
         val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
