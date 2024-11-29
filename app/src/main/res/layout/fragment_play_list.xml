@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/label_navigation_playlist" />
+        app:title="@string/label_navigation_playlist"
+        app:titleTextAppearance="@style/ToolbarTitleStyle.S24" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_search_track_list"
