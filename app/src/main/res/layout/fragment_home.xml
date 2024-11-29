@@ -17,20 +17,6 @@
         app:title="@string/app_name"
         app:titleTextAppearance="@style/ToolbarTitleStyle.S24" />
 
-    <ImageView
-        android:id="@+id/btn_home_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:contentDescription="@string/label_setting"
-        android:focusable="true"
-        android:padding="2dp"
-        android:src="@drawable/ic_settings"
-        app:layout_constraintBottom_toBottomOf="@id/tv_today_music_label"
-        app:layout_constraintEnd_toEndOf="@id/tv_today_music_label"
-        app:layout_constraintTop_toTopOf="@id/tv_today_music_label" />
-
     <View
         android:id="@+id/view_today_music"
         android:layout_width="0dp"
