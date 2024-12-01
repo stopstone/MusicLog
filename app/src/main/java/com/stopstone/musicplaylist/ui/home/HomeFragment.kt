@@ -180,11 +180,11 @@ class HomeFragment : Fragment(), OnItemClickListener {
             }
         }
 
-        binding.btnHomeSettings.setOnClickListener {
-            Intent(requireContext(), SettingActivity::class.java).apply {
-                activityLauncher.launch(this)
-            }
-        }
+//        binding.btnHomeSettings.setOnClickListener {
+//            Intent(requireContext(), SettingActivity::class.java).apply {
+//                activityLauncher.launch(this)
+//            }
+//        }
     }
 
     private fun handleDataRefresh() {
