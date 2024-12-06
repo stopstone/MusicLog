@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivitySplashBinding
 import com.stopstone.musicplaylist.ui.MainActivity
 import com.stopstone.musicplaylist.ui.splash.viewmodel.SplashViewModel
@@ -37,8 +38,8 @@ class SplashActivity : AppCompatActivity() {
                     Log.d("SplashActivity", "토큰이 null이 아닙니다: $token")
                     navigateToMain()
                 } ?: run {
-                    showToast("인터넷 상태를 확인해주세요.")
-                    delay(2000)
+                    showToast(getString(R.string.message_check_internet_status))
+                    delay(DELAY_TIME)
                     finish()
                 }
             }
@@ -49,5 +50,9 @@ class SplashActivity : AppCompatActivity() {
     private fun navigateToMain() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    companion object {
+        const val DELAY_TIME = 2000L
     }
 }
