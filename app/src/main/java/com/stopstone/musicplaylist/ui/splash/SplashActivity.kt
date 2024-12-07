@@ -20,32 +20,32 @@ import kotlinx.coroutines.launch
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-    private val binding: ActivitySplashBinding by lazy {
-        ActivitySplashBinding.inflate(
-            layoutInflater
-        )
-    }
+    private val binding: ActivitySplashBinding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
     private val viewModel: SplashViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContentView(binding.root)
-        viewModel.getToken()
+        checkTokenAndNavigateActivity()
+    }
 
+    private fun checkTokenAndNavigateActivity() {
         lifecycleScope.launch {
             viewModel.token.collect { token ->
-                token?.let {
-                    Log.d("SplashActivity", "토큰이 null이 아닙니다: $token")
-                    navigateToMain()
-                } ?: run {
-                    showToast(getString(R.string.message_check_internet_status))
-                    delay(DELAY_TIME)
-                    finish()
+                when(token) {
+                    null -> handleError()
+                    else -> navigateToMain()
                 }
             }
         }
     }
 
+    private suspend fun handleError() {
+        showToast(getString(R.string.message_check_internet_status))
+        delay(DELAY_TIME)
+        finish()
+    }
 
     private fun navigateToMain() {
         startActivity(Intent(this, MainActivity::class.java))
