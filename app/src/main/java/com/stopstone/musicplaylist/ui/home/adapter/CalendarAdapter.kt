@@ -47,9 +47,11 @@ class CalendarAdapter(
             }
 
         fun bind(calendarDay: CalendarDay) {
-            if (calendarDay.isToday) {
-                binding.root.setBackgroundResource(R.drawable.background_blue300)
+            when(calendarDay.isToday) {
+                true -> binding.root.setBackgroundResource(R.drawable.background_blue300)
+                false -> binding.root.background = null
             }
+            
             when {
                 calendarDay.id == 0 -> setViewVisibility(
                     dateVisible = false,
