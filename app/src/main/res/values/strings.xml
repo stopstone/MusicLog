@@ -11,6 +11,8 @@
     <string name="label_track_delete">노래가 삭제되었습니다.</string>
     <string name="label_track_delete_failed">노래 삭제에 실패했습니다.</string>
 
+    <!--  스플래쉬  -->
+    <string name="message_check_internet_status">인터넷 상태를 확인해주세요</string>
     <!--  홈  -->
     <string name="label_home_title">감정플리</string>
     <string name="label_home_empty_track_title">등록된 음악이 없습니다.</string>

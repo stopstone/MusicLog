@@ -13,6 +13,9 @@
     <string name="label_track_delete_failed">Failed to delete song.</string>
     <string name="message_press_back_to_exit">Press back again to exit</string>
 
+    <!--  Splash  -->
+    <string name="message_check_internet_status">Please check your internet status.</string>
+
     <!--  Home  -->
     <string name="label_home_title">Today\'s Music</string>
     <string name="label_home_empty_track_title">No music registered</string>
