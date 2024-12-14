@@ -1,5 +1,6 @@
 package com.stopstone.musicplaylist.ui.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,13 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private val args: TrackConfirmDialogFragmentArgs by navArgs()
     private val viewModel: TrackViewModel by viewModels()
+
+    private lateinit var appContext: Context
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appContext = context
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,8 +91,8 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private suspend fun collectSaveTrack() {
         viewModel.trackSaved.collectLatest { trackSaved ->
             when (trackSaved) {
-                true -> requireContext().showToast(getString(R.string.label_track_saved))
-                false -> requireContext().showToast(getString(R.string.label_track_save_failed))
+                true -> appContext.showToast(getString(R.string.label_track_saved))
+                false -> appContext.showToast(getString(R.string.label_track_save_failed))
             }
             dismiss()
         }
@@ -100,7 +108,7 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
         viewModel.emotions.collectLatest { emotions ->
             binding.chipGroupConfirmTrackEmotion.removeAllViews()
             emotions.forEach { emotion ->
-                val chip = Chip(requireContext()).apply {
+                val chip = Chip(appContext).apply {
                     text = emotion.getDisplayName(context)
                     isCheckable = true
                     setOnCheckedChangeListener { _, _ ->
@@ -115,11 +123,10 @@ class TrackConfirmDialogFragment : BottomSheetDialogFragment() {
     private fun updateChipSelection(selectedEmotions: List<Emotions>) {
         binding.chipGroupConfirmTrackEmotion.children.forEach { child ->
             if (child is Chip) {
-                child.isChecked = selectedEmotions.any { it.getDisplayName(requireContext()) == child.text }
+                child.isChecked = selectedEmotions.any { it.getDisplayName(appContext) == child.text }
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

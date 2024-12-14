@@ -1,5 +1,6 @@
 package com.stopstone.musicplaylist.ui.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -35,6 +36,13 @@ class SearchFragment : Fragment(), OnItemClickListener {
     private val trackAdapter: TrackAdapter by lazy { TrackAdapter(this) }
     private val searchHistoryAdapter: SearchHistoryAdapter by lazy { SearchHistoryAdapter(this) }
     private val viewModel: SearchViewModel by viewModels()
+
+    private lateinit var appContext: Context
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appContext = context
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -171,7 +179,7 @@ class SearchFragment : Fragment(), OnItemClickListener {
     private fun performSearch() {
         val query = binding.etSearchTrack.editText?.text.toString().trim()
         if (query.isEmpty()) {
-            requireContext().showToast(getString(R.string.search_empty_message))
+            appContext.showToast(getString(R.string.search_empty_message))
             return
         }
 

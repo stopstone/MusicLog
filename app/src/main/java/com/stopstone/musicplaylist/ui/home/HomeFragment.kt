@@ -1,6 +1,7 @@
 package com.stopstone.musicplaylist.ui.home
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
@@ -44,10 +45,17 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
 
+    private lateinit var appContext: Context
+
     private val activityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         when (result.resultCode) {
             Activity.RESULT_OK -> handleDataRefresh()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appContext = context
     }
 
     override fun onCreateView(
@@ -80,7 +88,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onItemClick(item: Any) {
         when (item) {
             is CalendarDay -> {
-                Intent(requireContext(), TrackDetailActivity::class.java).apply {
+                Intent(appContext, TrackDetailActivity::class.java).apply {
                     putExtra("DailyTrack", item)
                     activityLauncher.launch(this)
                 }
@@ -181,7 +189,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
         }
 
 //        binding.btnHomeSettings.setOnClickListener {
-//            Intent(requireContext(), SettingActivity::class.java).apply {
+//            Intent(appContext, SettingActivity::class.java).apply {
 //                activityLauncher.launch(this)
 //            }
 //        }

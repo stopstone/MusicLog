@@ -1,5 +1,6 @@
 package com.stopstone.musicplaylist.ui.playlist
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,13 @@ class PlayListFragment: Fragment() {
     private val binding get() = _binding!!
     private val adapter: TrackAdapter by lazy { TrackAdapter(null) }
     private val viewModel: PlayListViewModel by viewModels()
+
+    private lateinit var appContext: Context
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appContext = context
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
