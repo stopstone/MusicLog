@@ -117,10 +117,11 @@ class SearchFragment : Fragment(), OnItemClickListener {
                 }
                 launch {
                     viewModel.query.collect { query ->
-                        val editText = binding.etSearchTrack.editText
-                        if (editText?.text.toString() != query) {
-                            editText?.setText(query)
-                            editText?.setSelection(query.length)
+                        binding.etSearchTrack.editText?.let {
+                            if (it.text.toString() != query) {
+                                it.setText(query)
+                                it.setSelection(query.length)
+                            }
                         }
                     }
                 }
