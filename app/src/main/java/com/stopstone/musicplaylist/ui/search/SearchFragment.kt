@@ -56,14 +56,38 @@ class SearchFragment : Fragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+        setListeners()
         observeViewModel()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onItemClick(item: Any) {
+        when (item) {
+            is SearchHistory -> {
+                val query = item.query
+                viewModel.updateQuery(query)
+                binding.etSearchTrack.editText?.setText(query)
+                binding.etSearchTrack.editText?.setSelection(query.length)
+                performSearch()
+            }
+            is TrackUiState -> {
+                val action = SearchFragmentDirections.actionSearchToTrackConfirmDialog(item)
+                findNavController().navigate(action)
+            }
+        }
+    }
+
+    override fun onDeleteClick(search: SearchHistory) {
+        viewModel.deleteSearch(search)
     }
 
     private fun setupViews() {
         binding.rvSearchTrackList.adapter = trackAdapter
         binding.rvSearchHistoryList.adapter = searchHistoryAdapter
-
-        setListeners()
     }
 
     private fun observeViewModel() {
@@ -187,28 +211,4 @@ class SearchFragment : Fragment(), OnItemClickListener {
         view?.hideKeyboard()
     }
 
-    override fun onItemClick(item: Any) {
-        when (item) {
-            is SearchHistory -> {
-                val query = item.query
-                viewModel.updateQuery(query)
-                binding.etSearchTrack.editText?.setText(query)
-                binding.etSearchTrack.editText?.setSelection(query.length)
-                performSearch()
-            }
-            is TrackUiState -> {
-                val action = SearchFragmentDirections.actionSearchToTrackConfirmDialog(item)
-                findNavController().navigate(action)
-            }
-        }
-    }
-
-    override fun onDeleteClick(search: SearchHistory) {
-        viewModel.deleteSearch(search)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
