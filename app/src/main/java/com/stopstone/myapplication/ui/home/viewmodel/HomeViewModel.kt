@@ -35,9 +35,6 @@ class HomeViewModel
         private val _todayTrack = MutableStateFlow<DailyTrack?>(null)
         val todayTrack: StateFlow<DailyTrack?> = _todayTrack
 
-        private val _recommendations = MutableStateFlow<List<Track>>(emptyList())
-        val recommendations: StateFlow<List<Track>> = _recommendations.asStateFlow()
-
         private var currentYear: Int = EMPTY_YEAR
         private var currentMonthValue: Int = EMPTY_MONTH
 
