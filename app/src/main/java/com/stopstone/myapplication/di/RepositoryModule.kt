@@ -10,7 +10,6 @@ import com.stopstone.myapplication.domain.repository.common.AuthRepository
 import com.stopstone.myapplication.domain.repository.common.PlayListRepository
 import com.stopstone.myapplication.domain.repository.common.TrackRepository
 import com.stopstone.myapplication.domain.repository.home.CalendarRepository
-import com.stopstone.myapplication.domain.repository.home.RecommendRepository
 import com.stopstone.myapplication.domain.repository.search.SearchHistoryRepository
 import com.stopstone.myapplication.domain.repository.search.SearchRepository
 import dagger.Binds
