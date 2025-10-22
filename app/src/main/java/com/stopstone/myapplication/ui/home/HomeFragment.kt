@@ -21,7 +21,6 @@ import com.stopstone.myapplication.data.model.entity.SearchHistory
 import com.stopstone.myapplication.databinding.FragmentHomeBinding
 import com.stopstone.myapplication.domain.model.CalendarDay
 import com.stopstone.myapplication.ui.home.adapter.CalendarAdapter
-import com.stopstone.myapplication.ui.home.adapter.RecommendationAdapter
 import com.stopstone.myapplication.ui.home.viewmodel.HomeViewModel
 import com.stopstone.myapplication.ui.search.adapter.OnItemClickListener
 import com.stopstone.myapplication.util.loadImage
@@ -31,23 +30,27 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnItemClickListener {
+class HomeFragment :
+    Fragment(),
+    OnItemClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
     private val calendarAdapter: CalendarAdapter by lazy { CalendarAdapter(this) }
-    private val recommendationAdapter: RecommendationAdapter by lazy { RecommendationAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         setCalendar()
         setWeekdays()
@@ -59,13 +62,12 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 launch { collectTodayTrack() }
                 launch { collectCalendarDates() }
                 launch { collectCurrentMonth() }
-                launch { collectRecommendations() }
             }
         }
     }
 
     override fun onItemClick(item: Any) {
-        when(item) {
+        when (item) {
             is CalendarDay -> {
                 val action = HomeFragmentDirections.actionHomeToTrackDetail(item)
                 findNavController().navigate(action)
@@ -76,7 +78,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onDeleteClick(search: SearchHistory) {
         TODO("Not yet implemented")
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -95,13 +96,15 @@ class HomeFragment : Fragment(), OnItemClickListener {
         val weekdays = resources.getStringArray(R.array.week_days)
 
         weekdays.forEach { day ->
-            val weekday = TextView(context).apply {
-                text = day
-                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-                gravity = Gravity.CENTER
-                setPadding(0, 8, 0, 8)
-                setTypeface(null, Typeface.BOLD)
-            }
+            val weekday =
+                TextView(context).apply {
+                    text = day
+                    layoutParams =
+                        LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                    gravity = Gravity.CENTER
+                    setPadding(0, 8, 0, 8)
+                    setTypeface(null, Typeface.BOLD)
+                }
             binding.calendarContent.llWeekDays.addView(weekday)
         }
     }
@@ -134,14 +137,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    private suspend fun collectRecommendations() {
-        viewModel.recommendations.collect {
-            binding.rvRecommendationMusicList.adapter = recommendationAdapter
-            recommendationAdapter.submitList(it)
-        }
-    }
-
-
     private fun setListeners() {
         binding.calendarContent.btnPreviousMonth.setOnClickListener {
             viewModel.previousMonth()
@@ -160,7 +155,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
     }
 
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {
-        binding.layoutTodayMusic.itemTrack.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
+        binding.layoutTodayMusic.itemTrack.visibility =
+            if (showTrack) View.VISIBLE else View.INVISIBLE
         binding.groupTodayMusicEmpty.visibility = if (showTrack) View.INVISIBLE else View.VISIBLE
         binding.btnYoutube.visibility = if (showTrack) View.VISIBLE else View.INVISIBLE
     }
@@ -173,9 +169,10 @@ class HomeFragment : Fragment(), OnItemClickListener {
         val youtubeIntent = Intent(Intent.ACTION_VIEW, youtubeUri)
         val webIntent = Intent(Intent.ACTION_VIEW, webUri)
 
-        val chooserIntent = Intent.createChooser(webIntent, "다음 앱으로 열기").apply {
-            putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(youtubeIntent))
-        }
+        val chooserIntent =
+            Intent.createChooser(webIntent, "다음 앱으로 열기").apply {
+                putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(youtubeIntent))
+            }
         startActivity(chooserIntent)
     }
 }
