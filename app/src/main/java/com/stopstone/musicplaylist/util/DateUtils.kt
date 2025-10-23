@@ -28,8 +28,7 @@ object DateUtils {
 
     // 년월을 현재 시스템 Locale 형식으로 포맷팅
     fun getFormattedMonth(year: Int, month: Int): String {
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month - 1, 1) // month는 0부터 시작하므로 -1
+        val date = createDate(year, month, 1)
         
         // 시스템 Locale에 따라 적절한 포맷 사용
         val locale = Locale.getDefault()
@@ -38,7 +37,7 @@ object DateUtils {
             else -> SimpleDateFormat("MM yyyy", locale)
         }
         
-        return dateFormat.format(calendar.time)
+        return dateFormat.format(date)
     }
 
     // 다음 월 계산
@@ -86,6 +85,14 @@ object DateUtils {
     // 특정 날짜의 일(day)을 반환
     fun getDayFromDate(date: Date): Int {
         return Calendar.getInstance().apply { time = date }.getDay()
+    }
+
+    // 년, 월, 일로 Date 객체 생성 (시간은 00:00:00으로 설정)
+    fun createDate(year: Int, month: Int, day: Int): Date {
+        return Calendar.getInstance().apply {
+            set(year, month - 1, day, 0, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
     }
 
     // Calendar 확장 함수들
