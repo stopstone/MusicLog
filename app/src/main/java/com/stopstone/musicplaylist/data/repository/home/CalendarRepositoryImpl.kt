@@ -3,6 +3,9 @@ package com.stopstone.musicplaylist.data.repository.home
 import com.stopstone.musicplaylist.domain.model.CalendarDay
 import com.stopstone.musicplaylist.domain.repository.home.CalendarRepository
 import com.stopstone.musicplaylist.util.DateUtils
+import com.stopstone.musicplaylist.util.DateUtils.getDay
+import com.stopstone.musicplaylist.util.DateUtils.getMonth
+import com.stopstone.musicplaylist.util.DateUtils.getYear
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -29,13 +32,18 @@ class CalendarRepositoryImpl @Inject constructor(): CalendarRepository {
         }
 
         // 현재 월 날짜 추가
+        val today = Calendar.getInstance()
         for (day in 1..daysInMonth) {
+            val isToday = year == today.getYear() &&
+                    month == today.getMonth() &&
+                    day == today.getDay()
+            
             dates.add(
                 CalendarDay(
                     id = day,
                     year = year,
                     month = month,
-                    isToday = DateUtils.isToday(year, month, day)
+                    isToday = isToday,
                 )
             )
         }

@@ -133,4 +133,31 @@ object DateUtils {
     fun Calendar.getMonth(): Int = get(Calendar.MONTH) + 1
 
     fun Calendar.getDay(): Int = get(Calendar.DAY_OF_MONTH)
+
+    // 현재 시간을 밀리초로 반환
+    fun getCurrentTimeMillis(): Long {
+        return System.currentTimeMillis()
+    }
+
+    // 밀리초를 Date 객체로 변환
+    fun fromTimeMillis(timeMillis: Long): Date {
+        return Date(timeMillis)
+    }
+
+    // Date를 밀리초로 변환
+    fun toTimeMillis(date: Date): Long {
+        return date.time
+    }
+
+    // 두 날짜 사이의 일수 차이 계산
+    fun getDaysDifference(date1: Date, date2: Date): Long {
+        val timeDiff = Math.abs(date1.time - date2.time)
+        return timeDiff / (24 * 60 * 60 * 1000)
+    }
+
+    // 날짜가 특정 범위 내에 있는지 확인
+    fun isDateInRange(date: Date, startDate: Date, endDate: Date): Boolean {
+        return date >= startDate && date <= endDate
+    }
+
 }
