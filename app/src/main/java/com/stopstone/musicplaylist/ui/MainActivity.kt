@@ -3,7 +3,10 @@ package com.stopstone.musicplaylist.ui
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.stopstone.musicplaylist.R
@@ -33,9 +36,39 @@ class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
+        setupWindowInsets()
         initBottomNavigation()
         onBackPressedDispatcher.addCallback(this, backPressedCallback)
+    }
+
+    private fun setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            
+            // BottomNavigationView에 하단 패딩 적용
+            with(binding.bottomNavigationHome) {
+                setPadding(
+                    paddingLeft,
+                    paddingTop,
+                    paddingRight,
+                    insets.bottom
+                )
+            }
+            
+            // FragmentContainerView에 상단 패딩 적용
+            with(binding.containerHome) {
+                setPadding(
+                    paddingLeft,
+                    insets.top,
+                    paddingRight,
+                    paddingBottom
+                )
+            }
+            
+            windowInsets
+        }
     }
 
     private fun initBottomNavigation() {
