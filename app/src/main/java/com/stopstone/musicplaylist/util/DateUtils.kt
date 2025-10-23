@@ -139,25 +139,19 @@ object DateUtils {
         return System.currentTimeMillis()
     }
 
-    // 밀리초를 Date 객체로 변환
-    fun fromTimeMillis(timeMillis: Long): Date {
-        return Date(timeMillis)
+    // 캘린더 그리드에 필요한 빈 칸 수 계산
+    fun getEmptyDaysCount(year: Int, month: Int): Int {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month - 1, 1)
+        val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        return firstDayOfWeek - Calendar.SUNDAY
     }
 
-    // Date를 밀리초로 변환
-    fun toTimeMillis(date: Date): Long {
-        return date.time
-    }
-
-    // 두 날짜 사이의 일수 차이 계산
-    fun getDaysDifference(date1: Date, date2: Date): Long {
-        val timeDiff = Math.abs(date1.time - date2.time)
-        return timeDiff / (24 * 60 * 60 * 1000)
-    }
-
-    // 날짜가 특정 범위 내에 있는지 확인
-    fun isDateInRange(date: Date, startDate: Date, endDate: Date): Boolean {
-        return date >= startDate && date <= endDate
+    // 월의 총 일수 반환
+    fun getDaysInMonth(year: Int, month: Int): Int {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month - 1, 1)
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
     }
 
 }
