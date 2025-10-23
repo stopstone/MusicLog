@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.stopstone.musicplaylist.util.DateUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -38,7 +39,7 @@ class TokenManager @Inject constructor(
 
     suspend fun isTokenExpired(): Boolean {
         val expireTime = getTokenExpireTime().first()
-        return expireTime == null || System.currentTimeMillis() >= expireTime
+        return expireTime == null || DateUtils.getCurrentTimeMillis() >= expireTime
     }
 
     suspend fun clearAll() {

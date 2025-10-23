@@ -26,11 +26,11 @@ import com.stopstone.musicplaylist.ui.detail.TrackDetailActivity
 import com.stopstone.musicplaylist.ui.home.adapter.CalendarAdapter
 import com.stopstone.musicplaylist.ui.home.viewmodel.HomeViewModel
 import com.stopstone.musicplaylist.ui.search.adapter.OnItemClickListener
+import com.stopstone.musicplaylist.util.DateUtils
 import com.stopstone.musicplaylist.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), OnItemClickListener {
@@ -39,8 +39,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private val viewModel: HomeViewModel by viewModels()
     private val calendarAdapter: CalendarAdapter by lazy { CalendarAdapter(this) }
 
-    private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
-    private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
+    private var currentYear: Int = DateUtils.getCurrentYear()
+    private var currentMonth: Int = DateUtils.getCurrentMonth()
 
     private lateinit var appContext: Context
 
@@ -106,9 +106,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
         binding.calendarContent.rvCalendar.adapter = calendarAdapter
         binding.calendarContent.rvCalendar.itemAnimator = null
 
-        Calendar.getInstance().apply {
-            viewModel.loadCalendar(get(Calendar.YEAR), get(Calendar.MONTH) + 1)
-        }
+        viewModel.loadCalendar(DateUtils.getCurrentYear(), DateUtils.getCurrentMonth())
     }
 
     private fun setWeekdays() {

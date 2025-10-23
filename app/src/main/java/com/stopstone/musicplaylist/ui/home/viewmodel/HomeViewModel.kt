@@ -3,7 +3,6 @@ package com.stopstone.musicplaylist.ui.home.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.data.model.entity.DailyTrack
-import com.stopstone.musicplaylist.data.model.response.Track
 import com.stopstone.musicplaylist.domain.model.CalendarDay
 import com.stopstone.musicplaylist.domain.usecase.home.GetCalendarDatesUseCase
 import com.stopstone.musicplaylist.domain.usecase.home.GetTodayTrackUseCase
@@ -14,8 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,13 +45,11 @@ class HomeViewModel @Inject constructor(
 
         val calendarDays = getCalendarDatesUseCase(year, month)
         val tracksForMonth = getTracksForMonthUseCase(year, month)
-        _currentMonth.value = getFormattedMonth(year, month)
+        _currentMonth.value = DateUtils.getFormattedMonth(year, month)
 
-        val calendar = Calendar.getInstance()
         val updatedCalendarDays = calendarDays.map { calendarDay ->
             val dailyTrack = tracksForMonth.find { dailyTrack ->
-                calendar.time = dailyTrack.date
-                calendar.get(Calendar.DAY_OF_MONTH) == calendarDay.id
+                DateUtils.getDayFromDate(dailyTrack.date) == calendarDay.id
             }
             calendarDay.copy(
                 track = dailyTrack?.track,
@@ -64,33 +59,22 @@ class HomeViewModel @Inject constructor(
         _calendarDates.value = updatedCalendarDays
     }
 
-    private fun getFormattedMonth(year: Int, month: Int): String {
-        return String.format(Locale.KOREA, MONTH_FORMAT, year, month)
-    }
-
     fun nextMonth() {
-        currentMonthValue++
-        if (currentMonthValue > MONTHS_IN_YEAR) {
-            currentMonthValue = FIRST_MONTH
-            currentYear++
-        }
+        val (nextYear, nextMonth) = DateUtils.getNextMonth(currentYear, currentMonthValue)
+        currentYear = nextYear
+        currentMonthValue = nextMonth
         loadCalendar(currentYear, currentMonthValue)
     }
 
     fun previousMonth() {
-        currentMonthValue--
-        if (currentMonthValue < FIRST_MONTH) {
-            currentMonthValue = MONTHS_IN_YEAR
-            currentYear--
-        }
+        val (previousYear, previousMonth) = DateUtils.getPreviousMonth(currentYear, currentMonthValue)
+        currentYear = previousYear
+        currentMonthValue = previousMonth
         loadCalendar(currentYear, currentMonthValue)
     }
 
     companion object {
-        private const val MONTHS_IN_YEAR = 12
-        private const val FIRST_MONTH = 1
         private const val EMPTY_YEAR = 0
         private const val EMPTY_MONTH = 0
-        private const val MONTH_FORMAT = "%d년 %d월"
     }
 }
