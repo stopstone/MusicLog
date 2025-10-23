@@ -1,5 +1,6 @@
 package com.stopstone.musicplaylist.util
 
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -9,7 +10,6 @@ object DateUtils {
     // 상수 정의
     private const val MONTHS_IN_YEAR = 12
     private const val FIRST_MONTH = 1
-    private const val MONTH_FORMAT = "%d년 %d월"
 
     // 오늘 날짜를 반환 (시간 정보 제거)
     fun getTodayDate(): Date {
@@ -28,7 +28,17 @@ object DateUtils {
 
     // 년월을 현재 시스템 Locale 형식으로 포맷팅
     fun getFormattedMonth(year: Int, month: Int): String {
-        return String.format(Locale.getDefault(), MONTH_FORMAT, year, month)
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month - 1, 1) // month는 0부터 시작하므로 -1
+        
+        // 시스템 Locale에 따라 적절한 포맷 사용
+        val locale = Locale.getDefault()
+        val dateFormat = when {
+            locale.language == "ko" -> SimpleDateFormat("yyyy년 M월", locale)
+            else -> SimpleDateFormat("MM yyyy", locale)
+        }
+        
+        return dateFormat.format(calendar.time)
     }
 
     // 다음 월 계산
