@@ -1,6 +1,5 @@
 package com.stopstone.musicplaylist.ui.detail
 
-import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log

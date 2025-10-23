@@ -66,14 +66,6 @@ object DateUtils {
         return Pair(previousYear, previousMonth)
     }
 
-    // 날짜가 오늘인지 확인
-    fun isToday(year: Int, month: Int, day: Int): Boolean {
-        val today = Calendar.getInstance()
-        return year == today.getYear() &&
-                month == today.getMonth() &&
-                day == today.getDay()
-    }
-
     // 날짜 정규화 (시간 정보를 00:00:00으로 설정)
     fun normalizeDate(date: Date): Date {
         return Calendar.getInstance().apply {

@@ -50,7 +50,6 @@ class CalendarRepositoryImpl @Inject constructor(): CalendarRepository {
     }
 
     companion object {
-        private const val START_DAY = 1
         private const val EMPTY_DAY = 0
     }
 }
