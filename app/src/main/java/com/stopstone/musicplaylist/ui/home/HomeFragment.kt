@@ -24,10 +24,8 @@ import com.stopstone.musicplaylist.databinding.FragmentHomeBinding
 import com.stopstone.musicplaylist.domain.model.CalendarDay
 import com.stopstone.musicplaylist.ui.detail.TrackDetailActivity
 import com.stopstone.musicplaylist.ui.home.adapter.CalendarAdapter
-import com.stopstone.musicplaylist.ui.home.adapter.RecommendationAdapter
 import com.stopstone.musicplaylist.ui.home.viewmodel.HomeViewModel
 import com.stopstone.musicplaylist.ui.search.adapter.OnItemClickListener
-import com.stopstone.musicplaylist.ui.setting.SettingActivity
 import com.stopstone.musicplaylist.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -40,7 +38,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
     private val calendarAdapter: CalendarAdapter by lazy { CalendarAdapter(this) }
-    private val recommendationAdapter: RecommendationAdapter by lazy { RecommendationAdapter() }
 
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
@@ -79,7 +76,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 launch { collectTodayTrack() }
                 launch { collectCalendarDates() }
                 launch { collectCurrentMonth() }
-                launch { collectRecommendations() }
             }
         }
 
@@ -159,19 +155,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    private suspend fun collectRecommendations() {
-        viewModel.recommendations.collect {
-            if (it.isEmpty()) {
-                binding.tvRecommendationMusicLabel.visibility = View.GONE
-            } else {
-                binding.tvRecommendationMusicLabel.visibility = View.VISIBLE
-                binding.rvRecommendationMusicList.adapter = recommendationAdapter
-                recommendationAdapter.submitList(it)
-            }
-        }
-    }
-
-
     private fun setListeners() {
         binding.calendarContent.btnPreviousMonth.setOnClickListener {
             viewModel.previousMonth()
@@ -187,19 +170,11 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 openYouTube("${track.title} ${track.artist}")
             }
         }
-
-//        binding.btnHomeSettings.setOnClickListener {
-//            Intent(appContext, SettingActivity::class.java).apply {
-//                activityLauncher.launch(this)
-//            }
-//        }
     }
 
     private fun handleDataRefresh() {
         viewModel.loadCalendar(currentYear, currentMonth)
         viewModel.loadTodayTrack()
-        recommendationAdapter.submitList(emptyList())
-        binding.tvRecommendationMusicLabel.visibility = View.GONE
     }
 
     private fun toggleTodayMusicVisibility(showTrack: Boolean) {
