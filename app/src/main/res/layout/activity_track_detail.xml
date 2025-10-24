@@ -19,6 +19,18 @@
         app:titleTextAppearance="@style/ToolbarTitleStyle" />
 
     <ImageButton
+        android:id="@+id/btn_track_detail_instagram_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/description_track_instagram_share"
+        android:src="@drawable/ic_instagram_share"
+        app:layout_constraintBottom_toBottomOf="@id/btn_track_detail_delete"
+        app:layout_constraintEnd_toStartOf="@id/btn_track_detail_delete"
+        app:layout_constraintTop_toTopOf="@id/btn_track_detail_delete" />
+
+    <ImageButton
         android:id="@+id/btn_track_detail_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

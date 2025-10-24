@@ -48,6 +48,7 @@
     <!--  상세  -->
     <string name="hint_track_detail_comment">내용을 입력하세요.</string>
     <string name="description_track_delete_button">삭제</string>
+    <string name="description_track_instagram_share">스토리 공유하기</string>
 
     <!--  감정  -->
     <!-- Emotions -->
