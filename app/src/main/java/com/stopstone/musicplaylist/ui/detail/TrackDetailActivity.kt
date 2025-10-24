@@ -7,10 +7,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -32,7 +35,7 @@ import kotlinx.coroutines.launch
 class TrackDetailActivity : AppCompatActivity() {
     private val binding: ActivityTrackDetailBinding by lazy {
         ActivityTrackDetailBinding.inflate(
-            layoutInflater
+            layoutInflater,
         )
     }
     private val args: TrackDetailActivityArgs by navArgs()
@@ -40,10 +43,25 @@ class TrackDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
+        setupWindowInsets()
         setLayout()
         setListeners()
         collectViewModel()
+    }
+
+    private fun setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom,
+            )
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun setLayout() {
@@ -61,12 +79,13 @@ class TrackDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun collectViewModel() = lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED) {
-            launch { collectComment() }
-            launch { collectDeleteResult() }
+    private fun collectViewModel() =
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { collectComment() }
+                launch { collectDeleteResult() }
+            }
         }
-    }
 
     private suspend fun collectComment() {
         viewModel.comment.collectLatest { comment ->
@@ -78,7 +97,7 @@ class TrackDetailActivity : AppCompatActivity() {
     private suspend fun collectDeleteResult() {
         viewModel.deleteResult.collect { isDeleted ->
             if (isDeleted) {
-                setResult(RESULT_OK)  // 삭제 성공 결과 전달
+                setResult(RESULT_OK) // 삭제 성공 결과 전달
                 showToast(getString(R.string.label_track_delete))
                 finish()
             } else {
@@ -127,16 +146,16 @@ class TrackDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun createEmotionTextView(emotion: Emotions) = TextView(this).apply {
-        id = View.generateViewId()
-        text = emotion.getDisplayName(this@TrackDetailActivity)
-        background = AppCompatResources.getDrawable(context, R.drawable.background_gray)
-        setPadding(16, 8, 16, 8)
-    }
+    private fun createEmotionTextView(emotion: Emotions) =
+        TextView(this).apply {
+            id = View.generateViewId()
+            text = emotion.getDisplayName(this@TrackDetailActivity)
+            background = AppCompatResources.getDrawable(context, R.drawable.background_gray)
+            setPadding(16, 8, 16, 8)
+        }
 
     private fun addTextViewToLayout(textView: TextView) {
         binding.root.addView(textView, ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
         binding.flowEmotion.addView(textView)
     }
-
 }
