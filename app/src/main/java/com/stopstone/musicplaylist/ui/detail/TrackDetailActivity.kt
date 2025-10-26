@@ -118,9 +118,9 @@ class TrackDetailActivity : AppCompatActivity() {
         }
 
         binding.btnTrackDetailInstagramShare.setOnClickListener {
-            InstagramShareHelper.shareCurrentScreenToInstagram(
+            InstagramShareHelper.shareCustomStoryToInstagram(
                 activity = this@TrackDetailActivity,
-                rootView = binding.root,
+                dailyTrack = args.DailyTrack,
             )
         }
 
