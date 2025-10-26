@@ -31,12 +31,11 @@ import java.io.FileOutputStream
 private const val INSTAGRAM_PACKAGE_NAME = "com.instagram.android"
 private const val INSTAGRAM_SHARE_ACTION = "com.instagram.share.ADD_TO_STORY"
 private const val CACHE_DIRECTORY_NAME = "instagram_share"
-private const val IMAGE_FILE_NAME = "story_share.jpg"
+private const val IMAGE_FILE_NAME = "story_share.png"
 private const val PROVIDER_AUTHORITY = "com.stopstone.musicplaylist.fileprovider"
 
 // 인스타그램 스토리 이미지 크기
 private const val STORY_WIDTH = 1080
-private const val STORY_HEIGHT = 1920
 
 /*
 * 인스타그램 스토리 공유 기능을 담당하는 헬퍼 클래스
@@ -168,8 +167,7 @@ object InstagramShareHelper {
 
             // View 크기 설정 및 레이아웃
             val widthSpec = View.MeasureSpec.makeMeasureSpec(STORY_WIDTH, View.MeasureSpec.EXACTLY)
-            val heightSpec =
-                View.MeasureSpec.makeMeasureSpec(STORY_HEIGHT, View.MeasureSpec.EXACTLY)
+            val heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
 
             root.measure(widthSpec, heightSpec)
             root.layout(0, 0, root.measuredWidth, root.measuredHeight)
@@ -180,18 +178,8 @@ object InstagramShareHelper {
 
     // View를 비트맵으로 변환
     private fun captureViewToBitmap(view: View): Bitmap? = try {
-        // View가 제대로 measure되었는지 확인
-        if (view.measuredWidth == 0 || view.measuredHeight == 0) {
-            val widthSpec = View.MeasureSpec.makeMeasureSpec(STORY_WIDTH, View.MeasureSpec.EXACTLY)
-            val heightSpec =
-                View.MeasureSpec.makeMeasureSpec(STORY_HEIGHT, View.MeasureSpec.EXACTLY)
-            view.measure(widthSpec, heightSpec)
-            view.layout(0, 0, view.measuredWidth, view.measuredHeight)
-        }
-
         val bitmap = createBitmap(view.measuredWidth, view.measuredHeight)
         val canvas = Canvas(bitmap)
-        view.background?.draw(canvas)
         view.draw(canvas)
         bitmap
     } catch (e: Exception) {
@@ -243,7 +231,7 @@ object InstagramShareHelper {
 
         val imageFile = File(cacheDir, IMAGE_FILE_NAME)
         FileOutputStream(imageFile).use { outputStream ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         }
 
         FileProvider.getUriForFile(
