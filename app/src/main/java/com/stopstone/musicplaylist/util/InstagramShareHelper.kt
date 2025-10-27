@@ -209,8 +209,8 @@ object InstagramShareHelper {
 
             putExtra("interactive_asset_uri", imageUri)
             putExtra("source_application", BuildConfig.FACEBOOK_APP_ID)
-            putExtra("top_background_color", "#667eea")
-            putExtra("bottom_background_color", "#764ba2")
+            putExtra("top_background_color", "#C2E2FA")
+            putExtra("bottom_background_color", "#FFF1CB")
 
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             setPackage(INSTAGRAM_PACKAGE_NAME)
