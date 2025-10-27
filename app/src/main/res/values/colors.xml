@@ -22,4 +22,7 @@
     <color name="gray_400">#B7B7B7</color>
     <color name="gray_500">#9A9A9A</color>
     <color name="gray_700">#434343</color>
+
+    <color name="instagram_story_top_background">#C2E2FA</color>
+    <color name="instagram_story_bottom_background">#764ba2</color>
 </resources>

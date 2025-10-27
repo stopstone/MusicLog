@@ -89,6 +89,13 @@
     <string name="emotion_passionate">열정적인</string>
     <string name="message_instagram_not_installed">인스타그램이 설치되어 있지 않습니다.</string>
 
+    <!-- Instagram Share Helper Messages -->
+    <string name="message_track_info_not_available">트랙 정보가 없습니다.</string>
+    <string name="message_share_error">공유 중 오류가 발생하였습니다.</string>
+    <string name="message_image_generation_failed">이미지 생성에 실패했습니다.</string>
+    <string name="message_file_save_failed">파일 저장에 실패했습니다.</string>
+    <string name="message_image_loading_failed">이미지 로딩에 실패했습니다.</string>
+
     <string-array name="week_days">
         <item>일</item>
         <item>월</item>

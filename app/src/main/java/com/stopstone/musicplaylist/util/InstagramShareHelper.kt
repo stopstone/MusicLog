@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
@@ -59,7 +60,7 @@ object InstagramShareHelper {
             // 2. 트랙 정보 가져오기
             val track = dailyTrack.track
             if (track == null) {
-                activity.showToast("트랙 정보가 없습니다.")
+                activity.showToast(activity.getString(R.string.message_track_info_not_available))
                 return
             }
 
@@ -67,7 +68,7 @@ object InstagramShareHelper {
             loadImageAndCreateStory(activity, track, dailyTrack.emotions)
 
         } catch (e: Exception) {
-            activity.showToast("공유 중 오류가 발생하였습니다.")
+            activity.showToast(activity.getString(R.string.message_share_error))
         }
     }
 
@@ -110,14 +111,14 @@ object InstagramShareHelper {
                     // View를 비트맵으로 변환
                     val bitmap: Bitmap? = captureViewToBitmap(storyView)
                     if (bitmap == null) {
-                        activity.showToast("이미지 생성에 실패했습니다.")
+                        activity.showToast(activity.getString(R.string.message_image_generation_failed))
                         return
                     }
 
                     // 비트맵을 파일로 저장
                     val imageUri: Uri? = saveScreenshotToFile(activity, bitmap)
                     if (imageUri == null) {
-                        activity.showToast("파일 저장에 실패했습니다.")
+                        activity.showToast(activity.getString(R.string.message_file_save_failed))
                         return
                     }
 
@@ -133,7 +134,7 @@ object InstagramShareHelper {
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
-                    activity.showToast("이미지 로딩에 실패했습니다.")
+                    activity.showToast(activity.getString(R.string.message_image_loading_failed))
                 }
             })
     }
@@ -209,8 +210,8 @@ object InstagramShareHelper {
 
             putExtra("interactive_asset_uri", imageUri)
             putExtra("source_application", BuildConfig.FACEBOOK_APP_ID)
-            putExtra("top_background_color", "#C2E2FA")
-            putExtra("bottom_background_color", "#FFF1CB")
+            putExtra("top_background_color", String.format("#%06X", 0xFFFFFF and ContextCompat.getColor(activity, R.color.instagram_story_top_background)))
+            putExtra("bottom_background_color", String.format("#%06X", 0xFFFFFF and ContextCompat.getColor(activity, R.color.instagram_story_bottom_background)))
 
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             setPackage(INSTAGRAM_PACKAGE_NAME)
