@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths >
+<!--  캐시 디렉토리에서 파일을 공유할 수 있도록 설정  -->
+    <cache-path
+        name="instagram_share"
+        path="instagram_share/" />
+</paths>

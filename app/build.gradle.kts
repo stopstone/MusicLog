@@ -14,7 +14,6 @@ val localPropertiesFile = rootProject.file("local.properties")
 val properties = Properties()
 properties.load(FileInputStream(localPropertiesFile))
 
-
 android {
     namespace = "com.stopstone.musicplaylist"
     compileSdk = 35
@@ -28,6 +27,7 @@ android {
 
         buildConfigField("String", "CLIENT_ID", "\"${properties["client.id"]}\"")
         buildConfigField("String", "CLIENT_SECRET", "\"${properties["client.secret"]}\"")
+        buildConfigField("String", "FACEBOOK_APP_ID", "\"${properties["facebook.app.id"]}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -36,7 +36,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -60,8 +60,8 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     // Hilt
-    implementation (libs.hilt.android)
-    ksp (libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
     // JetpackNavigation
     implementation(libs.androidx.navigation.fragment.ktx)

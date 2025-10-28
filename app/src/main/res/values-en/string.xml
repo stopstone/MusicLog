@@ -88,6 +88,14 @@
     <string name="emotion_free">Free</string>
     <string name="emotion_comforted">Comforted</string>
     <string name="emotion_passionate">Passionate</string>
+    <string name="message_instagram_not_installed">Instagram is not installed.</string>
+
+    <!-- Instagram Share Helper Messages -->
+    <string name="message_track_info_not_available">Track information is not available.</string>
+    <string name="message_share_error">An error occurred while sharing.</string>
+    <string name="message_image_generation_failed">Failed to generate image.</string>
+    <string name="message_file_save_failed">Failed to save file.</string>
+    <string name="message_image_loading_failed">Failed to load image.</string>
 
     <string-array name="week_days">
         <item>S</item>

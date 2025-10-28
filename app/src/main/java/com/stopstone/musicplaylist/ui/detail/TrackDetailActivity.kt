@@ -24,6 +24,7 @@ import com.stopstone.musicplaylist.databinding.ActivityTrackDetailBinding
 import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.detail.viewmodel.TrackDetailViewModel
 import com.stopstone.musicplaylist.util.DateUtils
+import com.stopstone.musicplaylist.util.InstagramShareHelper
 import com.stopstone.musicplaylist.util.hideKeyboard
 import com.stopstone.musicplaylist.util.loadImage
 import com.stopstone.musicplaylist.util.showToast
@@ -115,6 +116,14 @@ class TrackDetailActivity : AppCompatActivity() {
         binding.btnTrackDetailDelete.setOnClickListener {
             setDialogBuilder()
         }
+
+        binding.btnTrackDetailInstagramShare.setOnClickListener {
+            InstagramShareHelper.shareCustomStoryToInstagram(
+                activity = this@TrackDetailActivity,
+                dailyTrack = args.DailyTrack,
+            )
+        }
+
         binding.root.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 v.hideKeyboard()
