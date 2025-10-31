@@ -17,9 +17,11 @@ import com.google.android.material.chip.Chip
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityMusicMemoBinding
 import com.stopstone.musicplaylist.domain.model.Emotions
+import com.stopstone.musicplaylist.ui.MainActivity
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import com.stopstone.musicplaylist.ui.music_memo.viewmodel.MusicMemoViewModel
 import com.stopstone.musicplaylist.util.loadImage
+import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,6 +49,7 @@ class MusicMemoActivity : AppCompatActivity() {
             insets
         }
         setupLayout()
+        setupListeners()
         setupObservers()
     }
 
@@ -58,12 +61,30 @@ class MusicMemoActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupListeners() {
+        binding.btnSaveMemo.setOnClickListener {
+            val currentTrack = track
+            if (currentTrack == null) {
+                showToast(getString(R.string.message_track_info_not_available))
+                return@setOnClickListener
+            }
+            viewModel.saveTrack(currentTrack)
+        }
+    }
+
     private fun setupObservers() {
         setupEmotionChips()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.selectedEmotions.collect { selected ->
-                    updateChipStates(selected)
+                launch {
+                    viewModel.selectedEmotions.collect { selected ->
+                        updateChipStates(selected)
+                    }
+                }
+                launch {
+                    viewModel.trackSaved.collect { isSaved ->
+                        handleTrackSaved(isSaved)
+                    }
                 }
             }
         }
@@ -75,6 +96,7 @@ class MusicMemoActivity : AppCompatActivity() {
             val chip = createEmotionChip(emotion)
             binding.cgEmotion.addView(chip)
         }
+        updateChipStates(viewModel.selectedEmotions.value)
     }
 
     private fun createEmotionChip(emotion: Emotions): Chip {
@@ -87,6 +109,7 @@ class MusicMemoActivity : AppCompatActivity() {
         chip.id = View.generateViewId()
         chip.text = emotion.getDisplayName(this)
         chip.tag = emotion
+        chip.isChecked = viewModel.selectedEmotions.value.contains(emotion)
         chip.setOnClickListener {
             val wasToggled = viewModel.toggleEmotion(emotion)
             if (!wasToggled) {
@@ -102,6 +125,21 @@ class MusicMemoActivity : AppCompatActivity() {
             val emotion = chip.tag as? Emotions ?: continue
             chip.isChecked = selectedEmotions.contains(emotion)
         }
+    }
+
+    private fun handleTrackSaved(isSaved: Boolean) {
+        if (isSaved) {
+            showToast(getString(R.string.label_track_saved))
+            navigateHome()
+        } else {
+            showToast(getString(R.string.label_track_save_failed))
+        }
+    }
+
+    private fun navigateHome() {
+        val intent = MainActivity.createIntent(this)
+        startActivity(intent)
+        finish()
     }
 
     companion object {

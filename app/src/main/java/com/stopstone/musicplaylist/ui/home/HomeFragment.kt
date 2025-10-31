@@ -87,6 +87,12 @@ class HomeFragment :
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadCalendar(DateUtils.getCurrentYear(), DateUtils.getCurrentMonth())
+        viewModel.loadTodayTrack()
+    }
+
     override fun onItemClick(item: Any) {
         when (item) {
             is CalendarDay -> {
