@@ -26,17 +26,23 @@
     <string name="current_month_format">%1$s %2$d</string>
 
     <!--  Search  -->
+    <string name="label_music_search">Music Search</string>
     <string name="label_recent_search">Recent searches</string>
     <string name="label_clear_all_recent_search">Clear all</string>
     <string name="description_clear_recent_search">Clear recent searches</string>
     <string name="search_empty_message">Please enter a search term</string>
     <string name="hint_search_track">Enter song title or artist</string>
+    <string name="hint_search_artist_or_title">Search for artist or title</string>
     <string name="label_track_empty_title">No songs found</string>
     <string name="label_track_empty_subtitle">Please try another search</string>
+    <string name="label_search_result_empty">No search results</string>
     <string name="label_history_empty_subtitle">How are you feeling today?</string>
 
 
     <!--  Register  -->
+    <string name="label_music_memo">Music Memo</string>
+    <string name="label_emotion_record">Emotion Record</string>
+    <string name="label_save_memo">Save</string>
     <string name="label_track_confirm_message">Do you want to register\nthis song for today?</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_confirm">Confirm</string>
@@ -51,6 +57,7 @@
     <!--  Details  -->
     <string name="hint_track_detail_comment">Enter your comment</string>
     <string name="description_track_delete_button">Delete</string>
+    <string name="description_track_instagram_share">Share to story</string>
 
     <!-- Emotions -->
     <string name="emotion_happy">Happy</string>
