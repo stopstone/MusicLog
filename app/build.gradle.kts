@@ -22,8 +22,8 @@ android {
         applicationId = "com.stopstone.musicplaylist"
         minSdk = 24
         targetSdk = 35
-        versionCode = 10
-        versionName = "1.3.4"
+        versionCode = 15
+        versionName = "1.4.0"
 
         buildConfigField("String", "CLIENT_ID", "\"${properties["client.id"]}\"")
         buildConfigField("String", "CLIENT_SECRET", "\"${properties["client.secret"]}\"")
