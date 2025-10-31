@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.stopstone.musicplaylist.data.model.entity.SearchHistory
 import com.stopstone.musicplaylist.databinding.ActivityMusicSearchBinding
 import com.stopstone.musicplaylist.ui.common.adapter.TrackAdapter
+import com.stopstone.musicplaylist.ui.model.TrackUiState
+import com.stopstone.musicplaylist.ui.music_memo.MusicMemoActivity
 import com.stopstone.musicplaylist.ui.music_search.adapter.OnItemClickListener
 import com.stopstone.musicplaylist.ui.music_search.adapter.SearchHistoryAdapter
 import com.stopstone.musicplaylist.ui.music_search.viewmodel.SearchUiState
@@ -116,6 +118,7 @@ class MusicSearchActivity :
                 val query: String = item.query
                 if (query.isNotEmpty()) {
                     binding.etSearch.setText(query)
+                    // Ensure cursor is placed correctly and keyboard is visible for history selection
                     binding.etSearch.setSelection(query.length)
                     binding.etSearch.showKeyboard()
                     viewModel.updateQuery(query)
@@ -123,8 +126,12 @@ class MusicSearchActivity :
                 }
             }
 
+            is TrackUiState -> {
+                binding.etSearch.hideKeyboard()
+                navigateToMusicMemo(item)
+            }
+
             else -> {
-                // Track click 처리 필요 시 추가
             }
         }
     }
@@ -177,5 +184,10 @@ class MusicSearchActivity :
         binding.etSearch.post {
             binding.etSearch.showKeyboard()
         }
+    }
+
+    private fun navigateToMusicMemo(track: TrackUiState) {
+        val intent = MusicMemoActivity.createIntent(this, track)
+        startActivity(intent)
     }
 }
