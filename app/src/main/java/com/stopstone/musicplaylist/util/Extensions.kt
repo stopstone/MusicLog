@@ -6,12 +6,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.stopstone.musicplaylist.R
 
 fun ImageView.loadImage(url: String) {
-    Glide.with(context)
+    Glide
+        .with(context)
         .load(url)
         .centerCrop()
         .error(R.drawable.background_button_gray_200)
@@ -23,19 +25,25 @@ fun View.hideKeyboard() {
     imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
+fun View.showKeyboard() {
+    requestFocus()
+    val inputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+    inputMethodManager?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
 fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
 fun View.showSnackBar(
     message: String,
-    duration: Int = Snackbar.LENGTH_SHORT
+    duration: Int = Snackbar.LENGTH_SHORT,
 ) = Snackbar.make(this, message, duration)
 
 fun View.showSnackBarWithNavigation(
     message: String,
     navigationView: View,
-    duration: Int = Snackbar.LENGTH_SHORT
+    duration: Int = Snackbar.LENGTH_SHORT,
 ) = showSnackBar(message, duration)
     .apply {
         setAnchorView(navigationView)

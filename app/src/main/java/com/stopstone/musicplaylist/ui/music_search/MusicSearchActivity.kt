@@ -19,6 +19,8 @@ import com.stopstone.musicplaylist.ui.music_search.adapter.OnItemClickListener
 import com.stopstone.musicplaylist.ui.music_search.adapter.SearchHistoryAdapter
 import com.stopstone.musicplaylist.ui.music_search.viewmodel.SearchUiState
 import com.stopstone.musicplaylist.ui.music_search.viewmodel.SearchViewModel
+import com.stopstone.musicplaylist.util.hideKeyboard
+import com.stopstone.musicplaylist.util.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,7 +28,11 @@ import kotlinx.coroutines.launch
 class MusicSearchActivity :
     AppCompatActivity(),
     OnItemClickListener {
-    private val binding: ActivityMusicSearchBinding by lazy { ActivityMusicSearchBinding.inflate(layoutInflater) }
+    private val binding: ActivityMusicSearchBinding by lazy {
+        ActivityMusicSearchBinding.inflate(
+            layoutInflater,
+        )
+    }
     private val trackAdapter: TrackAdapter by lazy { TrackAdapter(this) }
     private val historyAdapter: SearchHistoryAdapter by lazy { SearchHistoryAdapter(this) }
     private val viewModel: SearchViewModel by viewModels()
@@ -39,6 +45,7 @@ class MusicSearchActivity :
         setupRecycler()
         setupListeners()
         setupObservers()
+        focusSearchField()
     }
 
     private fun setupObservers() {
@@ -47,19 +54,27 @@ class MusicSearchActivity :
                 launch {
                     viewModel.uiState.collect { state ->
                         when (state) {
-                            is SearchUiState.Initial -> { }
+                            is SearchUiState.Initial -> {}
                             is SearchUiState.ShowHistory -> {
                                 binding.pbLoading.visibility = View.GONE
                                 binding.tvEmpty.visibility = View.GONE
                                 binding.rvSearchResult.visibility = View.VISIBLE
                                 binding.rvSearchResult.adapter = historyAdapter
-                                launch { viewModel.searchHistory.collect { historyAdapter.submitList(it) } }
+                                launch {
+                                    viewModel.searchHistory.collect {
+                                        historyAdapter.submitList(
+                                            it,
+                                        )
+                                    }
+                                }
                             }
+
                             is SearchUiState.Loading -> {
                                 binding.pbLoading.visibility = View.VISIBLE
                                 binding.tvEmpty.visibility = View.GONE
                                 binding.rvSearchResult.visibility = View.GONE
                             }
+
                             is SearchUiState.Success -> {
                                 binding.pbLoading.visibility = View.GONE
                                 binding.tvEmpty.visibility =
@@ -69,6 +84,7 @@ class MusicSearchActivity :
                                 binding.rvSearchResult.adapter = trackAdapter
                                 trackAdapter.submitList(state.tracks)
                             }
+
                             is SearchUiState.Empty -> {
                                 binding.pbLoading.visibility = View.GONE
                                 binding.tvEmpty.visibility = View.VISIBLE
@@ -76,6 +92,7 @@ class MusicSearchActivity :
                                 binding.rvSearchResult.adapter = trackAdapter
                                 trackAdapter.submitList(emptyList())
                             }
+
                             is SearchUiState.Error -> {
                                 binding.pbLoading.visibility = View.GONE
                                 binding.tvEmpty.visibility = View.VISIBLE
@@ -99,10 +116,13 @@ class MusicSearchActivity :
                 val query: String = item.query
                 if (query.isNotEmpty()) {
                     binding.etSearch.setText(query)
+                    binding.etSearch.setSelection(query.length)
+                    binding.etSearch.showKeyboard()
                     viewModel.updateQuery(query)
                     viewModel.searchTracks(query)
                 }
             }
+
             else -> {
                 // Track click 처리 필요 시 추가
             }
@@ -144,11 +164,18 @@ class MusicSearchActivity :
                         viewModel.updateQuery(query)
                         viewModel.searchTracks(query)
                     }
+                    etSearch.hideKeyboard()
                     true
                 } else {
                     false
                 }
             }
+        }
+    }
+
+    private fun focusSearchField() {
+        binding.etSearch.post {
+            binding.etSearch.showKeyboard()
         }
     }
 }
