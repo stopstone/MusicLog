@@ -180,9 +180,7 @@ class MusicSearchActivity :
     }
 
     private fun focusSearchField() {
-        binding.etSearch.post {
-            binding.etSearch.showKeyboard()
-        }
+        binding.etSearch.showKeyboard()
     }
 
     private fun navigateToMusicMemo(track: TrackUiState) {
