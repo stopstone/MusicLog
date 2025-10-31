@@ -3,14 +3,25 @@ package com.stopstone.musicplaylist.ui.music_memo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.chip.Chip
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityMusicMemoBinding
+import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.model.TrackUiState
+import com.stopstone.musicplaylist.ui.music_memo.viewmodel.MusicMemoViewModel
+import com.stopstone.musicplaylist.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MusicMemoActivity : AppCompatActivity() {
@@ -19,6 +30,8 @@ class MusicMemoActivity : AppCompatActivity() {
             layoutInflater,
         )
     }
+
+    private val viewModel: MusicMemoViewModel by viewModels()
 
     private val track: TrackUiState? by lazy {
         intent.getParcelableExtra(EXTRA_TRACK)
@@ -32,6 +45,62 @@ class MusicMemoActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        setupLayout()
+        setupObservers()
+    }
+
+    private fun setupLayout() {
+        with(binding) {
+            layoutMemoTrack.ivTrackImage.loadImage(track?.imageUrl.orEmpty())
+            layoutMemoTrack.tvTrackTitle.text = track?.title.orEmpty()
+            layoutMemoTrack.tvTrackArtist.text = track?.artist.orEmpty()
+        }
+    }
+
+    private fun setupObservers() {
+        setupEmotionChips()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.selectedEmotions.collect { selected ->
+                    updateChipStates(selected)
+                }
+            }
+        }
+    }
+
+    private fun setupEmotionChips() {
+        binding.cgEmotion.removeAllViews()
+        Emotions.entries.forEach { emotion ->
+            val chip = createEmotionChip(emotion)
+            binding.cgEmotion.addView(chip)
+        }
+    }
+
+    private fun createEmotionChip(emotion: Emotions): Chip {
+        val chip =
+            LayoutInflater.from(this).inflate(
+                R.layout.item_emotion_chip,
+                binding.cgEmotion,
+                false,
+            ) as Chip
+        chip.id = View.generateViewId()
+        chip.text = emotion.getDisplayName(this)
+        chip.tag = emotion
+        chip.setOnClickListener {
+            val wasToggled = viewModel.toggleEmotion(emotion)
+            if (!wasToggled) {
+                chip.isChecked = false
+            }
+        }
+        return chip
+    }
+
+    private fun updateChipStates(selectedEmotions: List<Emotions>) {
+        for (i in 0 until binding.cgEmotion.childCount) {
+            val chip = binding.cgEmotion.getChildAt(i) as? Chip ?: continue
+            val emotion = chip.tag as? Emotions ?: continue
+            chip.isChecked = selectedEmotions.contains(emotion)
         }
     }
 
