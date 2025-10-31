@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="음악 기록" />
+        app:title="@string/label_music_memo" />
 
     <View
         android:id="@+id/memo_background"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="32dp"
-        android:text="감정기록"
+        android:text="@string/label_emotion_record"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_memo_track" />
 
@@ -101,7 +101,7 @@
         android:elevation="0dp"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@null"
-        android:text="기록하기"
+        android:text="@string/label_save_memo"
         android:textSize="16sp"
         android:textStyle="bold"
         android:translationZ="0dp"

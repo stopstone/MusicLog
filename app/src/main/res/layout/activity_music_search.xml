@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_cancel"
-        app:title="음악 검색" />
+        app:title="@string/label_music_search" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tf_search_text_field"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_toolbar"
-        app:placeholderText="아티스트 혹은 제목을 검색해주세요">
+        app:placeholderText="@string/hint_search_artist_or_title">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_search"
@@ -68,7 +68,7 @@
         android:id="@+id/tv_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="검색 결과가 없어요"
+        android:text="@string/label_search_result_empty"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
