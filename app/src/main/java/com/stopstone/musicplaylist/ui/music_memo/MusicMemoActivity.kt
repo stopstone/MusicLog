@@ -55,6 +55,9 @@ class MusicMemoActivity : AppCompatActivity() {
 
     private fun setupLayout() {
         with(binding) {
+            memoToolbar.setNavigationOnClickListener {
+                finish()
+            }
             layoutMemoTrack.ivTrackImage.loadImage(track?.imageUrl.orEmpty())
             layoutMemoTrack.tvTrackTitle.text = track?.title.orEmpty()
             layoutMemoTrack.tvTrackArtist.text = track?.artist.orEmpty()
