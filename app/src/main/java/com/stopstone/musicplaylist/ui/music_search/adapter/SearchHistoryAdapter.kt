@@ -1,4 +1,4 @@
-package com.stopstone.musicplaylist.ui.search.adapter
+package com.stopstone.musicplaylist.ui.music_search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,29 +9,34 @@ import com.stopstone.musicplaylist.data.model.entity.SearchHistory
 import com.stopstone.musicplaylist.databinding.ItemSearchHistoryListBinding
 
 class SearchHistoryAdapter(
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener,
 ) : ListAdapter<SearchHistory, SearchHistoryAdapter.SearchHistoryViewHolder>(
-    BaseDiffCallback()
-) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHistoryViewHolder {
+        BaseDiffCallback(),
+    ) {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): SearchHistoryViewHolder {
         val binding =
             ItemSearchHistoryListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchHistoryViewHolder(
             binding,
             onClickListener = { position -> listener.onItemClick(getItem(position)) },
-            onDeleteClickListener = { position -> listener.onDeleteClick(getItem(position)) }
+            onDeleteClickListener = { position -> listener.onDeleteClick(getItem(position)) },
         )
     }
 
-    override fun onBindViewHolder(holder: SearchHistoryViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: SearchHistoryViewHolder,
+        position: Int,
+    ) {
         holder.bind(getItem(position))
     }
 
     class SearchHistoryViewHolder(
         private val binding: ItemSearchHistoryListBinding,
         private val onClickListener: (position: Int) -> Unit,
-        private val onDeleteClickListener: (position: Int) -> Unit
+        private val onDeleteClickListener: (position: Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
@@ -51,5 +56,6 @@ class SearchHistoryAdapter(
 
 interface OnItemClickListener {
     fun onItemClick(item: Any)
+
     fun onDeleteClick(search: SearchHistory)
 }

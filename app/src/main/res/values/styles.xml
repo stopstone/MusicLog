@@ -28,4 +28,17 @@
         <item name="cornerSize">24dp</item>
     </style>
 
+    <style name="Widget.MusicLog.EmotionChip" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="android:checkable">true</item>
+        <item name="chipBackgroundColor">@color/chip_emotion_background_color</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="ensureMinTouchTargetSize">false</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MusicLog.EmotionChip</item>
+    </style>
+
+    <style name="ShapeAppearance.MusicLog.EmotionChip" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">2dp</item>
+    </style>
+
 </resources>

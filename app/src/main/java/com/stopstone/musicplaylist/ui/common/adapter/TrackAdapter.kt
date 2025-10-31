@@ -7,25 +7,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.musicplaylist.base.BaseDiffCallback
 import com.stopstone.musicplaylist.databinding.ItemTrackBinding
 import com.stopstone.musicplaylist.ui.model.TrackUiState
-import com.stopstone.musicplaylist.ui.search.adapter.OnItemClickListener
+import com.stopstone.musicplaylist.ui.music_search.adapter.OnItemClickListener
 import com.stopstone.musicplaylist.util.loadImage
 
 class TrackAdapter(
-    private val listener: OnItemClickListener?
+    private val listener: OnItemClickListener?,
 ) : ListAdapter<TrackUiState, TrackAdapter.TrackViewHolder>(BaseDiffCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
-        return TrackViewHolder(
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): TrackViewHolder =
+        TrackViewHolder(
             ItemTrackBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
+                false,
             ),
-            onClickListener = { position -> listener?.onItemClick(getItem(position)) }
+            onClickListener = { position -> listener?.onItemClick(getItem(position)) },
         )
-    }
 
-    override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: TrackViewHolder,
+        position: Int,
+    ) {
         holder.bind(getItem(position))
     }
 
@@ -33,7 +37,6 @@ class TrackAdapter(
         private val binding: ItemTrackBinding,
         private val onClickListener: (position: Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-
         init {
             binding.root.setOnClickListener {
                 onClickListener(adapterPosition)

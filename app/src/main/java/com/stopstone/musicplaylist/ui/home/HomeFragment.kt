@@ -18,6 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.data.model.entity.SearchHistory
 import com.stopstone.musicplaylist.databinding.FragmentHomeBinding
@@ -25,7 +26,7 @@ import com.stopstone.musicplaylist.domain.model.CalendarDay
 import com.stopstone.musicplaylist.ui.detail.TrackDetailActivity
 import com.stopstone.musicplaylist.ui.home.adapter.CalendarAdapter
 import com.stopstone.musicplaylist.ui.home.viewmodel.HomeViewModel
-import com.stopstone.musicplaylist.ui.search.adapter.OnItemClickListener
+import com.stopstone.musicplaylist.ui.music_search.adapter.OnItemClickListener
 import com.stopstone.musicplaylist.util.DateUtils
 import com.stopstone.musicplaylist.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnItemClickListener {
+class HomeFragment :
+    Fragment(),
+    OnItemClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
@@ -44,11 +47,12 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
     private lateinit var appContext: Context
 
-    private val activityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        when (result.resultCode) {
-            Activity.RESULT_OK -> handleDataRefresh()
+    private val activityLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> handleDataRefresh()
+            }
         }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,13 +62,16 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         setCalendar()
         setWeekdays()
@@ -78,7 +85,12 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 launch { collectCurrentMonth() }
             }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadCalendar(DateUtils.getCurrentYear(), DateUtils.getCurrentMonth())
+        viewModel.loadTodayTrack()
     }
 
     override fun onItemClick(item: Any) {
@@ -95,7 +107,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onDeleteClick(search: SearchHistory) {
         TODO("Not yet implemented")
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -168,6 +179,11 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 openYouTube("${track.title} ${track.artist}")
             }
         }
+
+        binding.btnAddMusic.setOnClickListener {
+            val action = HomeFragmentDirections.actionNavigationHomeToNavigationMusicSearch()
+            findNavController().navigate(action)
+        }
     }
 
     private fun handleDataRefresh() {
@@ -190,9 +206,10 @@ class HomeFragment : Fragment(), OnItemClickListener {
         val youtubeIntent = Intent(Intent.ACTION_VIEW, youtubeUri)
         val webIntent = Intent(Intent.ACTION_VIEW, webUri)
 
-        val chooserIntent = Intent.createChooser(webIntent, "다음 앱으로 열기").apply {
-            putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(youtubeIntent))
-        }
+        val chooserIntent =
+            Intent.createChooser(webIntent, "다음 앱으로 열기").apply {
+                putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(youtubeIntent))
+            }
         startActivity(chooserIntent)
     }
 }

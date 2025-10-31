@@ -1,5 +1,7 @@
 package com.stopstone.musicplaylist.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.activity.OnBackPressedCallback
@@ -80,5 +82,11 @@ class MainActivity: AppCompatActivity() {
 
     companion object {
         private const val BACK_PRESS_INTERVAL: Long = 2000L
+
+        fun createIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+        }
     }
 }
