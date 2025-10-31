@@ -43,17 +43,17 @@ class MusicMemoViewModel
             }
         }
 
-        fun saveTrack(track: TrackUiState) {
-            viewModelScope.launch {
-                val today = DateUtils.getTodayDate()
-                try {
-                    saveDailyTrackUseCase(track, _selectedEmotions.value, today)
-                    _trackSaved.emit(true)
-                } catch (exception: Exception) {
-                    _trackSaved.emit(false)
-                }
+    fun saveTrack(track: TrackUiState, comment: String?) {
+        viewModelScope.launch {
+            val today = DateUtils.getTodayDate()
+            try {
+                saveDailyTrackUseCase(track, _selectedEmotions.value, today, comment)
+                _trackSaved.emit(true)
+            } catch (exception: Exception) {
+                _trackSaved.emit(false)
             }
         }
+    }
 
         companion object {
             const val MAX_SELECTED_EMOTIONS: Int = 5

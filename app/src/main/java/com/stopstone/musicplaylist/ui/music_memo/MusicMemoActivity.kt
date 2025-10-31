@@ -71,7 +71,8 @@ class MusicMemoActivity : AppCompatActivity() {
                 showToast(getString(R.string.message_track_info_not_available))
                 return@setOnClickListener
             }
-            viewModel.saveTrack(currentTrack)
+            val comment = binding.etSearch.text?.toString()?.trim()
+            viewModel.saveTrack(currentTrack, comment)
         }
     }
 
