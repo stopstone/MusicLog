@@ -59,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="12dp"
-        android:gravity="start"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/text_field_stroke_color"
         app:boxStrokeWidth="0.5dp"
@@ -74,6 +73,7 @@
             android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="128dp"
+            android:gravity="start"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:singleLine="true" />
