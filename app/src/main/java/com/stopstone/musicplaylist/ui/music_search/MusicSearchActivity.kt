@@ -118,7 +118,6 @@ class MusicSearchActivity :
                 val query: String = item.query
                 if (query.isNotEmpty()) {
                     binding.etSearch.setText(query)
-                    // Ensure cursor is placed correctly and keyboard is visible for history selection
                     binding.etSearch.setSelection(query.length)
                     binding.etSearch.showKeyboard()
                     viewModel.updateQuery(query)
@@ -127,13 +126,13 @@ class MusicSearchActivity :
             }
 
             is TrackUiState -> {
-                binding.etSearch.hideKeyboard()
                 navigateToMusicMemo(item)
             }
 
             else -> {
             }
         }
+        binding.etSearch.hideKeyboard()
     }
 
     override fun onDeleteClick(search: SearchHistory) {
