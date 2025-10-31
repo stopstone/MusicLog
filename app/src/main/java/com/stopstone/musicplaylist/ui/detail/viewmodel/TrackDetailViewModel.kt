@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.domain.usecase.detail.DeleteTrackUseCase
 import com.stopstone.musicplaylist.domain.usecase.detail.GetCommentUseCase
 import com.stopstone.musicplaylist.domain.usecase.detail.UpdateCommentUseCase
+import com.stopstone.musicplaylist.util.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
@@ -31,16 +31,9 @@ class TrackDetailViewModel @Inject constructor(
 
     private lateinit var currentDate: Date
 
-    // ViewModel에서 normalizeDate()를 통해 시간 정보 초기화
     // 정규화된 날짜를 currentDate에 저장
     fun setCurrentDate(date: Date) {
-        currentDate = Calendar.getInstance().apply {
-            time = date
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.time
+        currentDate = DateUtils.normalizeDate(date)
         loadComment() // 해당하는 날짜의 코멘트를 가져오기
     }
 

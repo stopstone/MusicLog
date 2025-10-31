@@ -1,6 +1,5 @@
 package com.stopstone.musicplaylist.ui.detail
 
-import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
@@ -8,33 +7,36 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.stopstone.musicplaylist.R
-import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.databinding.ActivityTrackDetailBinding
+import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.detail.viewmodel.TrackDetailViewModel
+import com.stopstone.musicplaylist.util.DateUtils
+import com.stopstone.musicplaylist.util.InstagramShareHelper
 import com.stopstone.musicplaylist.util.hideKeyboard
 import com.stopstone.musicplaylist.util.loadImage
 import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.Date
 
 @AndroidEntryPoint
 class TrackDetailActivity : AppCompatActivity() {
     private val binding: ActivityTrackDetailBinding by lazy {
         ActivityTrackDetailBinding.inflate(
-            layoutInflater
+            layoutInflater,
         )
     }
     private val args: TrackDetailActivityArgs by navArgs()
@@ -42,16 +44,31 @@ class TrackDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
+        setupWindowInsets()
         setLayout()
         setListeners()
         collectViewModel()
     }
 
+    private fun setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom,
+            )
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
     private fun setLayout() {
         Log.d("TrackDetailActivity", args.DailyTrack.toString())
         with(args.DailyTrack) {
-            convertDayToDate(year, month, id) // 저장된 트랙의 날짜를, date 타입의 시간으로 변경
+            DateUtils.createDate(year, month, id) // 저장된 트랙의 날짜를, date 타입의 시간으로 변경
         }.also { viewModel.setCurrentDate(it) }
 
         with(binding) {
@@ -63,12 +80,13 @@ class TrackDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun collectViewModel() = lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED) {
-            launch { collectComment() }
-            launch { collectDeleteResult() }
+    private fun collectViewModel() =
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { collectComment() }
+                launch { collectDeleteResult() }
+            }
         }
-    }
 
     private suspend fun collectComment() {
         viewModel.comment.collectLatest { comment ->
@@ -80,7 +98,7 @@ class TrackDetailActivity : AppCompatActivity() {
     private suspend fun collectDeleteResult() {
         viewModel.deleteResult.collect { isDeleted ->
             if (isDeleted) {
-                setResult(Activity.RESULT_OK)  // 삭제 성공 결과 전달
+                setResult(RESULT_OK) // 삭제 성공 결과 전달
                 showToast(getString(R.string.label_track_delete))
                 finish()
             } else {
@@ -98,6 +116,14 @@ class TrackDetailActivity : AppCompatActivity() {
         binding.btnTrackDetailDelete.setOnClickListener {
             setDialogBuilder()
         }
+
+        binding.btnTrackDetailInstagramShare.setOnClickListener {
+            InstagramShareHelper.shareCustomStoryToInstagram(
+                activity = this@TrackDetailActivity,
+                dailyTrack = args.DailyTrack,
+            )
+        }
+
         binding.root.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 v.hideKeyboard()
@@ -129,22 +155,16 @@ class TrackDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun createEmotionTextView(emotion: Emotions) = TextView(this).apply {
-        id = View.generateViewId()
-        text = emotion.getDisplayName(this@TrackDetailActivity)
-        background = AppCompatResources.getDrawable(context, R.drawable.background_gray)
-        setPadding(16, 8, 16, 8)
-    }
+    private fun createEmotionTextView(emotion: Emotions) =
+        TextView(this).apply {
+            id = View.generateViewId()
+            text = emotion.getDisplayName(this@TrackDetailActivity)
+            background = AppCompatResources.getDrawable(context, R.drawable.background_gray)
+            setPadding(16, 8, 16, 8)
+        }
 
     private fun addTextViewToLayout(textView: TextView) {
         binding.root.addView(textView, ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
         binding.flowEmotion.addView(textView)
-    }
-
-    private fun convertDayToDate(year: Int, month: Int, day: Int): Date {
-        return Calendar.getInstance().apply {
-            set(year, month - 1, day, 0, 0, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.time
     }
 }

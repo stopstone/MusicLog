@@ -14,20 +14,20 @@ val localPropertiesFile = rootProject.file("local.properties")
 val properties = Properties()
 properties.load(FileInputStream(localPropertiesFile))
 
-
 android {
     namespace = "com.stopstone.musicplaylist"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.stopstone.musicplaylist"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 9
         versionName = "1.3.4"
 
         buildConfigField("String", "CLIENT_ID", "\"${properties["client.id"]}\"")
         buildConfigField("String", "CLIENT_SECRET", "\"${properties["client.secret"]}\"")
+        buildConfigField("String", "FACEBOOK_APP_ID", "\"${properties["facebook.app.id"]}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -36,7 +36,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -45,11 +45,11 @@ android {
         buildConfig = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
@@ -60,8 +60,8 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     // Hilt
-    implementation (libs.hilt.android)
-    ksp (libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
     // JetpackNavigation
     implementation(libs.androidx.navigation.fragment.ktx)

@@ -1,19 +1,17 @@
 package com.stopstone.musicplaylist.di
 
 import com.stopstone.musicplaylist.data.repository.common.AuthRepositoryImpl
-import com.stopstone.musicplaylist.data.repository.home.CalendarRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.common.PlayListRepositoryImpl
+import com.stopstone.musicplaylist.data.repository.common.TrackRepositoryImpl
+import com.stopstone.musicplaylist.data.repository.home.CalendarRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.search.SearchHistoryRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.search.SearchRepositoryImpl
-import com.stopstone.musicplaylist.data.repository.common.TrackRepositoryImpl
-import com.stopstone.musicplaylist.data.repository.home.RecommendRepositoryImpl
 import com.stopstone.musicplaylist.domain.repository.common.AuthRepository
-import com.stopstone.musicplaylist.domain.repository.home.CalendarRepository
 import com.stopstone.musicplaylist.domain.repository.common.PlayListRepository
+import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
+import com.stopstone.musicplaylist.domain.repository.home.CalendarRepository
 import com.stopstone.musicplaylist.domain.repository.search.SearchHistoryRepository
 import com.stopstone.musicplaylist.domain.repository.search.SearchRepository
-import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
-import com.stopstone.musicplaylist.domain.repository.home.RecommendRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -60,9 +58,4 @@ abstract class RepositoryModule {
         repository: SearchHistoryRepositoryImpl
     ): SearchHistoryRepository
 
-    @Binds
-    @Singleton
-    abstract fun bindRecommendRepository(
-        repository: RecommendRepositoryImpl
-    ): RecommendRepository
 }
