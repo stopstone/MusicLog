@@ -10,4 +10,12 @@
         <item name="android:statusBarColor">@color/background_dark</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
+
+    <!-- 다크모드 스플래시 스크린 테마 -->
+    <style name="Theme.MusicLog.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/background_dark</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.MusicLog</item>
+    </style>
 </resources>
