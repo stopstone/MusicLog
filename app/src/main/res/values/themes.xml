@@ -15,4 +15,13 @@
         <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
     </style>
+
+    <!-- 스플래시 스크린 테마 - 기존 앱 테마 기반 -->
+    <style name="Theme.MusicLog.Splash" parent="Theme.MusicLog">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
 </resources>
