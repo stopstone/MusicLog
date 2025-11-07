@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -28,6 +29,9 @@ android {
         buildConfigField("String", "CLIENT_ID", "\"${properties["client.id"]}\"")
         buildConfigField("String", "CLIENT_SECRET", "\"${properties["client.secret"]}\"")
         buildConfigField("String", "FACEBOOK_APP_ID", "\"${properties["facebook.app.id"]}\"")
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"${properties["kakao.native.app.key"]}\"")
+        manifestPlaceholders["kakaoAppKey"] = getProperty("KAKAO_NATIVE_APP_KEY").replace("\"", "")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -54,6 +58,9 @@ android {
 }
 
 dependencies {
+    // Kakao Module
+    implementation(libs.v2.all)
+
     // Splash
     implementation(libs.androidx.core.splashscreen)
     // DataStore
@@ -100,3 +107,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
+fun getProperty(propertyKey: String): String = gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
