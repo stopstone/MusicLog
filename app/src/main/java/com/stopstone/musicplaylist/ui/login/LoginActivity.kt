@@ -7,15 +7,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityLoginBinding
 import com.stopstone.musicplaylist.ui.MainActivity
+import com.stopstone.musicplaylist.ui.login.auth.SocialLoginHandler
+import com.stopstone.musicplaylist.ui.login.model.ProviderType
+import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private val binding: ActivityLoginBinding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
+    }
+
+    private val socialLoginHandler: SocialLoginHandler by lazy {
+        SocialLoginHandler(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         setupWindowInsets()
+        setupListeners()
     }
 
     private fun setupWindowInsets() {
@@ -34,7 +44,28 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // 메인 화면으로 이동
+    private fun setupListeners() {
+        with(binding) {
+            btnKakaoLogin.setOnClickListener {
+                performKakaoLogin()
+            }
+        }
+    }
+
+    private fun performKakaoLogin() {
+        lifecycleScope.launch {
+            socialLoginHandler.performSocialLogin(
+                providerType = ProviderType.KAKAO,
+                onSuccess = { accessToken ->
+                    navigateToMain()
+                },
+                onFailure = { error ->
+                    showToast(error.message ?: getString(R.string.login_sdk_error))
+                }
+            )
+        }
+    }
+
     private fun navigateToMain() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
