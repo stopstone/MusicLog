@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -26,11 +25,16 @@ android {
         versionCode = 15
         versionName = "1.4.0"
 
-        buildConfigField("String", "CLIENT_ID", "\"${properties["client.id"]}\"")
-        buildConfigField("String", "CLIENT_SECRET", "\"${properties["client.secret"]}\"")
-        buildConfigField("String", "FACEBOOK_APP_ID", "\"${properties["facebook.app.id"]}\"")
-        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"${properties["kakao.native.app.key"]}\"")
-        manifestPlaceholders["kakaoAppKey"] = getProperty("KAKAO_NATIVE_APP_KEY").replace("\"", "")
+        val clientId = properties["client.id"].toString().replace("\"", "")
+        val clientSecret = properties["client.secret"].toString().replace("\"", "")
+        val facebookAppId = properties["facebook.app.id"].toString().replace("\"", "")
+        val kakaoNativeAppKey = properties["kakao.native.app.key"].toString().replace("\"", "")
+        
+        buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
+        buildConfigField("String", "CLIENT_SECRET", "\"$clientSecret\"")
+        buildConfigField("String", "FACEBOOK_APP_ID", "\"$facebookAppId\"")
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"$kakaoNativeAppKey\"")
+        manifestPlaceholders["kakaoAppKey"] = kakaoNativeAppKey
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -107,5 +111,3 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
-
-fun getProperty(propertyKey: String): String = gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
