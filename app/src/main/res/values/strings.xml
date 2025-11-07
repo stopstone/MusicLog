@@ -13,6 +13,14 @@
 
     <!--  스플래쉬  -->
     <string name="message_check_internet_status">인터넷 상태를 확인해주세요</string>
+    
+    <!--  로그인  -->
+    <string name="login_user_cancelled">사용자가 로그인을 취소했습니다</string>
+    <string name="login_auth_error">인증에 실패했습니다. 다시 시도해주세요.</string>
+    <string name="login_api_error">카카오 서버와의 통신에 실패했습니다.</string>
+    <string name="login_client_error">로그인 처리 중 문제가 발생했습니다.</string>
+    <string name="login_sdk_error">카카오 로그인에 실패했습니다.</string>
+    
     <!--  홈  -->
     <string name="label_home_title">감정플리</string>
     <string name="label_home_empty_track_title">등록된 음악이 없습니다.</string>
