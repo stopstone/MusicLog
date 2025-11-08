@@ -16,6 +16,13 @@
     <!--  Splash  -->
     <string name="message_check_internet_status">Please check your internet status.</string>
 
+    <!--  Login  -->
+    <string name="login_user_cancelled">User cancelled login</string>
+    <string name="login_auth_error">Authentication failed. Please try again.</string>
+    <string name="login_api_error">Failed to communicate with Kakao server.</string>
+    <string name="login_client_error">An error occurred during login process.</string>
+    <string name="login_sdk_error">Kakao login failed.</string>
+
     <!--  Home  -->
     <string name="label_home_title">Today\'s Music</string>
     <string name="label_home_empty_track_title">No music registered</string>

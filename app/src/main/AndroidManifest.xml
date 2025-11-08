@@ -20,6 +20,18 @@
         android:theme="@style/Theme.MusicLog"
         tools:targetApi="31">
         <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MusicLog.Splash"
+            android:windowSoftInputMode="adjustNothing" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.music_memo.MusicMemoActivity"
             android:exported="false" />
         <activity
@@ -35,20 +47,11 @@
             android:name=".ui.music_search.MusicSearchActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MusicLog.Splash"
-            android:windowSoftInputMode="adjustNothing" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustNothing" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -63,6 +66,28 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_paths" />
         </provider>
+
+        <!-- Kakao SDK -->
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="${kakaoAppKey}" />
+
+        <!-- 카카오톡 로그인 콜백을 위한 Activity -->
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao${kakaoAppKey}" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
