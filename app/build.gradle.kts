@@ -8,6 +8,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
@@ -101,6 +102,9 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+
+    // Firebase
+    implementation(libs.firebase.firestore)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
