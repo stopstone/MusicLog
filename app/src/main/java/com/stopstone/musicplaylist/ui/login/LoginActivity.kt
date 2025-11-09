@@ -97,7 +97,7 @@ class LoginActivity : AppCompatActivity() {
 
                         is LoginUiState.Error -> {
                             hideLoading()
-                            showToast(state.message)
+                            showToast(state.message ?: getString(R.string.login_unknown_error))
                         }
                     }
                 }

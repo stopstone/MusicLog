@@ -57,7 +57,7 @@ class LoginViewModel @Inject constructor(
                     _uiState.value = LoginUiState.SuccessWithSyncError
                 }
             } catch (e: Exception) {
-                _uiState.value = LoginUiState.Error(e.message ?: "알 수 없는 오류가 발생했습니다.")
+                _uiState.value = LoginUiState.Error(e.message)
             }
         }
     }
@@ -94,6 +94,6 @@ sealed class LoginUiState {
     data object SuccessWithSyncError : LoginUiState()
     
     // 에러
-    data class Error(val message: String) : LoginUiState()
+    data class Error(val message: String?) : LoginUiState()
 }
 

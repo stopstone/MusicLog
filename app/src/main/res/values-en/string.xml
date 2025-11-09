@@ -24,6 +24,7 @@
     <string name="login_sdk_error">Kakao login failed.</string>
     <string name="login_success">Login successful!</string>
     <string name="login_success_sync_failed">Login successful! (Failed to load backup data)</string>
+    <string name="login_unknown_error">An unknown error occurred.</string>
 
     <!--  Home  -->
     <string name="label_home_title">Today\'s Music</string>
