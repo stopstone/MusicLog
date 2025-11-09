@@ -1,6 +1,7 @@
 package com.stopstone.musicplaylist.data.remote.datasource
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.stopstone.musicplaylist.data.model.dto.MusicDto
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -25,7 +26,8 @@ class FirestoreDataSource @Inject constructor(
                 .await()
 
             val musics = snapshot.documents.mapNotNull { document ->
-                document.toObject(MusicDto::class.java)
+                val musicDto = document.toObject(MusicDto::class.java)
+                musicDto
             }
 
             Result.success(musics)
@@ -43,7 +45,7 @@ class FirestoreDataSource @Inject constructor(
                 .document(userId)
                 .collection(COLLECTION_MUSICS)
                 .document(musicId)
-                .set(musicDto)
+                .set(musicDto, SetOptions.merge())
                 .await()
 
             Result.success(Unit)

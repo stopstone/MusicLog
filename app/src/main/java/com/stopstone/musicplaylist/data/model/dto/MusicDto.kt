@@ -1,6 +1,5 @@
 package com.stopstone.musicplaylist.data.model.dto
 
-import com.google.firebase.firestore.PropertyName
 import com.stopstone.musicplaylist.data.model.entity.DailyTrack
 import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.model.TrackUiState
@@ -12,35 +11,16 @@ import java.util.Date
  * - Date는 Timestamp로 자동 변환됨
  */
 data class MusicDto(
-    @PropertyName("music_id")
-    val musicId: String = "",
-    
-    @PropertyName("date")
-    val date: Date = Date(),
-    
-    @PropertyName("track_id")
-    val trackId: String = "",
-    
-    @PropertyName("image_url")
-    val imageUrl: String = "",
-    
-    @PropertyName("title")
-    val title: String = "",
-    
-    @PropertyName("artist")
-    val artist: String = "",
-    
-    @PropertyName("emotions")
-    val emotions: List<String> = emptyList(),
-    
-    @PropertyName("comment")
-    val comment: String? = null,
-    
-    @PropertyName("created_at")
-    val createdAt: Date = Date(),
-    
-    @PropertyName("updated_at")
-    val updatedAt: Date = Date()
+    var musicId: String = "",
+    var date: Date = Date(),
+    var trackId: String = "",
+    var imageUrl: String = "",
+    var title: String = "",
+    var artist: String = "",
+    var emotions: List<String> = emptyList(),
+    var comment: String? = null,
+    var createdAt: Date = Date(),
+    var updatedAt: Date = Date()
 ) {
     companion object {
         /**

@@ -1,5 +1,6 @@
 package com.stopstone.musicplaylist.data.repository.common
 
+import android.util.Log
 import com.stopstone.musicplaylist.data.local.auth.UserPreferences
 import com.stopstone.musicplaylist.data.local.dao.DailyTrackDao
 import com.stopstone.musicplaylist.data.model.dto.MusicDto
@@ -17,7 +18,7 @@ class TrackRepositoryImpl @Inject constructor(
     private val firestoreDataSource: FirestoreDataSource,
     private val userPreferences: UserPreferences
 ) : TrackRepository {
-    
+
     /**
      * DailyTrack 저장 (로컬 DB + Firestore 백업)
      */
@@ -121,13 +122,10 @@ class TrackRepositoryImpl @Inject constructor(
                 }
             }
             
-            // 5. Firestore → 로컬 (Firestore에 있고 로컬에 없는 데이터)
+            // 5. Firestore → 로컬 (Firestore 데이터를 모두 로컬에 저장/업데이트)
             firestoreTracks.forEach { musicDto ->
-                val dateKey = musicDto.date.time
-                if (!localMap.containsKey(dateKey)) {
-                    val dailyTrack = musicDto.toDailyTrack()
-                    dailyTrackDao.upsert(dailyTrack)
-                }
+                val dailyTrack = musicDto.toDailyTrack()
+                dailyTrackDao.upsert(dailyTrack)
             }
             
             Result.success(Unit)
