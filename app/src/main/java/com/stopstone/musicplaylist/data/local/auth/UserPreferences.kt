@@ -22,12 +22,14 @@ class UserPreferences @Inject constructor(
 
     // 사용자 ID 가져오기
     fun getUserId(): Flow<String?> = dataStore.data.map { preferences ->
-        preferences[userIdKey]
+        val userId = preferences[userIdKey]
+        userId
     }
 
     // 사용자 ID 가져오기
     suspend fun getUserIdSync(): String? {
-        return getUserId().first()
+        val userId = getUserId().first()
+        return userId
     }
 
     // 사용자 ID 저장

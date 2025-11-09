@@ -2,8 +2,9 @@ package com.stopstone.musicplaylist.ui.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stopstone.musicplaylist.data.local.auth.UserPreferences
-import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
+import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
+import com.stopstone.musicplaylist.domain.usecase.login.SaveUserIdUseCase
+import com.stopstone.musicplaylist.domain.usecase.login.SyncMusicFromFirestoreUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,20 +14,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userPreferences: UserPreferences,
-    private val trackRepository: TrackRepository
+    private val getUserIdUseCase: GetUserIdUseCase,
+    private val saveUserIdUseCase: SaveUserIdUseCase,
+    private val syncMusicFromFirestoreUseCase: SyncMusicFromFirestoreUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
+    fun checkAutoLogin() {
+        viewModelScope.launch {
+            val userId = getUserIdUseCase()
+            if (userId != null) {
+                _uiState.value = LoginUiState.AutoLoginSuccess
+            } else {
+                _uiState.value = LoginUiState.ShowLoginScreen
+            }
+        }
+    }
+
     fun onLoginSuccess(userId: String) {
         viewModelScope.launch {
             try {
                 _uiState.value = LoginUiState.Loading
-                userPreferences.saveUserId(userId)
-
-                val result = trackRepository.syncFromFirestore(userId)
+                saveUserIdUseCase(userId)
+                val result = syncMusicFromFirestoreUseCase(userId)
 
                 if (result.isSuccess) {
                     _uiState.value = LoginUiState.Success
@@ -54,6 +66,12 @@ class LoginViewModel @Inject constructor(
 sealed class LoginUiState {
     // 초기 상태
     data object Idle : LoginUiState()
+    
+    // 자동 로그인 성공 (userId 있음)
+    data object AutoLoginSuccess : LoginUiState()
+    
+    // 로그인 화면 표시 (userId 없음)
+    data object ShowLoginScreen : LoginUiState()
     
     // 로딩 중
     data object Loading : LoginUiState()

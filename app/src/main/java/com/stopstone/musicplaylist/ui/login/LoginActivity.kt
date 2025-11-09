@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        viewModel.checkAutoLogin()
         setupWindowInsets()
         setupListeners()
         observeViewModel()
@@ -70,12 +71,19 @@ class LoginActivity : AppCompatActivity() {
                             hideLoading()
                         }
 
+                        is LoginUiState.AutoLoginSuccess -> {
+                            navigateToMain()
+                        }
+
+                        is LoginUiState.ShowLoginScreen -> {
+                            hideLoading()
+                        }
+
                         is LoginUiState.Loading -> {
                             showLoading()
                         }
 
                         is LoginUiState.Success -> {
-                            hideLoading()
                             showToast("로그인 성공")
                             navigateToMain()
                         }
