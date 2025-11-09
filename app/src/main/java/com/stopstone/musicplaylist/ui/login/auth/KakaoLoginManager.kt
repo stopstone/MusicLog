@@ -34,7 +34,9 @@ class KakaoLoginManager(
                 } else {
                     loginWithKakaoAccount()
                 }
-            onSuccess(accessToken)
+            // 사용자 정보 가져오기
+            val userId = getUserInfo()
+            onSuccess(userId)
         } catch (error: AuthError) {
             // OAuth 인증 과정 에러
             onFailure(Exception(context.getString(R.string.login_auth_error)))
@@ -51,6 +53,32 @@ class KakaoLoginManager(
             onFailure(exception)
         }
     }
+
+    // 카카오 사용자 정보 가져오기
+    private suspend fun getUserInfo(): String =
+        suspendCancellableCoroutine { continuation ->
+            UserApiClient.instance.me { user, error ->
+                when {
+                    error != null -> {
+                        continuation.resumeWith(
+                            Result.failure(
+                                Exception(context.getString(R.string.login_api_error))
+                            )
+                        )
+                    }
+                    user != null -> {
+                        continuation.resume(user.id.toString())
+                    }
+                    else -> {
+                        continuation.resumeWith(
+                            Result.failure(
+                                Exception(context.getString(R.string.login_api_error))
+                            )
+                        )
+                    }
+                }
+            }
+        }
 
     // 카카오 로그아웃 (언링크)
     private suspend fun unlinkKakao(): Unit =
