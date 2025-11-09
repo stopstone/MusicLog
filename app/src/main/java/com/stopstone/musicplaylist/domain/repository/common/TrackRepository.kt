@@ -11,4 +11,5 @@ interface TrackRepository {
     suspend fun updateComment(dateMillis: Date, comment: String)
     suspend fun deleteTrackByDate(dateMillis: Date)
     suspend fun deleteAllTracks()
+    suspend fun syncFromFirestore(userId: String): Result<Unit>
 }
