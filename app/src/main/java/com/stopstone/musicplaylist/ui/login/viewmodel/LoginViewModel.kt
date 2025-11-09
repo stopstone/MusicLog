@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SaveUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncMusicFromFirestoreUseCase
+import com.stopstone.musicplaylist.domain.usecase.splash.GetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +17,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val getUserIdUseCase: GetUserIdUseCase,
     private val saveUserIdUseCase: SaveUserIdUseCase,
-    private val syncMusicFromFirestoreUseCase: SyncMusicFromFirestoreUseCase
+    private val syncMusicFromFirestoreUseCase: SyncMusicFromFirestoreUseCase,
+    private val getTokenUseCase: GetTokenUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
@@ -24,10 +26,19 @@ class LoginViewModel @Inject constructor(
 
     fun checkAutoLogin() {
         viewModelScope.launch {
-            val userId = getUserIdUseCase()
-            if (userId != null) {
-                _uiState.value = LoginUiState.AutoLoginSuccess
-            } else {
+            try {
+                _uiState.value = LoginUiState.Loading
+                
+                // 1. userId 체크
+                val userId = getUserIdUseCase()
+                if (userId != null) {
+                    // 2. Spotify 토큰 미리 가져오기 (캐싱)
+                    getTokenUseCase()
+                    _uiState.value = LoginUiState.AutoLoginSuccess
+                } else {
+                    _uiState.value = LoginUiState.ShowLoginScreen
+                }
+            } catch (e: Exception) {
                 _uiState.value = LoginUiState.ShowLoginScreen
             }
         }
