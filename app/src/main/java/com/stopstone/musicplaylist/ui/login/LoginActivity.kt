@@ -84,13 +84,14 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         is LoginUiState.Success -> {
-                            showToast("로그인 성공")
+                            hideLoading()
+                            showToast(getString(R.string.login_success))
                             navigateToMain()
                         }
 
                         is LoginUiState.SuccessWithSyncError -> {
                             hideLoading()
-                            showToast("백업을 수동으로 해주세요")
+                            showToast(getString(R.string.login_success_sync_failed))
                             navigateToMain()
                         }
 

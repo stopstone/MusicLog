@@ -22,6 +22,8 @@
     <string name="login_api_error">Failed to communicate with Kakao server.</string>
     <string name="login_client_error">An error occurred during login process.</string>
     <string name="login_sdk_error">Kakao login failed.</string>
+    <string name="login_success">Login successful!</string>
+    <string name="login_success_sync_failed">Login successful! (Failed to load backup data)</string>
 
     <!--  Home  -->
     <string name="label_home_title">Today\'s Music</string>
