@@ -15,9 +15,6 @@
             android:id="@+id/action_home_to_track_detail"
             app:destination="@id/navigation_track_detail" />
         <action
-            android:id="@+id/action_home_to_setting"
-            app:destination="@id/navigation_setting" />
-        <action
             android:id="@+id/action_navigation_home_to_navigation_music_search"
             app:destination="@id/navigation_music_search" />
     </fragment>
@@ -27,6 +24,13 @@
         android:name="com.stopstone.musicplaylist.ui.playlist.PlayListFragment"
         android:label="PlayListFragment"
         tools:layout="@layout/fragment_play_list" />
+
+    <fragment
+        android:id="@+id/navigation_my"
+        android:name="com.stopstone.musicplaylist.ui.my.MyFragment"
+        android:label="MyFragment"
+        tools:layout="@layout/fragment_my" />
+
     <activity
         android:id="@+id/navigation_track_detail"
         android:name="com.stopstone.musicplaylist.ui.detail.TrackDetailActivity"
@@ -36,14 +40,11 @@
             android:name="DailyTrack"
             app:argType="com.stopstone.musicplaylist.domain.model.CalendarDay" />
     </activity>
-    <activity
-        android:id="@+id/navigation_setting"
-        android:name="com.stopstone.musicplaylist.ui.setting.SettingActivity"
-        android:label="activity_setting"
-        tools:layout="@layout/activity_setting" />
+
     <activity
         android:id="@+id/navigation_music_search"
         android:name="com.stopstone.musicplaylist.ui.music_search.MusicSearchActivity"
         android:label="MusicSearchActivity"
         tools:layout="@layout/activity_music_search" />
+
 </navigation>
