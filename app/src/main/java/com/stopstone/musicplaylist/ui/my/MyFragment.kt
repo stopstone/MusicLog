@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.stopstone.musicplaylist.databinding.FragmentMyBinding
+import com.stopstone.musicplaylist.databinding.ViewMySettingBinding
+import com.stopstone.musicplaylist.ui.my.model.MySettingMenu
 
 class MyFragment : Fragment() {
     private var _binding: FragmentMyBinding? = null
@@ -32,10 +34,38 @@ class MyFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
+        setupSettingItems()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupSettingItems() {
+        MySettingMenu.entries.forEach { menu ->
+            createSettingView(menu)
+        }
+    }
+
+    private fun createSettingView(menu: MySettingMenu) {
+        ViewMySettingBinding
+            .inflate(
+                layoutInflater,
+                binding.llSettingsContainer,
+                false,
+            ).apply {
+                tvSettingTitle.text = menu.title
+                root.setOnClickListener {
+                    actionSettingMenu(menu)
+                }
+                // 컨테이너에 추가
+                binding.llSettingsContainer.addView(root)
+            }
+    }
+
+    private fun actionSettingMenu(menu: MySettingMenu) {
+        // TODO: Navigation Component 구현 후 아래 주석 해제
+        // findNavController().navigate(menu.destinationId)
     }
 }
