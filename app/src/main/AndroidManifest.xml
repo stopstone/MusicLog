@@ -35,10 +35,6 @@
             android:name=".ui.music_memo.MusicMemoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.setting.SettingActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.detail.TrackDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait"
