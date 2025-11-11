@@ -23,6 +23,9 @@
             android:name=".ui.user_setting.UserSettingActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.insta_share_setting.InstagramShareSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait"
