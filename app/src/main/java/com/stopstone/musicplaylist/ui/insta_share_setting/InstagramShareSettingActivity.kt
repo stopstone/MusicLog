@@ -43,6 +43,17 @@ class InstagramShareSettingActivity : AppCompatActivity() {
             toolbarInstagramShareSetting.setNavigationOnClickListener {
                 finish()
             }
+            
+            // Row 클릭 시 스위치 토글
+            layoutEmotionsRow.setOnClickListener {
+                switchShowEmotions.toggle()
+            }
+            
+            layoutMemoRow.setOnClickListener {
+                switchShowMemo.toggle()
+            }
+            
+            // 스위치 상태 변경 리스너
             switchShowEmotions.setOnCheckedChangeListener { _, isChecked ->
                 if (viewModel.uiState.value.isLoadingFromDataStore) return@setOnCheckedChangeListener
                 viewModel.updateShowEmotions(isChecked)
