@@ -12,4 +12,5 @@ interface TrackRepository {
     suspend fun deleteTrackByDate(dateMillis: Date)
     suspend fun deleteAllTracks()
     suspend fun syncFromFirestore(userId: String): Result<Unit>
+    suspend fun getMusicCount(): Int
 }

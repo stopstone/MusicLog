@@ -133,4 +133,8 @@ class TrackRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun getMusicCount(): Int {
+        return dailyTrackDao.getMusicCount()
+    }
 }

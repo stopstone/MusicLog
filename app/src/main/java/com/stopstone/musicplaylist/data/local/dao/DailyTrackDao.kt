@@ -43,4 +43,7 @@ interface DailyTrackDao {
 
     @Query("DELETE FROM daily_tracks")
     suspend fun deleteAllTracks()
+
+    @Query("SELECT COUNT(*) FROM daily_tracks")
+    suspend fun getMusicCount(): Int
 }
