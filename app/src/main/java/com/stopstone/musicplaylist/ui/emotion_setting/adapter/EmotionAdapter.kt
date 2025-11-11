@@ -11,7 +11,13 @@ import com.stopstone.musicplaylist.ui.emotion_setting.model.EmotionUiState
 
 class EmotionAdapter(
     private val listener: EmotionClickListener,
+    private var isDeleteMode: Boolean = false,
 ) : ListAdapter<EmotionUiState, EmotionAdapter.EmotionViewHolder>(BaseDiffCallback()) {
+
+    fun setDeleteMode(enabled: Boolean) {
+        isDeleteMode = enabled
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -25,6 +31,8 @@ class EmotionAdapter(
         return EmotionViewHolder(
             binding,
             onDragHandleTouch = { holder -> listener.onStartDrag(holder) },
+            onItemClick = { position -> listener.onEmotionClick(getItem(position)) },
+            isDeleteMode = { isDeleteMode },
         )
     }
 
@@ -48,10 +56,22 @@ class EmotionAdapter(
     class EmotionViewHolder(
         private val binding: ItemEmotionBinding,
         private val onDragHandleTouch: (holder: RecyclerView.ViewHolder) -> Unit,
+        private val onItemClick: (position: Int) -> Unit,
+        private val isDeleteMode: () -> Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
+            // 아이템 클릭
+            binding.root.setOnClickListener {
+                if (isDeleteMode()) {
+                    onItemClick(adapterPosition)
+                }
+            }
+
+            // 아이템 전체 길게 누르기 시 드래그 시작
             binding.root.setOnLongClickListener {
-                onDragHandleTouch(this@EmotionViewHolder)
+                if (!isDeleteMode()) {
+                    onDragHandleTouch(this@EmotionViewHolder)
+                }
                 true
             }
         }
@@ -60,9 +80,21 @@ class EmotionAdapter(
             with(binding) {
                 tvEmotionName.text = emotion.displayName
 
-                ivDragHandle.setOnLongClickListener {
-                    onDragHandleTouch(this@EmotionViewHolder)
-                    true
+                if (isDeleteMode()) {
+                    // 삭제 모드: 체크박스 표시
+                    ivDragHandle.visibility = View.GONE
+                    cbEmotionDelete.visibility = View.VISIBLE
+                    cbEmotionDelete.isChecked = emotion.isSelectedForDelete
+                } else {
+                    // 일반 모드: 드래그 핸들 표시
+                    ivDragHandle.visibility = View.VISIBLE
+                    cbEmotionDelete.visibility = View.GONE
+
+                    // 드래그 핸들 길게 누르기
+                    ivDragHandle.setOnLongClickListener {
+                        onDragHandleTouch(this@EmotionViewHolder)
+                        true
+                    }
                 }
             }
         }
@@ -71,4 +103,6 @@ class EmotionAdapter(
 
 interface EmotionClickListener {
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
+
+    fun onEmotionClick(emotion: EmotionUiState)
 }

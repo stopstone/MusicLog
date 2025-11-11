@@ -10,6 +10,7 @@ data class EmotionUiState(
     val isHidden: Boolean = false, // 숨김 처리 여부
     val order: Int = 0, // 정렬 순서
     val emotion: Emotions? = null, // 기본 감정인 경우에만 값이 있음
+    val isSelectedForDelete: Boolean = false, // 삭제를 위해 선택된 상태
 ) : BaseIdModel {
     override val id: Any
         get() = emotionId

@@ -34,4 +34,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/gray_500" />
 
+    <CheckBox
+        android:id="@+id/cb_emotion_delete"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="12dp"
+        android:background="@null"
+        android:button="@drawable/checkbox_emotion_selector"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
