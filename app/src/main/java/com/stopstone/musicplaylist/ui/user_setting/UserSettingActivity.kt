@@ -56,18 +56,46 @@ class UserSettingActivity : AppCompatActivity() {
                         updateProviderType(providerType)
                     }
             }
+            launch {
+                viewModel.uiState
+                    .map { it.isLoading }
+                    .distinctUntilChanged()
+                    .collect { isLoading ->
+                        if (isLoading) {
+                            showLoading()
+                        } else {
+                            hideLoading()
+                        }
+                    }
+            }
         }
     }
 
     private fun updateProviderType(providerType: ProviderType) {
-        binding.ivProviderBadge.visibility = if (providerType.isVisible) View.VISIBLE else View.GONE
         if (providerType.isVisible) {
+            binding.ivProviderBadge.visibility = View.VISIBLE
             binding.ivProviderBadge.setImageResource(providerType.badgeIconRes)
+        } else {
+            binding.ivProviderBadge.visibility = View.GONE
         }
     }
 
     fun setupLayout() {
         with(binding) {
+        }
+    }
+
+    private fun showLoading() {
+        with(binding.layoutLoading.loadingContainer) {
+            visibility = View.VISIBLE
+            isEnabled = false
+        }
+    }
+
+    private fun hideLoading() {
+        with(binding.layoutLoading.loadingContainer) {
+            visibility = View.GONE
+            isEnabled = true
         }
     }
 }
