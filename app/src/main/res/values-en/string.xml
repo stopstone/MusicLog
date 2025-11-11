@@ -112,6 +112,7 @@
     <string name="label_delete_emotion">Delete Emotion</string>
     <string name="label_emotion_menu">Emotion Menu</string>
     <string name="hint_emotion_name">Enter emotion name</string>
+    <string name="hint_add_emotion">Enter emotion to add</string>
     <string name="message_emotion_name_empty">Please enter emotion name</string>
     <string name="message_emotion_already_exists">This emotion already exists</string>
     <string name="message_select_emotion_to_delete">Please select an emotion to delete</string>

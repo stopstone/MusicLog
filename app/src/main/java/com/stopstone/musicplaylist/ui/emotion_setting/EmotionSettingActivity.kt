@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.EditText
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -52,7 +53,15 @@ class EmotionSettingActivity :
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+
+            // 키보드가 올라왔을 때만 bottom padding 제거
+            val bottomPadding = if (ime.bottom > 0) 0 else systemBars.bottom
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottomPadding)
+
+            // 키보드가 올라올 때 텍스트필드를 키보드 위로 이동
+            binding.layoutAddEmotion.translationY = -ime.bottom.toFloat()
+
             insets
         }
 
@@ -85,7 +94,22 @@ class EmotionSettingActivity :
             // 추가 메뉴 클릭
             tvAddEmotion.setOnClickListener {
                 closeFabMenu()
-                showAddEmotionDialog()
+                showAddEmotionTextField()
+            }
+
+            // 텍스트필드 완료 버튼
+            etAddEmotion.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    handleAddEmotion()
+                    true
+                } else {
+                    false
+                }
+            }
+
+            // 완료 버튼 클릭
+            btnAddDone.setOnClickListener {
+                handleAddEmotion()
             }
 
             // 삭제 메뉴 클릭
@@ -113,6 +137,7 @@ class EmotionSettingActivity :
                 override fun handleOnBackPressed() {
                     when {
                         isFabMenuOpen -> closeFabMenu()
+                        binding.layoutAddEmotion.visibility == View.VISIBLE -> hideAddEmotionTextField()
                         viewModel.isDeleteMode.value -> exitDeleteMode()
                         else -> {
                             isEnabled = false
@@ -218,29 +243,65 @@ class EmotionSettingActivity :
             }.start()
     }
 
-    private fun showAddEmotionDialog() {
-        val editText =
-            EditText(this).apply {
-                hint = getString(R.string.hint_emotion_name)
-                setPadding(48, 32, 48, 32)
+    private fun showAddEmotionTextField() {
+        with(binding) {
+            layoutAddEmotion.apply {
+                visibility = View.VISIBLE
+                alpha = 0f
+                animate()
+                    .alpha(1f)
+                    .setDuration(200)
+                    .setInterpolator(AccelerateDecelerateInterpolator())
+                    .withEndAction {
+                        etAddEmotion.requestFocus()
+                        showKeyboard(etAddEmotion)
+                    }.start()
             }
+        }
+    }
 
-        AlertDialog
-            .Builder(this)
-            .setTitle(R.string.label_add_custom_emotion)
-            .setView(editText)
-            .setPositiveButton(R.string.label_confirm) { _, _ ->
-                val emotionName = editText.text.toString().trim()
-                if (emotionName.isEmpty()) {
-                    showSnackbar(getString(R.string.message_emotion_name_empty))
-                } else {
-                    val success = viewModel.addCustomEmotion(emotionName)
-                    if (!success) {
-                        showSnackbar(getString(R.string.message_emotion_already_exists))
-                    }
-                }
-            }.setNegativeButton(R.string.label_cancel, null)
-            .show()
+    private fun hideAddEmotionTextField() {
+        with(binding) {
+            hideKeyboard()
+            layoutAddEmotion
+                .animate()
+                .alpha(0f)
+                .setDuration(200)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .withEndAction {
+                    layoutAddEmotion.visibility = View.GONE
+                    etAddEmotion.text?.clear()
+                }.start()
+        }
+    }
+
+    private fun handleAddEmotion() {
+        val emotionName =
+            binding.etAddEmotion.text
+                .toString()
+                .trim()
+        if (emotionName.isEmpty()) {
+            showSnackbar(getString(R.string.message_emotion_name_empty))
+        } else {
+            val success = viewModel.addCustomEmotion(emotionName)
+            if (success) {
+                hideAddEmotionTextField()
+            } else {
+                showSnackbar(getString(R.string.message_emotion_already_exists))
+            }
+        }
+    }
+
+    private fun showKeyboard(view: View) {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        view.postDelayed({
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }, 100)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
     private fun enterDeleteMode() {
