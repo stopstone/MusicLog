@@ -112,12 +112,12 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             socialLoginHandler.performSocialLogin(
                 providerType = ProviderType.KAKAO,
-                onSuccess = { userId ->
-                    viewModel.onLoginSuccess(userId)
+                onSuccess = { userProfile ->
+                    viewModel.onLoginSuccess(userProfile)
                 },
                 onFailure = { error ->
                     viewModel.onLoginFailure(error.message ?: getString(R.string.login_sdk_error))
-                }
+                },
             )
         }
     }

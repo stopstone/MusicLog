@@ -1,14 +1,14 @@
 package com.stopstone.musicplaylist.ui.login.auth
 
 import android.content.Context
-import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ApiError
 import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.stopstone.musicplaylist.R
-import kotlinx.coroutines.CancellableContinuation
+import com.stopstone.musicplaylist.ui.login.model.ProviderType
+import com.stopstone.musicplaylist.ui.login.model.UserProfile
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
@@ -23,117 +23,98 @@ class KakaoLoginManager(
      * KakaoTalk이 설치되어 있으면 KakaoTalk으로, 아니면 웹 계정으로 로그인합니다.
      */
     override suspend fun performLogin(
-        onSuccess: (String) -> Unit,
+        onSuccess: (UserProfile) -> Unit,
         onFailure: (Throwable) -> Unit,
     ) {
         unlinkKakao()
         try {
-            val accessToken =
-                if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                    loginWithKakaoTalk()
-                } else {
-                    loginWithKakaoAccount()
-                }
-            // 사용자 정보 가져오기
-            val userId = getUserInfo()
-            onSuccess(userId)
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+                loginWithKakaoTalk()
+            } else {
+                loginWithKakaoAccount()
+            }
+            val userProfile = getUserInfo()
+            onSuccess(userProfile)
         } catch (error: AuthError) {
-            // OAuth 인증 과정 에러
             onFailure(Exception(context.getString(R.string.login_auth_error)))
         } catch (error: ApiError) {
-            // API 호출 에러
             onFailure(Exception(context.getString(R.string.login_api_error)))
         } catch (error: ClientError) {
-            // SDK 내부 에러
             onFailure(Exception(context.getString(R.string.login_client_error)))
         } catch (error: KakaoSdkError) {
-            // 카카오 SDK 에러
             onFailure(Exception(context.getString(R.string.login_sdk_error)))
         } catch (exception: Exception) {
             onFailure(exception)
         }
     }
 
-    // 카카오 사용자 정보 가져오기
-    private suspend fun getUserInfo(): String =
+    private suspend fun getUserInfo(): UserProfile =
         suspendCancellableCoroutine { continuation ->
             UserApiClient.instance.me { user, error ->
                 when {
                     error != null -> {
                         continuation.resumeWith(
                             Result.failure(
-                                Exception(context.getString(R.string.login_api_error))
-                            )
+                                Exception(context.getString(R.string.login_api_error)),
+                            ),
                         )
                     }
+
                     user != null -> {
-                        continuation.resume(user.id.toString())
+                        val userProfile =
+                            UserProfile(
+                                userId = user.id.toString(),
+                                email = user.kakaoAccount?.email.orEmpty(),
+                                displayName =
+                                    user.kakaoAccount
+                                        ?.profile
+                                        ?.nickname
+                                        .orEmpty(),
+                                photoUrl = user.kakaoAccount?.profile?.profileImageUrl,
+                                providerType = ProviderType.KAKAO,
+                            )
+                        continuation.resume(userProfile)
                     }
+
                     else -> {
                         continuation.resumeWith(
                             Result.failure(
-                                Exception(context.getString(R.string.login_api_error))
-                            )
+                                Exception(context.getString(R.string.login_api_error)),
+                            ),
                         )
                     }
                 }
             }
         }
 
-    // 카카오 로그아웃 (언링크)
     private suspend fun unlinkKakao(): Unit =
         suspendCancellableCoroutine { continuation ->
-            UserApiClient.instance.unlink { error ->
-                continuation.resume(Unit)
-            }
+            UserApiClient.instance.unlink { continuation.resume(Unit) }
         }
 
-    // 카카오톡을 통한 로그인
-    private suspend fun loginWithKakaoTalk(): String =
+    private suspend fun loginWithKakaoTalk(): Unit =
         suspendCancellableCoroutine { continuation ->
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                handleLoginResult(
-                    token = token,
-                    error = error,
-                    continuation = continuation,
-                )
+                if (error != null) {
+                    continuation.resumeWith(Result.failure(Exception(context.getString(R.string.login_user_cancelled))))
+                } else if (token != null) {
+                    continuation.resume(Unit)
+                } else {
+                    continuation.resumeWith(Result.failure(Exception(context.getString(R.string.login_user_cancelled))))
+                }
             }
         }
 
-    // 카카오 계정을 통한 로그인
-    private suspend fun loginWithKakaoAccount(): String =
+    private suspend fun loginWithKakaoAccount(): Unit =
         suspendCancellableCoroutine { continuation ->
             UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
-                handleLoginResult(
-                    token = token,
-                    error = error,
-                    continuation = continuation,
-                )
+                if (error != null) {
+                    continuation.resumeWith(Result.failure(Exception(context.getString(R.string.login_user_cancelled))))
+                } else if (token != null) {
+                    continuation.resume(Unit)
+                } else {
+                    continuation.resumeWith(Result.failure(Exception(context.getString(R.string.login_user_cancelled))))
+                }
             }
         }
-
-    // 카카오 로그인 결과 처리
-    private fun handleLoginResult(
-        token: OAuthToken?,
-        error: Throwable?,
-        continuation: CancellableContinuation<String>,
-    ) {
-        when {
-            error != null -> {
-                continuation.resumeWith(
-                    Result.failure(
-                        Exception(context.getString(R.string.login_user_cancelled)),
-                    ),
-                )
-            }
-            token != null -> continuation.resume(token.accessToken)
-            else -> {
-                continuation.resumeWith(
-                    Result.failure(
-                        Exception(context.getString(R.string.login_user_cancelled)),
-                    ),
-                )
-            }
-        }
-    }
 }

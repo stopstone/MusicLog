@@ -3,6 +3,7 @@ package com.stopstone.musicplaylist.data.remote.datasource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.stopstone.musicplaylist.data.model.dto.MusicDto
+import com.stopstone.musicplaylist.data.model.dto.UserProfileDto
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,6 +15,7 @@ class FirestoreDataSource @Inject constructor(
     companion object {
         private const val COLLECTION_USERS = "users"
         private const val COLLECTION_MUSICS = "musics"
+        private const val DOCUMENT_PROFILE = "profile"
     }
 
     suspend fun loadAllMusics(userId: String): Result<List<MusicDto>> {
@@ -102,6 +104,39 @@ class FirestoreDataSource @Inject constructor(
                 .await()
 
             Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun saveUserProfile(userId: String, profileDto: UserProfileDto): Result<Unit> {
+        return try {
+            firestore
+                .collection(COLLECTION_USERS)
+                .document(userId)
+                .collection(DOCUMENT_PROFILE)
+                .document(DOCUMENT_PROFILE)
+                .set(profileDto, SetOptions.merge())
+                .await()
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getUserProfile(userId: String): Result<UserProfileDto?> {
+        return try {
+            val snapshot = firestore
+                .collection(COLLECTION_USERS)
+                .document(userId)
+                .collection(DOCUMENT_PROFILE)
+                .document(DOCUMENT_PROFILE)
+                .get()
+                .await()
+
+            val profile = snapshot.toObject(UserProfileDto::class.java)
+            Result.success(profile)
         } catch (e: Exception) {
             Result.failure(e)
         }
