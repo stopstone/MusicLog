@@ -81,6 +81,16 @@ class UserSettingActivity : AppCompatActivity() {
                         }
                     }
             }
+            launch {
+                viewModel.uiState
+                    .map { it.isDataCleared }
+                    .distinctUntilChanged()
+                    .collect { isCleared ->
+                        if (isCleared) {
+                            finish()
+                        }
+                    }
+            }
         }
     }
 
@@ -101,7 +111,25 @@ class UserSettingActivity : AppCompatActivity() {
             tvUserSettingWithdraw.setOnClickListener {
                 showDeleteAccountDialog()
             }
+            tvUserSettingDataCleanup.setOnClickListener {
+                showClearDataDialog()
+            }
         }
+    }
+
+    private fun showClearDataDialog() {
+        AlertDialog
+            .Builder(this)
+            .setTitle("데이터 초기화")
+            .setMessage("그 동안 기록한 플리가 모두 지워집니다.\n정말 초기화하시겠습니까?")
+            .setPositiveButton("초기화") { _, _ ->
+                performClearData()
+            }.setNegativeButton("취소", null)
+            .show()
+    }
+
+    private fun performClearData() {
+        viewModel.clearUserData()
     }
 
     private fun showDeleteAccountDialog() {

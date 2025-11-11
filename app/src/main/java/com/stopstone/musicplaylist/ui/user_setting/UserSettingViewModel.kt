@@ -3,6 +3,7 @@ package com.stopstone.musicplaylist.ui.user_setting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
+import com.stopstone.musicplaylist.domain.usecase.user.ClearUserDataUseCase
 import com.stopstone.musicplaylist.domain.usecase.user.DeleteUserAccountUseCase
 import com.stopstone.musicplaylist.domain.usecase.user.GetUserProfileUseCase
 import com.stopstone.musicplaylist.domain.usecase.user.LogoutUseCase
@@ -23,6 +24,7 @@ class UserSettingViewModel
         private val getUserIdUseCase: GetUserIdUseCase,
         private val logoutUseCase: LogoutUseCase,
         private val deleteUserAccountUseCase: DeleteUserAccountUseCase,
+        private val clearUserDataUseCase: ClearUserDataUseCase,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(UserSettingUiState())
         val uiState: StateFlow<UserSettingUiState> = _uiState.asStateFlow()
@@ -134,6 +136,47 @@ class UserSettingViewModel
                 }
             }
         }
+
+        fun clearUserData() {
+            viewModelScope.launch {
+                try {
+                    _uiState.update { it.copy(isLoading = true) }
+                    val userId = getUserIdUseCase()
+                    if (userId != null) {
+                        val result = clearUserDataUseCase(userId)
+                        if (result.isSuccess) {
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    isDataCleared = true,
+                                )
+                            }
+                        } else {
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    errorMessage = "데이터 초기화에 실패했습니다",
+                                )
+                            }
+                        }
+                    } else {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = "사용자 정보를 찾을 수 없습니다",
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = e.message,
+                        )
+                    }
+                }
+            }
+        }
     }
 
 data class UserSettingUiState(
@@ -144,4 +187,5 @@ data class UserSettingUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val isAccountDeleted: Boolean = false,
+    val isDataCleared: Boolean = false,
 )
