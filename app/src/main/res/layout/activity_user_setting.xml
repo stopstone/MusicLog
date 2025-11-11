@@ -7,12 +7,49 @@
     android:layout_height="match_parent"
     tools:context=".ui.user_setting.UserSettingActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_user_setting"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="계정 설정"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="계정설정" />
+
+    <TextView
+        android:id="@+id/tv_user_setting_account_info_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:text="로그인 정보"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_user_setting"
+        tools:text="로그인 정보" />
+
+    <TextView
+        android:id="@+id/tv_user_setting_account_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_setting_account_info_label"
+        tools:text="dev.stopstone42@gmail.com" />
+
+    <ImageView
+        android:id="@+id/iv_provider_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_kakao_badge_32"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_user_setting_account_info"
+        app:layout_constraintEnd_toEndOf="@id/tv_user_setting_account_info"
+        app:layout_constraintTop_toTopOf="@id/tv_user_setting_account_info" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
