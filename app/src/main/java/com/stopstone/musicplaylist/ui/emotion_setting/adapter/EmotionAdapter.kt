@@ -1,6 +1,7 @@
 package com.stopstone.musicplaylist.ui.emotion_setting.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ class EmotionAdapter(
             )
         return EmotionViewHolder(
             binding,
-            onClickListener = { position -> listener.onEmotionClick(getItem(position)) },
+            onDragHandleTouch = { holder -> listener.onStartDrag(holder) },
         )
     }
 
@@ -34,25 +35,40 @@ class EmotionAdapter(
         holder.bind(getItem(position))
     }
 
+    fun moveItem(
+        from: Int,
+        to: Int,
+    ) {
+        val list = currentList.toMutableList()
+        val item = list.removeAt(from)
+        list.add(to, item)
+        submitList(list)
+    }
+
     class EmotionViewHolder(
         private val binding: ItemEmotionBinding,
-        private val onClickListener: (position: Int) -> Unit,
+        private val onDragHandleTouch: (holder: RecyclerView.ViewHolder) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener {
-                onClickListener(adapterPosition)
+            binding.root.setOnLongClickListener {
+                onDragHandleTouch(this@EmotionViewHolder)
+                true
             }
         }
 
         fun bind(emotion: EmotionUiState) {
             with(binding) {
                 tvEmotionName.text = emotion.displayName
-                cbEmotionSelected.isChecked = emotion.isSelected
+
+                ivDragHandle.setOnLongClickListener {
+                    onDragHandleTouch(this@EmotionViewHolder)
+                    true
+                }
             }
         }
     }
 }
 
 interface EmotionClickListener {
-    fun onEmotionClick(emotion: EmotionUiState)
+    fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
 }

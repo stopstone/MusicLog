@@ -10,16 +10,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityEmotionSettingBinding
 import com.stopstone.musicplaylist.ui.emotion_setting.adapter.EmotionAdapter
 import com.stopstone.musicplaylist.ui.emotion_setting.adapter.EmotionClickListener
-import com.stopstone.musicplaylist.ui.emotion_setting.model.EmotionUiState
+import com.stopstone.musicplaylist.ui.emotion_setting.helper.EmotionItemTouchHelper
+import com.stopstone.musicplaylist.ui.emotion_setting.helper.ItemTouchHelperAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EmotionSettingActivity : AppCompatActivity(), EmotionClickListener {
+class EmotionSettingActivity : AppCompatActivity(), EmotionClickListener, ItemTouchHelperAdapter {
     private val binding: ActivityEmotionSettingBinding by lazy {
         ActivityEmotionSettingBinding.inflate(LayoutInflater.from(this))
     }
@@ -29,6 +32,8 @@ class EmotionSettingActivity : AppCompatActivity(), EmotionClickListener {
     private val emotionAdapter: EmotionAdapter by lazy {
         EmotionAdapter(this)
     }
+
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,7 @@ class EmotionSettingActivity : AppCompatActivity(), EmotionClickListener {
         }
 
         setupLayout()
+        setupItemTouchHelper()
         observeViewModel()
     }
 
@@ -56,6 +62,12 @@ class EmotionSettingActivity : AppCompatActivity(), EmotionClickListener {
         }
     }
 
+    private fun setupItemTouchHelper() {
+        val callback = EmotionItemTouchHelper(this)
+        itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(binding.rvEmotions)
+    }
+
     private fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -66,7 +78,22 @@ class EmotionSettingActivity : AppCompatActivity(), EmotionClickListener {
         }
     }
 
-    override fun onEmotionClick(emotion: EmotionUiState) {
-        viewModel.toggleEmotion(emotion)
+
+    // EmotionClickListener 구현
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+        itemTouchHelper.startDrag(viewHolder)
+    }
+
+    // ItemTouchHelperAdapter 구현
+    override fun onItemMove(
+        fromPosition: Int,
+        toPosition: Int,
+    ) {
+        emotionAdapter.moveItem(fromPosition, toPosition)
+        viewModel.moveEmotion(fromPosition, toPosition)
+    }
+
+    override fun onItemMoveFinished() {
+        viewModel.saveEmotionOrder()
     }
 }

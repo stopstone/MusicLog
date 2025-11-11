@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:paddingHorizontal="20dp"
-    android:paddingVertical="8dp">
+    android:paddingVertical="12dp">
 
     <TextView
         android:id="@+id/tv_emotion_name"
@@ -17,23 +17,21 @@
         android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cb_emotion_selected"
+        app:layout_constraintEnd_toStartOf="@id/iv_drag_handle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="행복" />
 
-    <CheckBox
-        android:id="@+id/cb_emotion_selected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:background="@null"
-        android:buttonTint="@color/blue_300"
-        android:clickable="false"
-        android:focusable="false"
+    <ImageView
+        android:id="@+id/iv_drag_handle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:contentDescription="@string/description_drag_handle"
+        android:src="@drawable/ic_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/gray_500" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
