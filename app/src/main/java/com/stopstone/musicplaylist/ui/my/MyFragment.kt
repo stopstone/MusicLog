@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.stopstone.musicplaylist.databinding.FragmentMyBinding
 import com.stopstone.musicplaylist.databinding.ViewMySettingBinding
 import com.stopstone.musicplaylist.ui.my.model.MySettingMenu
@@ -90,7 +91,6 @@ class MyFragment : Fragment() {
     }
 
     private fun actionSettingMenu(menu: MySettingMenu) {
-        // TODO: Navigation Component 구현 후 아래 주석 해제
-        // findNavController().navigate(menu.destinationId)
+        findNavController().navigate(menu.destinationId)
     }
 }

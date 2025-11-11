@@ -29,7 +29,11 @@
         android:id="@+id/navigation_my"
         android:name="com.stopstone.musicplaylist.ui.my.MyFragment"
         android:label="MyFragment"
-        tools:layout="@layout/fragment_my" />
+        tools:layout="@layout/fragment_my" >
+        <action
+            android:id="@+id/action_navigation_user_setting"
+            app:destination="@id/navigation_user_setting" />
+    </fragment>
 
     <activity
         android:id="@+id/navigation_track_detail"
@@ -46,5 +50,10 @@
         android:name="com.stopstone.musicplaylist.ui.music_search.MusicSearchActivity"
         android:label="MusicSearchActivity"
         tools:layout="@layout/activity_music_search" />
+    <activity
+        android:id="@+id/navigation_user_setting"
+        android:name="com.stopstone.musicplaylist.ui.user_setting.UserSettingActivity"
+        android:label="UserSettingActivity"
+        tools:layout="@layout/activity_user_setting" />
 
 </navigation>
