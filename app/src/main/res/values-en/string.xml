@@ -64,6 +64,42 @@
     <!--  Settings  -->
     <string name="label_setting_data_clear">Clear data</string>
 
+    <!--  MY Screen  -->
+    <string name="label_my_title">MY</string>
+    <string name="label_my_music_count">Total songs recorded\n%d tracks</string>
+    <string name="label_my_menu_account_setting">Account Settings</string>
+    <string name="label_my_menu_emotion_tag">Emotion Tag Management</string>
+    <string name="label_my_menu_notification">Notification Settings</string>
+    <string name="label_my_menu_instagram_share">Instagram Share Settings</string>
+
+    <!--  Account Settings  -->
+    <string name="label_user_setting_title">Account Settings</string>
+    <string name="label_user_setting_login_info">Login Information</string>
+    <string name="label_user_setting_account_setting">Account Settings</string>
+    <string name="label_user_setting_logout">Logout</string>
+    <string name="label_user_setting_withdraw">Delete Account</string>
+    <string name="label_user_setting_withdraw_title">Delete Account</string>
+    <string name="label_user_setting_withdraw_confirm">Delete</string>
+    <string name="message_user_setting_withdraw_message">All your data will be deleted if you delete your account.\nAre you sure you want to proceed?</string>
+    <string name="label_user_setting_data_cleanup">Data Reset</string>
+    <string name="label_user_setting_data_cleanup_title">Data Reset</string>
+    <string name="label_user_setting_data_cleanup_confirm">Reset</string>
+    <string name="message_user_setting_data_cleanup_message">All your recorded music will be deleted.\nAre you sure you want to reset?</string>
+
+    <!--  Instagram Share Settings  -->
+    <string name="label_instagram_share_setting_title">Instagram Share Settings</string>
+    <string name="label_instagram_share_option_title">Share Options</string>
+    <string name="label_instagram_share_album_cover">Show Album Cover</string>
+    <string name="label_instagram_share_title">Show Song Title</string>
+    <string name="label_instagram_share_artist">Show Artist</string>
+    <string name="label_instagram_share_emotions">Show Emotion Tags</string>
+    <string name="label_instagram_share_memo">Show Memo</string>
+    <string name="label_instagram_share_preview">Preview</string>
+    <string name="label_instagram_share_preview_title">Song Title</string>
+    <string name="label_instagram_share_preview_artist">Artist</string>
+    <string name="label_instagram_share_preview_memo">Leave your emotions for today</string>
+    <string name="message_instagram_share_minimum_option">At least one option must be selected</string>
+
     <!--  Details  -->
     <string name="hint_track_detail_comment">Enter your comment</string>
     <string name="description_track_delete_button">Delete</string>
