@@ -123,11 +123,11 @@ class UserSettingActivity : AppCompatActivity() {
     private fun showClearDataDialog() {
         AlertDialog
             .Builder(this)
-            .setTitle("데이터 초기화")
-            .setMessage("그 동안 기록한 플리가 모두 지워집니다.\n정말 초기화하시겠습니까?")
-            .setPositiveButton("초기화") { _, _ ->
+            .setTitle(R.string.label_user_setting_data_cleanup_title)
+            .setMessage(R.string.message_user_setting_data_cleanup_message)
+            .setPositiveButton(R.string.label_user_setting_data_cleanup_confirm) { _, _ ->
                 performClearData()
-            }.setNegativeButton("취소", null)
+            }.setNegativeButton(R.string.label_cancel, null)
             .show()
     }
 
@@ -138,11 +138,11 @@ class UserSettingActivity : AppCompatActivity() {
     private fun showDeleteAccountDialog() {
         AlertDialog
             .Builder(this)
-            .setTitle("회원 탈퇴")
-            .setMessage("회원 탈퇴하면 모든 정보가 지워집니다.\n정말 탈퇴하시겠습니까?")
-            .setPositiveButton("탈퇴") { _, _ ->
+            .setTitle(R.string.label_user_setting_withdraw_title)
+            .setMessage(R.string.message_user_setting_withdraw_message)
+            .setPositiveButton(R.string.label_user_setting_withdraw_confirm) { _, _ ->
                 performDeleteAccount()
-            }.setNegativeButton("취소", null)
+            }.setNegativeButton(R.string.label_cancel, null)
             .show()
     }
 

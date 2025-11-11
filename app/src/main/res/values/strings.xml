@@ -62,6 +62,42 @@
     <!--  설정  -->
     <string name="label_setting_data_clear">데이터 초기화</string>
 
+    <!--  MY 화면  -->
+    <string name="label_my_title">MY</string>
+    <string name="label_my_music_count">지금까지 기록한 감정플리\n%d곡</string>
+    <string name="label_my_menu_account_setting">계정 설정</string>
+    <string name="label_my_menu_emotion_tag">감정 태그 관리</string>
+    <string name="label_my_menu_notification">알림 설정</string>
+    <string name="label_my_menu_instagram_share">인스타 공유 설정</string>
+
+    <!--  계정 설정  -->
+    <string name="label_user_setting_title">계정설정</string>
+    <string name="label_user_setting_login_info">로그인 정보</string>
+    <string name="label_user_setting_account_setting">계정 설정</string>
+    <string name="label_user_setting_logout">로그아웃</string>
+    <string name="label_user_setting_withdraw">회원탈퇴</string>
+    <string name="label_user_setting_withdraw_title">회원 탈퇴</string>
+    <string name="label_user_setting_withdraw_confirm">탈퇴</string>
+    <string name="message_user_setting_withdraw_message">회원 탈퇴하면 모든 정보가 지워집니다.\n정말 탈퇴하시겠습니까?</string>
+    <string name="label_user_setting_data_cleanup">데이터 초기화</string>
+    <string name="label_user_setting_data_cleanup_title">데이터 초기화</string>
+    <string name="label_user_setting_data_cleanup_confirm">초기화</string>
+    <string name="message_user_setting_data_cleanup_message">그 동안 기록한 플리가 모두 지워집니다.\n정말 초기화하시겠습니까?</string>
+
+    <!--  인스타그램 공유 설정  -->
+    <string name="label_instagram_share_setting_title">인스타 공유 설정</string>
+    <string name="label_instagram_share_option_title">공유 옵션</string>
+    <string name="label_instagram_share_album_cover">앨범 커버 표시</string>
+    <string name="label_instagram_share_title">노래 제목 표시</string>
+    <string name="label_instagram_share_artist">아티스트 표시</string>
+    <string name="label_instagram_share_emotions">감정 태그 표시</string>
+    <string name="label_instagram_share_memo">메모 표시</string>
+    <string name="label_instagram_share_preview">미리보기</string>
+    <string name="label_instagram_share_preview_title">노래 제목</string>
+    <string name="label_instagram_share_preview_artist">아티스트</string>
+    <string name="label_instagram_share_preview_memo">오늘 하루의 감정을 남겨보세요</string>
+    <string name="message_instagram_share_minimum_option">최소 1개의 옵션을 설정해야 합니다</string>
+
     <!--  상세  -->
     <string name="hint_track_detail_comment">내용을 입력하세요.</string>
     <string name="description_track_delete_button">삭제</string>

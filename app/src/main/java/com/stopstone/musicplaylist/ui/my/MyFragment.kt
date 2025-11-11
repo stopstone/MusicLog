@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.FragmentMyBinding
 import com.stopstone.musicplaylist.databinding.ViewMySettingBinding
 import com.stopstone.musicplaylist.ui.my.model.MySettingMenu
@@ -67,7 +68,7 @@ class MyFragment : Fragment() {
                 binding.llSettingsContainer,
                 false,
             ).apply {
-                tvSettingTitle.text = menu.title
+                tvSettingTitle.setText(menu.titleRes)
                 root.setOnClickListener {
                     actionSettingMenu(menu)
                 }
@@ -87,7 +88,7 @@ class MyFragment : Fragment() {
     }
 
     private fun updateMusicCount(count: Int) {
-        binding.tvMyHeader.text = "지금까지 기록한 감정플리\n${count}곡"
+        binding.tvMyHeader.text = getString(R.string.label_my_music_count, count)
     }
 
     private fun actionSettingMenu(menu: MySettingMenu) {

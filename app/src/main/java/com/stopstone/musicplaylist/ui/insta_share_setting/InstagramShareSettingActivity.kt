@@ -56,16 +56,21 @@ class InstagramShareSettingActivity : AppCompatActivity() {
 
     private fun setupPreview() {
         with(binding.layoutPreview) {
-            tvStoryTitle.text = "노래 제목"
-            tvStoryArtist.text = "아티스트"
-            tvStoryMemo.text = "오늘 하루의 감정을 남겨보세요"
+            tvStoryTitle.text = getString(R.string.label_instagram_share_preview_title)
+            tvStoryArtist.text = getString(R.string.label_instagram_share_preview_artist)
+            tvStoryMemo.text = getString(R.string.label_instagram_share_preview_memo)
             ivStoryAlbumCover.setBackgroundColor(getColor(R.color.gray_400))
             addSampleEmotionChips()
         }
     }
 
     private fun addSampleEmotionChips() {
-        val sampleEmotions = listOf("기쁨", "사랑", "평화")
+        val sampleEmotions =
+            listOf(
+                getString(R.string.emotion_joyful),
+                getString(R.string.emotion_loving),
+                getString(R.string.emotion_peaceful),
+            )
         sampleEmotions.forEach { emotion ->
             val textView =
                 TextView(this).apply {

@@ -11,7 +11,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="MY"
+        app:title="@string/label_my_title"
         app:titleTextAppearance="@style/ToolbarTitleStyle.S24" />
 
     <TextView

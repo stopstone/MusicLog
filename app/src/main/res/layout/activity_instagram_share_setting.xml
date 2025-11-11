@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="인스타 공유 설정" />
+        app:title="@string/label_instagram_share_setting_title" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -38,7 +38,7 @@
                     android:id="@+id/tv_share_options_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="공유 옵션"
+                    android:text="@string/label_instagram_share_option_title"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -51,7 +51,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="감정 태그 표시"
+                    android:text="@string/label_instagram_share_emotions"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toStartOf="@id/switch_show_emotions"
@@ -80,7 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="메모 표시"
+                    android:text="@string/label_instagram_share_memo"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toStartOf="@id/switch_show_memo"
@@ -100,7 +100,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="미리보기"
+                    android:text="@string/label_instagram_share_preview"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
