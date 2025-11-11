@@ -4,6 +4,7 @@
     <string name="label_navigation_home">홈</string>
     <string name="label_navigation_search">검색</string>
     <string name="label_navigation_playlist">플레이리스트</string>
+    <string name="label_navigation_my">마이</string>
     <string name="label_setting">설정</string>
     <string name="description_album_cover_image">앨범 커버</string>
     <string name="delete_track_title">음악 삭제</string>
@@ -15,6 +16,8 @@
     <string name="message_check_internet_status">인터넷 상태를 확인해주세요</string>
     
     <!--  로그인  -->
+    <string name="login_title">감정플리</string>
+    <string name="login_description">오늘 하루의 주제곡을 남겨보세요</string>
     <string name="login_user_cancelled">사용자가 로그인을 취소했습니다</string>
     <string name="login_auth_error">인증에 실패했습니다. 다시 시도해주세요.</string>
     <string name="login_api_error">카카오 서버와의 통신에 실패했습니다.</string>

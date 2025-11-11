@@ -5,6 +5,7 @@
     <string name="label_navigation_home">Home</string>
     <string name="label_navigation_search">Search</string>
     <string name="label_navigation_playlist">Playlist</string>
+    <string name="label_navigation_my">My</string>
     <string name="label_setting">Settings</string>
     <string name="description_album_cover_image">Album cover</string>
     <string name="delete_track_title">Music Delete</string>
@@ -17,6 +18,8 @@
     <string name="message_check_internet_status">Please check your internet status.</string>
 
     <!--  Login  -->
+    <string name="login_title">MusicLog</string>
+    <string name="login_description">Record your daily soundtrack</string>
     <string name="login_user_cancelled">User cancelled login</string>
     <string name="login_auth_error">Authentication failed. Please try again.</string>
     <string name="login_api_error">Failed to communicate with Kakao server.</string>
