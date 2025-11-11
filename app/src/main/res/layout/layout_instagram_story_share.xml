@@ -47,7 +47,7 @@
         android:layout_marginHorizontal="20dp"
         android:ellipsize="end"
         android:gravity="start"
-
+        android:layout_marginBottom="20dp"
         android:maxLines="1"
         android:textColor="@android:color/black"
         android:textSize="16sp"
@@ -61,13 +61,29 @@
         android:id="@+id/chip_group_story_emotions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginHorizontal="20dp"
         android:gravity="center"
         app:chipSpacingHorizontal="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_story_artist" />
+
+    <!-- 메모 -->
+    <TextView
+        android:id="@+id/tv_story_memo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="start"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chip_group_story_emotions"
+        tools:text="오늘의 메모" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
