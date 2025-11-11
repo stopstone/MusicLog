@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.user.GetUserProfileUseCase
+import com.stopstone.musicplaylist.domain.usecase.user.LogoutUseCase
 import com.stopstone.musicplaylist.ui.login.model.ProviderType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,7 @@ class UserSettingViewModel
     constructor(
         private val getUserProfileUseCase: GetUserProfileUseCase,
         private val getUserIdUseCase: GetUserIdUseCase,
+        private val logoutUseCase: LogoutUseCase,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(UserSettingUiState())
         val uiState: StateFlow<UserSettingUiState> = _uiState.asStateFlow()
@@ -76,6 +78,16 @@ class UserSettingViewModel
                             errorMessage = e.message,
                         )
                     }
+                }
+            }
+        }
+
+        fun logout() {
+            viewModelScope.launch {
+                try {
+                    logoutUseCase()
+                } catch (e: Exception) {
+                    // 로그아웃은 실패해도 진행
                 }
             }
         }

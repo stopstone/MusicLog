@@ -1,5 +1,6 @@
 package com.stopstone.musicplaylist.ui.user_setting
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityUserSettingBinding
+import com.stopstone.musicplaylist.ui.login.LoginActivity
 import com.stopstone.musicplaylist.ui.login.model.ProviderType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -82,7 +84,22 @@ class UserSettingActivity : AppCompatActivity() {
 
     fun setupLayout() {
         with(binding) {
+            tvUserSettingAccountSetting.setOnClickListener {
+                performLogout()
+            }
         }
+    }
+
+    private fun performLogout() {
+        viewModel.logout()
+        navigateToLogin()
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun showLoading() {

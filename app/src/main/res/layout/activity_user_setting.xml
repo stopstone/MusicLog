@@ -46,11 +46,38 @@
         android:id="@+id/iv_provider_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_kakao_badge_32"
         android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_kakao_badge_32"
         app:layout_constraintBottom_toBottomOf="@id/tv_user_setting_account_info"
         app:layout_constraintEnd_toEndOf="@id/tv_user_setting_account_info"
         app:layout_constraintTop_toTopOf="@id/tv_user_setting_account_info" />
+
+    <TextView
+        android:id="@+id/tv_user_setting_account_setting_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:text="계정 설정"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_setting_account_info" />
+
+    <TextView
+        android:id="@+id/tv_user_setting_logout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="16dp"
+        android:text="로그아웃"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_setting_account_setting_label" />
 
     <include
         android:id="@+id/layout_loading"
@@ -61,4 +88,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
