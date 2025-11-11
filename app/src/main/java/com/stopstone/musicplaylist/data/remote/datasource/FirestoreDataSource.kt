@@ -141,5 +141,30 @@ class FirestoreDataSource @Inject constructor(
             Result.failure(e)
         }
     }
+
+    suspend fun deleteUserAccount(userId: String): Result<Unit> {
+        return try {
+            // 1. musics subcollection 모든 데이터 삭제
+            deleteAllMusics(userId)
+            // 2. profile subcollection 삭제
+            firestore
+                .collection(COLLECTION_USERS)
+                .document(userId)
+                .collection(DOCUMENT_PROFILE)
+                .document(DOCUMENT_PROFILE)
+                .delete()
+                .await()
+            // 3. user document 삭제
+            firestore
+                .collection(COLLECTION_USERS)
+                .document(userId)
+                .delete()
+                .await()
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
 

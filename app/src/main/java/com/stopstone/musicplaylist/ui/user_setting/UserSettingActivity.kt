@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -70,6 +71,16 @@ class UserSettingActivity : AppCompatActivity() {
                         }
                     }
             }
+            launch {
+                viewModel.uiState
+                    .map { it.isAccountDeleted }
+                    .distinctUntilChanged()
+                    .collect { isDeleted ->
+                        if (isDeleted) {
+                            navigateToLogin()
+                        }
+                    }
+            }
         }
     }
 
@@ -84,10 +95,28 @@ class UserSettingActivity : AppCompatActivity() {
 
     fun setupLayout() {
         with(binding) {
-            tvUserSettingAccountSetting.setOnClickListener {
+            tvUserSettingLogout.setOnClickListener {
                 performLogout()
             }
+            tvUserSettingWithdraw.setOnClickListener {
+                showDeleteAccountDialog()
+            }
         }
+    }
+
+    private fun showDeleteAccountDialog() {
+        AlertDialog
+            .Builder(this)
+            .setTitle("회원 탈퇴")
+            .setMessage("회원 탈퇴하면 모든 정보가 지워집니다.\n정말 탈퇴하시겠습니까?")
+            .setPositiveButton("탈퇴") { _, _ ->
+                performDeleteAccount()
+            }.setNegativeButton("취소", null)
+            .show()
+    }
+
+    private fun performDeleteAccount() {
+        viewModel.deleteAccount()
     }
 
     private fun performLogout() {

@@ -79,6 +79,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_user_setting_account_setting_label" />
 
+    <TextView
+        android:id="@+id/tv_user_setting_withdraw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="16dp"
+        android:text="회원탈퇴"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_setting_logout" />
+
     <include
         android:id="@+id/layout_loading"
         layout="@layout/layout_loading"
