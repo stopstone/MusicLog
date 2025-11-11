@@ -14,7 +14,7 @@
 
     <!--  스플래쉬  -->
     <string name="message_check_internet_status">인터넷 상태를 확인해주세요</string>
-    
+
     <!--  로그인  -->
     <string name="login_title">감정플리</string>
     <string name="login_description">오늘 하루의 주제곡을 남겨보세요</string>
@@ -26,7 +26,7 @@
     <string name="login_success">로그인 성공!</string>
     <string name="login_success_sync_failed">로그인 성공! (백업 데이터 로드 실패)</string>
     <string name="login_unknown_error">알 수 없는 오류가 발생했습니다.</string>
-    
+
     <!--  홈  -->
     <string name="label_home_title">감정플리</string>
     <string name="label_home_empty_track_title">등록된 음악이 없습니다.</string>
