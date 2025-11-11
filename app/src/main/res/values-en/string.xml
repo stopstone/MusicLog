@@ -108,10 +108,19 @@
     <string name="description_track_delete_button">Delete</string>
     <string name="description_track_instagram_share">Share to story</string>
     <string name="description_drag_handle">Reorder</string>
-    <string name="label_add_custom_emotion">Add Custom Emotion</string>
+    <string name="label_add_custom_emotion">Add Emotion</string>
+    <string name="label_delete_emotion">Delete Emotion</string>
+    <string name="label_emotion_menu">Emotion Menu</string>
     <string name="hint_emotion_name">Enter emotion name</string>
     <string name="message_emotion_name_empty">Please enter emotion name</string>
     <string name="message_emotion_already_exists">This emotion already exists</string>
+    <string name="message_select_emotion_to_delete">Please select an emotion to delete</string>
+    <string name="message_emotion_deleted">Emotion deleted</string>
+    <string name="label_delete_selected_emotions">Delete selected emotions</string>
+    <string name="label_delete_n_emotions">Delete %d emotions</string>
+    <string name="message_delete_confirm_title">Delete Emotions</string>
+    <string name="message_delete_confirm">Do you want to delete selected emotions?</string>
+    <string name="label_delete">Delete</string>
 
     <!-- Emotions -->
     <string name="emotion_happy">Happy</string>
