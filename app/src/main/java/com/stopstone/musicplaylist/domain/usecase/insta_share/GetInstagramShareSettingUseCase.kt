@@ -1,8 +1,7 @@
 package com.stopstone.musicplaylist.domain.usecase.insta_share
 
-import com.stopstone.musicplaylist.data.local.settings.InstagramSharePreferences
+import com.stopstone.musicplaylist.domain.repository.insta_share.InstagramShareSettingRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 data class InstagramShareSetting(
@@ -13,18 +12,8 @@ data class InstagramShareSetting(
 class GetInstagramShareSettingUseCase
     @Inject
     constructor(
-        private val instagramSharePreferences: InstagramSharePreferences,
+        private val repository: InstagramShareSettingRepository,
     ) {
-        operator fun invoke(): Flow<InstagramShareSetting> {
-            return combine(
-                instagramSharePreferences.getShowEmotions(),
-                instagramSharePreferences.getShowMemo(),
-            ) { showEmotions, showMemo ->
-                InstagramShareSetting(
-                    showEmotions = showEmotions,
-                    showMemo = showMemo,
-                )
-            }
-        }
+        operator fun invoke(): Flow<InstagramShareSetting> = repository.getSettings()
     }
 

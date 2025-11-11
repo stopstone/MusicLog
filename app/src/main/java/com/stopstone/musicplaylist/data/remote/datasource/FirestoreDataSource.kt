@@ -4,6 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.stopstone.musicplaylist.data.model.dto.MusicDto
 import com.stopstone.musicplaylist.data.model.dto.UserProfileDto
+import com.stopstone.musicplaylist.data.remote.dto.InstagramShareSettingDto
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +16,9 @@ class FirestoreDataSource @Inject constructor(
         companion object {
             private const val COLLECTION_USERS = "users"
             private const val COLLECTION_MUSICS = "musics"
-        private const val DOCUMENT_PROFILE = "profile"
+            private const val DOCUMENT_PROFILE = "profile"
+            private const val COLLECTION_SETTINGS = "settings"
+            private const val DOCUMENT_INSTAGRAM_SHARE = "instagram_share"
         }
 
     suspend fun loadAllMusics(userId: String): Result<List<MusicDto>> {
@@ -162,6 +165,45 @@ class FirestoreDataSource @Inject constructor(
                 .await()
 
             Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 인스타그램 공유 설정 저장
+    suspend fun saveInstagramShareSetting(
+        userId: String,
+        settingDto: InstagramShareSettingDto,
+    ): Result<Unit> {
+        return try {
+            firestore
+                .collection(COLLECTION_USERS)
+                .document(userId)
+                .collection(COLLECTION_SETTINGS)
+                .document(DOCUMENT_INSTAGRAM_SHARE)
+                .set(settingDto, SetOptions.merge())
+                .await()
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 인스타그램 공유 설정 불러오기
+    suspend fun getInstagramShareSetting(userId: String): Result<InstagramShareSettingDto?> {
+        return try {
+            val snapshot =
+                firestore
+                    .collection(COLLECTION_USERS)
+                    .document(userId)
+                    .collection(COLLECTION_SETTINGS)
+                    .document(DOCUMENT_INSTAGRAM_SHARE)
+                    .get()
+                    .await()
+
+            val setting = snapshot.toObject(InstagramShareSettingDto::class.java)
+            Result.success(setting)
         } catch (e: Exception) {
             Result.failure(e)
         }

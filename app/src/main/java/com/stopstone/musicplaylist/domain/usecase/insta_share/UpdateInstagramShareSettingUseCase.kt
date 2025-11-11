@@ -1,18 +1,18 @@
 package com.stopstone.musicplaylist.domain.usecase.insta_share
 
-import com.stopstone.musicplaylist.data.local.settings.InstagramSharePreferences
+import com.stopstone.musicplaylist.domain.repository.insta_share.InstagramShareSettingRepository
 import javax.inject.Inject
 
 class UpdateInstagramShareSettingUseCase
     @Inject
     constructor(
-        private val instagramSharePreferences: InstagramSharePreferences,
+        private val repository: InstagramShareSettingRepository,
     ) {
         suspend fun setShowEmotions(show: Boolean) {
-            instagramSharePreferences.setShowEmotions(show)
+            repository.setShowEmotions(show)
         }
 
         suspend fun setShowMemo(show: Boolean) {
-            instagramSharePreferences.setShowMemo(show)
+            repository.setShowMemo(show)
         }
     }

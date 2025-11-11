@@ -4,6 +4,7 @@ import com.stopstone.musicplaylist.data.repository.common.AuthRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.common.PlayListRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.common.TrackRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.home.CalendarRepositoryImpl
+import com.stopstone.musicplaylist.data.repository.insta_share.InstagramShareSettingRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.search.SearchHistoryRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.search.SearchRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.user.UserProfileRepositoryImpl
@@ -11,6 +12,7 @@ import com.stopstone.musicplaylist.domain.repository.common.AuthRepository
 import com.stopstone.musicplaylist.domain.repository.common.PlayListRepository
 import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
 import com.stopstone.musicplaylist.domain.repository.home.CalendarRepository
+import com.stopstone.musicplaylist.domain.repository.insta_share.InstagramShareSettingRepository
 import com.stopstone.musicplaylist.domain.repository.search.SearchHistoryRepository
 import com.stopstone.musicplaylist.domain.repository.search.SearchRepository
 import com.stopstone.musicplaylist.domain.repository.user.UserProfileRepository
@@ -63,7 +65,12 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindUserProfileRepository(
-        repository: UserProfileRepositoryImpl
+        repository: UserProfileRepositoryImpl,
     ): UserProfileRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindInstagramShareSettingRepository(
+        repository: InstagramShareSettingRepositoryImpl,
+    ): InstagramShareSettingRepository
 }
