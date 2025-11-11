@@ -29,10 +29,13 @@
         android:id="@+id/navigation_my"
         android:name="com.stopstone.musicplaylist.ui.my.MyFragment"
         android:label="MyFragment"
-        tools:layout="@layout/fragment_my" >
+        tools:layout="@layout/fragment_my">
         <action
             android:id="@+id/action_navigation_user_setting"
             app:destination="@id/navigation_user_setting" />
+        <action
+            android:id="@+id/action_navigation_insta_share_setting"
+            app:destination="@id/navigation_insta_share_setting" />
     </fragment>
 
     <activity
@@ -55,5 +58,10 @@
         android:name="com.stopstone.musicplaylist.ui.user_setting.UserSettingActivity"
         android:label="UserSettingActivity"
         tools:layout="@layout/activity_user_setting" />
+    <activity
+        android:id="@+id/navigation_insta_share_setting"
+        android:name="com.stopstone.musicplaylist.ui.insta_share_setting.InstagramShareSettingActivity"
+        android:label="InstagramShareSettingActivity"
+        tools:layout="@layout/activity_instagram_share_setting" />
 
 </navigation>
