@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +26,12 @@ class EmotionSettingViewModel
     ) : ViewModel() {
         private val _emotions = MutableStateFlow<List<EmotionUiState>>(emptyList())
         val emotions: StateFlow<List<EmotionUiState>> = _emotions.asStateFlow()
+
+        private val _isDeleteMode = MutableStateFlow(false)
+        val isDeleteMode: StateFlow<Boolean> = _isDeleteMode.asStateFlow()
+
+        private val _selectedCount = MutableStateFlow(0)
+        val selectedCount: StateFlow<Int> = _selectedCount.asStateFlow()
 
         init {
             loadEmotions()
@@ -50,8 +57,8 @@ class EmotionSettingViewModel
             }
         }
 
-        private suspend fun getEmotionsFlow() =
-            kotlinx.coroutines.flow.flow {
+        private fun getEmotionsFlow() =
+            flow {
                 emit(getEmotionsUseCase())
             }
 
@@ -99,8 +106,51 @@ class EmotionSettingViewModel
                     emotionMap.values.toList()
                 }
 
-            // 숨김 처리된 감정 필터링
-            return orderedList.filterNot { it.isHidden }
+            // 숨김 처리된 감정 필터링하고 삭제 선택 상태는 현재 값 유지
+            val currentSelectedIds =
+                _emotions.value
+                    .filter { it.isSelectedForDelete }
+                    .map { it.emotionId }
+                    .toSet()
+
+            return orderedList
+                .filterNot { it.isHidden }
+                .map { emotion ->
+                    if (currentSelectedIds.contains(emotion.emotionId)) {
+                        emotion.copy(isSelectedForDelete = true)
+                    } else {
+                        emotion
+                    }
+                }
+        }
+
+        // 커스텀 감정 추가
+        fun addCustomEmotion(name: String): Boolean {
+            if (name.isBlank()) return false
+
+            // 이미 존재하는지 확인
+            if (_emotions.value.any { it.displayName == name }) {
+                return false
+            }
+
+            viewModelScope.launch {
+                emotionPreferences.addCustomEmotion(name)
+            }
+            return true
+        }
+
+        // 감정 삭제 (커스텀 감정) 또는 숨김 (기본 감정)
+        fun deleteEmotion(emotion: EmotionUiState) {
+            viewModelScope.launch {
+                if (emotion.isCustom) {
+                    // 커스텀 감정은 완전 삭제
+                    val customName = emotion.displayName
+                    emotionPreferences.deleteCustomEmotion(customName)
+                } else {
+                    // 기본 감정은 숨김 처리
+                    emotionPreferences.hideEmotion(emotion.emotionId)
+                }
+            }
         }
 
         // 순서 변경
@@ -119,6 +169,51 @@ class EmotionSettingViewModel
             viewModelScope.launch {
                 val order = _emotions.value.joinToString(",") { it.emotionId }
                 emotionPreferences.saveEmotionOrder(order)
+            }
+        }
+
+        // 삭제 모드 활성화
+        fun enableDeleteMode() {
+            _isDeleteMode.value = true
+        }
+
+        // 삭제 모드 비활성화
+        fun disableDeleteMode() {
+            _isDeleteMode.value = false
+            _selectedCount.value = 0
+        }
+
+        // 감정 선택 토글
+        fun toggleEmotionSelection(emotion: EmotionUiState) {
+            _emotions.value =
+                _emotions.value.map {
+                    if (it.emotionId == emotion.emotionId) {
+                        it.copy(isSelectedForDelete = !it.isSelectedForDelete)
+                    } else {
+                        it
+                    }
+                }
+            updateSelectedCount()
+        }
+
+        // 선택된 개수 업데이트
+        private fun updateSelectedCount() {
+            _selectedCount.value = _emotions.value.count { it.isSelectedForDelete }
+        }
+
+        // 선택된 감정들 삭제
+        fun deleteSelectedEmotions() {
+            viewModelScope.launch {
+                _emotions.value
+                    .filter { it.isSelectedForDelete }
+                    .forEach { emotion ->
+                        if (emotion.isCustom) {
+                            emotionPreferences.deleteCustomEmotion(emotion.displayName)
+                        } else {
+                            emotionPreferences.hideEmotion(emotion.emotionId)
+                        }
+                    }
+                disableDeleteMode()
             }
         }
     }
