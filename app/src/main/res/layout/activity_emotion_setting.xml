@@ -8,13 +8,26 @@
     tools:context=".ui.emotion_setting.EmotionSettingActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_instagram_share_setting"
+        android:id="@+id/toolbar_emotion_setting"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="감정 태그 관리" />
+        app:title="@string/label_my_menu_emotion_tag" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_emotions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_emotion_setting"
+        tools:listitem="@layout/item_emotion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
