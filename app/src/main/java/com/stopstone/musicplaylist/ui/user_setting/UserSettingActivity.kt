@@ -105,6 +105,9 @@ class UserSettingActivity : AppCompatActivity() {
 
     fun setupLayout() {
         with(binding) {
+            toolbarUserSetting.setNavigationOnClickListener {
+                finish()
+            }
             tvUserSettingLogout.setOnClickListener {
                 performLogout()
             }
