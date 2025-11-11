@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 스위치가 켜진 상태 -->
+    <item android:alpha="1.0" android:color="@color/blue_300" android:state_checked="true" />
+    <!-- 스위치가 꺼진 상태 -->
+    <item android:alpha="0.38" android:color="@color/gray_400" />
+</selector>
+
