@@ -131,6 +131,12 @@ object DateUtils {
         return System.currentTimeMillis()
     }
 
+    // 인생곡 날짜 포맷팅 (예: 20251111~)
+    fun formatSignatureSongDate(date: Date): String {
+        val dateFormat = SimpleDateFormat("yyyyMMdd~", Locale.getDefault())
+        return dateFormat.format(date)
+    }
+
     // 캘린더 그리드에 필요한 빈 칸 수 계산
     fun getEmptyDaysCount(year: Int, month: Int): Int {
         val calendar = Calendar.getInstance()
