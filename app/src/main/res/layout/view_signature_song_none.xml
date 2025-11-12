@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_my_signature_song"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="14dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="@color/blue_300"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="#80FFFFFF" />
+
+    <ImageView
+        android:id="@+id/iv_signature_song"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_music_24"
+        app:layout_constraintBottom_toBottomOf="@id/card_my_signature_song"
+        app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
+        app:layout_constraintStart_toStartOf="@id/card_my_signature_song"
+        app:layout_constraintTop_toTopOf="@id/card_my_signature_song"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="당신의 인생곡을 선정해보세요"
+        app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
+        app:layout_constraintStart_toStartOf="@id/card_my_signature_song"
+        app:layout_constraintTop_toBottomOf="@id/iv_signature_song" />
+</androidx.constraintlayout.widget.ConstraintLayout>
