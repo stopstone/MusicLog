@@ -16,6 +16,8 @@ import com.stopstone.musicplaylist.databinding.FragmentMyBinding
 import com.stopstone.musicplaylist.databinding.ViewMySettingBinding
 import com.stopstone.musicplaylist.ui.my.model.MySettingMenu
 import com.stopstone.musicplaylist.ui.my.viewmodel.MyViewModel
+import com.stopstone.musicplaylist.util.DateUtils
+import com.stopstone.musicplaylist.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -46,8 +48,21 @@ class MyFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         setupSettingItems()
+        setupSignatureSongClick()
         observeViewModel()
         viewModel.loadMusicCount()
+        viewModel.loadSignatureSong()
+    }
+
+    private fun setupSignatureSongClick() {
+        binding.mySignatureSongNone.cardMySignatureSong.setOnClickListener {
+            navigateToMusicSearchForSignatureSong()
+        }
+    }
+
+    private fun navigateToMusicSearchForSignatureSong() {
+        val action = MyFragmentDirections.actionMyToMusicSearch("SIGNATURE_SONG")
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
@@ -80,8 +95,16 @@ class MyFragment : Fragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { uiState ->
-                    updateMusicCount(uiState.musicCount)
+                launch {
+                    viewModel.uiState.collect { uiState ->
+                        updateMusicCount(uiState.musicCount)
+                    }
+                }
+
+                launch {
+                    viewModel.signatureSong.collect { signatureSong ->
+                        updateSignatureSongView(signatureSong)
+                    }
                 }
             }
         }
@@ -89,6 +112,27 @@ class MyFragment : Fragment() {
 
     private fun updateMusicCount(count: Int) {
         binding.tvMyHeader.text = getString(R.string.label_my_music_count, count)
+    }
+
+    private fun updateSignatureSongView(signatureSong: com.stopstone.musicplaylist.data.model.entity.SignatureSong?) {
+        if (signatureSong != null) {
+            // 인생곡이 있을 때
+            binding.mySignatureSongNone.root.visibility = View.INVISIBLE
+            binding.mySignatureSong.root.visibility = View.VISIBLE
+
+            // 인생곡 정보 표시
+            with(binding.mySignatureSong) {
+                ivSignatureSong.loadImage(signatureSong.track.imageUrl)
+
+                tvSignatureSongTitle.text = signatureSong.track.title
+                tvSignatureSongArtist.text = signatureSong.track.artist
+                tvSignatureSongSince.text = DateUtils.formatSignatureSongDate(signatureSong.selectedAt)
+            }
+        } else {
+            // 인생곡이 없을 때
+            binding.mySignatureSongNone.root.visibility = View.VISIBLE
+            binding.mySignatureSong.root.visibility = View.INVISIBLE
+        }
     }
 
     private fun actionSettingMenu(menu: MySettingMenu) {
