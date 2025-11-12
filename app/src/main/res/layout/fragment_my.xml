@@ -28,13 +28,35 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar_my"
         tools:text="지금까지 기록한\n감정플리 OO곡" />
 
+    <include
+        android:id="@+id/my_signature_song_none"
+        layout="@layout/view_signature_song_none"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_my_header" />
+
+    <TextView
+        android:id="@+id/tv_my_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:text="설정"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/my_signature_song_none" />
+
     <LinearLayout
         android:id="@+id/ll_settings_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="14dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_my_header" />
+        app:layout_constraintTop_toBottomOf="@id/tv_my_settings" />
 </androidx.constraintlayout.widget.ConstraintLayout>
