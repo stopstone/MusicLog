@@ -4,6 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.stopstone.musicplaylist.data.model.dto.MusicDto
 import com.stopstone.musicplaylist.data.model.dto.UserProfileDto
+import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.data.remote.dto.InstagramShareSettingDto
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -19,6 +20,7 @@ class FirestoreDataSource @Inject constructor(
             private const val DOCUMENT_PROFILE = "profile"
             private const val COLLECTION_SETTINGS = "settings"
             private const val DOCUMENT_INSTAGRAM_SHARE = "instagram_share"
+            private const val COLLECTION_SIGNATURE_SONGS = "signature_songs"
         }
 
     suspend fun loadAllMusics(userId: String): Result<List<MusicDto>> {
@@ -149,7 +151,9 @@ class FirestoreDataSource @Inject constructor(
         return try {
             // 1. musics subcollection 모든 데이터 삭제
             deleteAllMusics(userId)
-            // 2. profile subcollection 삭제
+            // 2. signature_songs subcollection 모든 데이터 삭제
+            deleteAllSignatureSongs(userId)
+            // 3. profile subcollection 삭제
             firestore
                 .collection(COLLECTION_USERS)
                 .document(userId)
@@ -157,7 +161,7 @@ class FirestoreDataSource @Inject constructor(
                 .document(DOCUMENT_PROFILE)
                 .delete()
                 .await()
-            // 3. user document 삭제
+            // 4. user document 삭제
             firestore
                 .collection(COLLECTION_USERS)
                 .document(userId)
@@ -204,6 +208,67 @@ class FirestoreDataSource @Inject constructor(
 
             val setting = snapshot.toObject(InstagramShareSettingDto::class.java)
             Result.success(setting)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 인생곡 저장
+    suspend fun saveSignatureSong(userId: String, lifeSong: SignatureSong): Result<Unit> {
+        return try {
+            val lifeSongId = lifeSong.selectedAt.time.toString()
+
+            firestore
+                .collection(COLLECTION_USERS)
+                .document(userId)
+                .collection(COLLECTION_SIGNATURE_SONGS)
+                .document(lifeSongId)
+                .set(lifeSong, SetOptions.merge())
+                .await()
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 모든 인생곡 불러오기
+    suspend fun getAllSignatureSongs(userId: String): Result<List<SignatureSong>> {
+        return try {
+            val snapshot = firestore
+                .collection(COLLECTION_USERS)
+                .document(userId)
+                .collection(COLLECTION_SIGNATURE_SONGS)
+                .get()
+                .await()
+
+            val lifeSongs = snapshot.documents.mapNotNull { document ->
+                document.toObject(SignatureSong::class.java)
+            }
+
+            Result.success(lifeSongs)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 모든 인생곡 삭제
+    suspend fun deleteAllSignatureSongs(userId: String): Result<Unit> {
+        return try {
+            val snapshot = firestore
+                .collection(COLLECTION_USERS)
+                .document(userId)
+                .collection(COLLECTION_SIGNATURE_SONGS)
+                .get()
+                .await()
+
+            val batch = firestore.batch()
+            snapshot.documents.forEach { document ->
+                batch.delete(document.reference)
+            }
+            batch.commit().await()
+
+            Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
