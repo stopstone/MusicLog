@@ -2,6 +2,7 @@ package com.stopstone.musicplaylist.ui.emotion_setting
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.EditorInfo
@@ -62,6 +63,11 @@ class EmotionSettingActivity :
             // 키보드가 올라올 때 텍스트필드를 키보드 위로 이동
             binding.layoutAddEmotion.translationY = -ime.bottom.toFloat()
 
+            // 키보드가 내려갔을 때 텍스트 필드 숨기기
+            if (ime.bottom == 0 && binding.layoutAddEmotion.visibility == View.VISIBLE) {
+                hideAddEmotionTextField()
+            }
+
             insets
         }
 
@@ -80,6 +86,17 @@ class EmotionSettingActivity :
 
             // RecyclerView 설정
             rvEmotions.adapter = emotionAdapter
+
+            // RecyclerView 터치 시 키보드와 텍스트 필드 숨기기
+            rvEmotions.setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    if (layoutAddEmotion.visibility == View.VISIBLE) {
+                        hideAddEmotionTextField()
+                        return@setOnTouchListener true
+                    }
+                }
+                false
+            }
 
             // 메인 FAB 클릭
             fabMain.setOnClickListener {
@@ -261,6 +278,7 @@ class EmotionSettingActivity :
     }
 
     private fun hideAddEmotionTextField() {
+        if (binding.layoutAddEmotion.visibility != View.VISIBLE) return
         with(binding) {
             hideKeyboard()
             layoutAddEmotion
