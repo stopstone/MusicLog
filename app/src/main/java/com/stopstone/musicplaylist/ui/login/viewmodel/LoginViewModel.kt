@@ -6,6 +6,7 @@ import com.stopstone.musicplaylist.data.model.dto.UserProfileDto
 import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SaveUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncMusicFromFirestoreUseCase
+import com.stopstone.musicplaylist.domain.usecase.login.SyncSignatureSongFromFirestoreUseCase
 import com.stopstone.musicplaylist.domain.usecase.splash.GetTokenUseCase
 import com.stopstone.musicplaylist.domain.usecase.user.SaveUserProfileUseCase
 import com.stopstone.musicplaylist.ui.login.model.UserProfile
@@ -24,6 +25,7 @@ class LoginViewModel
         private val getUserIdUseCase: GetUserIdUseCase,
         private val saveUserIdUseCase: SaveUserIdUseCase,
         private val syncMusicFromFirestoreUseCase: SyncMusicFromFirestoreUseCase,
+        private val syncSignatureSongFromFirestoreUseCase: SyncSignatureSongFromFirestoreUseCase,
         private val getTokenUseCase: GetTokenUseCase,
         private val saveUserProfileUseCase: SaveUserProfileUseCase,
     ) : ViewModel() {
@@ -61,9 +63,10 @@ class LoginViewModel
                             providerType = userProfile.providerType.name,
                         )
                     saveUserProfileUseCase(userProfile.userId, profileDto)
-                    val result = syncMusicFromFirestoreUseCase(userProfile.userId)
+                    val musicSyncResult = syncMusicFromFirestoreUseCase(userProfile.userId)
+                    val signatureSongSyncResult = syncSignatureSongFromFirestoreUseCase(userProfile.userId)
 
-                    if (result.isSuccess) {
+                    if (musicSyncResult.isSuccess && signatureSongSyncResult.isSuccess) {
                         _uiState.value = LoginUiState.Success
                     } else {
                         _uiState.value = LoginUiState.SuccessWithSyncError

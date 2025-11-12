@@ -39,6 +39,12 @@
         <action
             android:id="@+id/action_navigation_emotion_setting"
             app:destination="@id/navigation_emotion_setting" />
+        <action
+            android:id="@+id/action_signature_music"
+            app:destination="@id/navigation_signature_music" />
+        <action
+            android:id="@+id/action_my_to_music_search"
+            app:destination="@id/navigation_music_search" />
     </fragment>
 
     <activity
@@ -55,7 +61,12 @@
         android:id="@+id/navigation_music_search"
         android:name="com.stopstone.musicplaylist.ui.music_search.MusicSearchActivity"
         android:label="MusicSearchActivity"
-        tools:layout="@layout/activity_music_search" />
+        tools:layout="@layout/activity_music_search">
+        <argument
+            android:name="searchMode"
+            android:defaultValue="NORMAL"
+            app:argType="string" />
+    </activity>
     <activity
         android:id="@+id/navigation_user_setting"
         android:name="com.stopstone.musicplaylist.ui.user_setting.UserSettingActivity"
@@ -71,5 +82,10 @@
         android:name="com.stopstone.musicplaylist.ui.emotion_setting.EmotionSettingActivity"
         android:label="EmotionSettingActivity"
         tools:layout="@layout/activity_emotion_setting" />
+    <activity
+        android:id="@+id/navigation_signature_music"
+        android:name="com.stopstone.musicplaylist.ui.signature_music.SignatureMusicActivity"
+        android:label="SignatureMusicActivity"
+        tools:layout="@layout/activity_signature_music" />
 
 </navigation>

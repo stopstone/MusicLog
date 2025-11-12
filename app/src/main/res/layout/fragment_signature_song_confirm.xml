@@ -29,41 +29,20 @@
         tools:text="AKMU - AnswerMe" />
 
     <TextView
-        android:id="@+id/tv_confirm_track_emotion"
-        android:layout_width="0dp"
+        android:id="@+id/tv_track_confirm_message"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/label_confirm_track_emotion"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="인생곡으로 등록하시겠어요?"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_confirm_track_info" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup_confirm_track_emotion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/tv_confirm_track_emotion"
-        app:layout_constraintStart_toStartOf="@id/tv_confirm_track_emotion"
-        app:layout_constraintTop_toBottomOf="@id/tv_confirm_track_emotion" />
-
-    <TextView
-        android:id="@+id/tv_track_confirm_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="@string/label_track_confirm_message"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chipGroup_confirm_track_emotion" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_track_cancel"
@@ -102,3 +81,4 @@
         app:layout_constraintStart_toEndOf="@id/btn_track_cancel"
         app:layout_constraintTop_toTopOf="@id/btn_track_cancel" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
