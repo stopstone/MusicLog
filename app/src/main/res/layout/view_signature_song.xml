@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_signature_song_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="나의 인생곡"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/card_my_signature_song"
+        app:layout_constraintStart_toStartOf="@id/card_my_signature_song" />
+
+    <LinearLayout
+        android:id="@+id/signature_song_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/tv_signature_song_label"
+        app:layout_constraintEnd_toEndOf="@id/card_my_signature_song">
+
+        <TextView
+            android:id="@+id/tv_signature_song_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인생곡 모아보기"
+            android:textColor="@color/gray_400"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_signature_song_arrow"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_arrow_forward"
+            app:tint="@color/gray_400" />
+
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_my_signature_song"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="14dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="@color/blue_300"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="#80FFFFFF" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_signature_song"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        android:background="@color/gray_200"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@id/card_my_signature_song"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="@id/card_my_signature_song"
+        app:layout_constraintTop_toTopOf="@id/card_my_signature_song"
+        app:shapeAppearanceOverlay="@style/AppRoundedImage" />
+
+    <TextView
+        android:id="@+id/tv_signature_song_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
+        app:layout_constraintStart_toEndOf="@id/iv_signature_song"
+        app:layout_constraintTop_toTopOf="@id/card_my_signature_song"
+        tools:text="제목제목제목제목제목제목제목제목제목" />
+
+    <TextView
+        android:id="@+id/tv_signature_song_artist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/gray_500"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
+        app:layout_constraintStart_toStartOf="@id/tv_signature_song_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_signature_song_title"
+        tools:text="아티스트명" />
+
+    <TextView
+        android:id="@+id/tv_signature_song_since"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/gray_500"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_signature_song"
+        app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
+        app:layout_constraintStart_toStartOf="@id/tv_signature_song_artist"
+        app:layout_goneMarginTop="14dp"
+        tools:text="20250102~" />
+</androidx.constraintlayout.widget.ConstraintLayout>
