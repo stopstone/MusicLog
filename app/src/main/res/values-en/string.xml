@@ -69,7 +69,7 @@
 
     <!--  MY Screen  -->
     <string name="label_my_title">MY</string>
-    <string name="label_my_music_count">Total songs recorded\n%d tracks</string>
+    <string name="label_my_music_count">Total songs\nrecorded %d tracks</string>
     <string name="label_my_menu_account_setting">Account Settings</string>
     <string name="label_my_menu_emotion_tag">Emotion Tag Management</string>
     <string name="label_my_menu_notification">Notification Settings</string>
