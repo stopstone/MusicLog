@@ -338,12 +338,27 @@ class EmotionSettingActivity :
                 btnDeleteSelected.visibility = View.VISIBLE
                 // 드래그 비활성화
                 itemTouchHelper.attachToRecyclerView(null)
+                // 리스트에 하단 패딩 추가하여 삭제 버튼이 리스트를 가리지 않도록 함
+                val bottomPadding = resources.getDimensionPixelSize(R.dimen.delete_button_height_with_margin)
+                rvEmotions.setPadding(
+                    rvEmotions.paddingLeft,
+                    rvEmotions.paddingTop,
+                    rvEmotions.paddingRight,
+                    bottomPadding,
+                )
             } else {
                 // 일반 모드: 삭제 버튼 숨기고 FAB 표시
                 btnDeleteSelected.visibility = View.GONE
                 fabMain.visibility = View.VISIBLE
                 // 드래그 활성화
                 itemTouchHelper.attachToRecyclerView(rvEmotions)
+                // 리스트 하단 패딩 제거
+                rvEmotions.setPadding(
+                    rvEmotions.paddingLeft,
+                    rvEmotions.paddingTop,
+                    rvEmotions.paddingRight,
+                    0,
+                )
             }
         }
     }
