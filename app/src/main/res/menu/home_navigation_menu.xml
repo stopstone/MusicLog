@@ -8,4 +8,8 @@
         android:id="@+id/navigation_play_list"
         android:icon="@drawable/selector_navigation_playlist"
         android:title="@string/label_navigation_playlist" />
+    <item
+        android:id="@+id/navigation_my"
+        android:icon="@drawable/selector_navigation_my"
+        android:title="@string/label_navigation_my" />
 </menu>

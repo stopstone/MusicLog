@@ -86,6 +86,11 @@ class TrackRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearLocalTracks() {
+        // 다른 계정 진입 시 로컬 캐시만 초기화
+        dailyTrackDao.deleteAllTracks()
+    }
+
     override suspend fun getTracksForMonth(year: Int, month: Int): List<DailyTrack> {
         val calendar = Calendar.getInstance()
         val startDate = calendar.getMonthStart(year, month)
@@ -132,5 +137,9 @@ class TrackRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    override suspend fun getMusicCount(): Int {
+        return dailyTrackDao.getMusicCount()
     }
 }

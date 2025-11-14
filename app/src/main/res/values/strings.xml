@@ -4,6 +4,7 @@
     <string name="label_navigation_home">홈</string>
     <string name="label_navigation_search">검색</string>
     <string name="label_navigation_playlist">플레이리스트</string>
+    <string name="label_navigation_my">마이</string>
     <string name="label_setting">설정</string>
     <string name="description_album_cover_image">앨범 커버</string>
     <string name="delete_track_title">음악 삭제</string>
@@ -13,8 +14,10 @@
 
     <!--  스플래쉬  -->
     <string name="message_check_internet_status">인터넷 상태를 확인해주세요</string>
-    
+
     <!--  로그인  -->
+    <string name="login_title">감정플리</string>
+    <string name="login_description">오늘 하루의 주제곡을 남겨보세요</string>
     <string name="login_user_cancelled">사용자가 로그인을 취소했습니다</string>
     <string name="login_auth_error">인증에 실패했습니다. 다시 시도해주세요.</string>
     <string name="login_api_error">카카오 서버와의 통신에 실패했습니다.</string>
@@ -23,7 +26,7 @@
     <string name="login_success">로그인 성공!</string>
     <string name="login_success_sync_failed">로그인 성공! (백업 데이터 로드 실패)</string>
     <string name="login_unknown_error">알 수 없는 오류가 발생했습니다.</string>
-    
+
     <!--  홈  -->
     <string name="label_home_title">감정플리</string>
     <string name="label_home_empty_track_title">등록된 음악이 없습니다.</string>
@@ -62,10 +65,72 @@
     <!--  설정  -->
     <string name="label_setting_data_clear">데이터 초기화</string>
 
+    <!--  MY 화면  -->
+    <string name="label_my_title">MY</string>
+    <string name="label_my_music_count">지금까지 기록한\n감정플리 %d곡</string>
+    <string name="label_my_music_count_empty">아직까지 기록한\n감정플리 없습니다</string>
+    <string name="label_my_settings_section">설정</string>
+    <string name="label_my_menu_account_setting">계정 설정</string>
+    <string name="label_my_menu_emotion_tag">감정 태그 관리</string>
+    <string name="label_my_menu_notification">알림 설정</string>
+    <string name="label_my_menu_instagram_share">인스타 공유 설정</string>
+    <string name="label_signature_song_section">나의 인생곡</string>
+    <string name="label_signature_song_more">인생곡 모아보기</string>
+    <string name="label_signature_song_none_cta">당신의 인생곡을 선정해보세요</string>
+    <string name="label_signature_list_title">인생곡 모아보기</string>
+    <string name="label_signature_list_empty">아직 등록한 인생곡이 없어요.</string>
+    <string name="label_signature_song_since_detail">%1$s부터 %2$d%3$s</string>
+    <string name="label_signature_song_since_days_only">인생곡이 된지 %1$d%2$s</string>
+    <string name="label_signature_song_day_suffix">일</string>
+    <string name="format_signature_song_date">yyyy년 MM월 dd일</string>
+
+    <!--  계정 설정  -->
+    <string name="label_user_setting_title">계정설정</string>
+    <string name="label_user_setting_login_info">로그인 정보</string>
+    <string name="label_user_setting_account_setting">계정 설정</string>
+    <string name="label_user_setting_logout">로그아웃</string>
+    <string name="label_user_setting_withdraw">회원탈퇴</string>
+    <string name="label_user_setting_withdraw_title">회원 탈퇴</string>
+    <string name="label_user_setting_withdraw_confirm">탈퇴</string>
+    <string name="message_user_setting_withdraw_message">회원 탈퇴하면 모든 정보가 지워집니다.\n정말 탈퇴하시겠습니까?</string>
+    <string name="label_user_setting_data_cleanup">데이터 초기화</string>
+    <string name="label_user_setting_data_cleanup_title">데이터 초기화</string>
+    <string name="label_user_setting_data_cleanup_confirm">초기화</string>
+    <string name="message_user_setting_data_cleanup_message">그 동안 기록한 플리가 모두 지워집니다.\n정말 초기화하시겠습니까?</string>
+
+    <!--  인스타그램 공유 설정  -->
+    <string name="label_instagram_share_setting_title">인스타 공유 설정</string>
+    <string name="label_instagram_share_option_title">공유 옵션</string>
+    <string name="label_instagram_share_album_cover">앨범 커버 표시</string>
+    <string name="label_instagram_share_title">노래 제목 표시</string>
+    <string name="label_instagram_share_artist">아티스트 표시</string>
+    <string name="label_instagram_share_emotions">감정 태그 표시</string>
+    <string name="label_instagram_share_memo">메모 표시</string>
+    <string name="label_instagram_share_preview">미리보기</string>
+    <string name="label_instagram_share_preview_title">노래 제목</string>
+    <string name="label_instagram_share_preview_artist">아티스트</string>
+    <string name="label_instagram_share_preview_memo">오늘 하루의 감정을 남겨보세요</string>
+    <string name="message_instagram_share_minimum_option">최소 1개의 옵션을 설정해야 합니다</string>
+
     <!--  상세  -->
     <string name="hint_track_detail_comment">내용을 입력하세요.</string>
     <string name="description_track_delete_button">삭제</string>
     <string name="description_track_instagram_share">스토리 공유하기</string>
+    <string name="description_drag_handle">순서 변경</string>
+    <string name="label_add_custom_emotion">감정 추가</string>
+    <string name="label_delete_emotion">감정 삭제</string>
+    <string name="label_emotion_menu">감정 메뉴</string>
+    <string name="hint_emotion_name">감정 이름 입력</string>
+    <string name="hint_add_emotion">추가할 감정을 입력해주세요</string>
+    <string name="message_emotion_name_empty">감정 이름을 입력해주세요</string>
+    <string name="message_emotion_already_exists">이미 존재하는 감정입니다</string>
+    <string name="message_select_emotion_to_delete">삭제할 감정을 선택해주세요</string>
+    <string name="message_emotion_deleted">감정이 삭제되었습니다</string>
+    <string name="label_delete_selected_emotions">선택한 감정을 삭제합니다</string>
+    <string name="label_delete_n_emotions">%d개의 감정을 삭제합니다</string>
+    <string name="message_delete_confirm_title">감정 삭제</string>
+    <string name="message_delete_confirm">선택한 감정을 삭제하시겠습니까?</string>
+    <string name="label_delete">삭제</string>
 
     <!--  감정  -->
     <!-- Emotions -->

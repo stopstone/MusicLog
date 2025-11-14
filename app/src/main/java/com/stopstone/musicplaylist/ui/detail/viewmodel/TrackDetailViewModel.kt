@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.domain.usecase.detail.DeleteTrackUseCase
 import com.stopstone.musicplaylist.domain.usecase.detail.GetCommentUseCase
 import com.stopstone.musicplaylist.domain.usecase.detail.UpdateCommentUseCase
+import com.stopstone.musicplaylist.domain.usecase.insta_share.GetInstagramShareSettingUseCase
+import com.stopstone.musicplaylist.domain.usecase.insta_share.InstagramShareSetting
 import com.stopstone.musicplaylist.util.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,62 +15,72 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class TrackDetailViewModel @Inject constructor(
-    private val getCommentUseCase: GetCommentUseCase,
-    private val updateCommentUseCase: UpdateCommentUseCase,
-    private val deleteTrackUseCase: DeleteTrackUseCase,
-) : ViewModel() {
-    private val _comment = MutableStateFlow("")
-    val comment: StateFlow<String> = _comment.asStateFlow()
+class TrackDetailViewModel
+    @Inject
+    constructor(
+        private val getCommentUseCase: GetCommentUseCase,
+        private val updateCommentUseCase: UpdateCommentUseCase,
+        private val deleteTrackUseCase: DeleteTrackUseCase,
+        private val getInstagramShareSettingUseCase: GetInstagramShareSettingUseCase,
+    ) : ViewModel() {
+        private val _comment = MutableStateFlow("")
+        val comment: StateFlow<String> = _comment.asStateFlow()
 
-    private val _deleteResult = MutableSharedFlow<Boolean>()
-    val deleteResult: SharedFlow<Boolean> = _deleteResult
+        private val _deleteResult = MutableSharedFlow<Boolean>()
+        val deleteResult: SharedFlow<Boolean> = _deleteResult
 
-    private lateinit var currentDate: Date
+        private lateinit var currentDate: Date
 
-    // 정규화된 날짜를 currentDate에 저장
-    fun setCurrentDate(date: Date) {
-        currentDate = DateUtils.normalizeDate(date)
-        loadComment() // 해당하는 날짜의 코멘트를 가져오기
-    }
-
-    // 해당하는 날짜의 코멘트를 가져오기
-    private fun loadComment() = viewModelScope.launch {
-        runCatching {
-            getCommentUseCase(currentDate)
-        }.onSuccess { comment ->
-            _comment.value = comment
-            Log.d("TrackDetailViewModel", "Comment loaded successfully: $comment")
-        }.onFailure { e ->
-            Log.e("TrackDetailViewModel", "Error loading comment", e)
+        // 정규화된 날짜를 currentDate에 저장
+        fun setCurrentDate(date: Date) {
+            currentDate = DateUtils.normalizeDate(date)
+            loadComment() // 해당하는 날짜의 코멘트를 가져오기
         }
-    }
 
-    // 작성버튼이 눌리면 새로운 코멘트 저장
-    fun updateComment(newComment: String) = viewModelScope.launch {
-        runCatching {
-            updateCommentUseCase(currentDate, newComment)
-        }.onSuccess {
-            Log.d("TrackDetailViewModel", "Comment updated successfully")
-        }.onFailure { e ->
-            Log.e("TrackDetailViewModel", "Error updating comment", e)
-        }
-    }
+        // 해당하는 날짜의 코멘트를 가져오기
+        private fun loadComment() =
+            viewModelScope.launch {
+                runCatching {
+                    getCommentUseCase(currentDate)
+                }.onSuccess { comment ->
+                    _comment.value = comment
+                    Log.d("TrackDetailViewModel", "Comment loaded successfully: $comment")
+                }.onFailure { e ->
+                    Log.e("TrackDetailViewModel", "Error loading comment", e)
+                }
+            }
 
-    fun deleteTrack() = viewModelScope.launch {
-        runCatching {
-            deleteTrackUseCase(currentDate)
-        }.onSuccess {
-            _deleteResult.emit(true)
-            Log.d("TrackDetailViewModel", "Track deleted successfully")
-        }.onFailure { e ->
-            _deleteResult.emit(false)
-            Log.e("TrackDetailViewModel", "Error deleting track", e)
-        }
+        // 작성버튼이 눌리면 새로운 코멘트 저장
+        fun updateComment(newComment: String) =
+            viewModelScope.launch {
+                runCatching {
+                    updateCommentUseCase(currentDate, newComment)
+                }.onSuccess {
+                    Log.d("TrackDetailViewModel", "Comment updated successfully")
+                }.onFailure { e ->
+                    Log.e("TrackDetailViewModel", "Error updating comment", e)
+                }
+            }
+
+        fun deleteTrack() =
+            viewModelScope.launch {
+                runCatching {
+                    deleteTrackUseCase(currentDate)
+                }.onSuccess {
+                    _deleteResult.emit(true)
+                    Log.d("TrackDetailViewModel", "Track deleted successfully")
+                }.onFailure { e ->
+                    _deleteResult.emit(false)
+                    Log.e("TrackDetailViewModel", "Error deleting track", e)
+                }
+            }
+
+        // 인스타그램 공유 설정 가져오기
+        suspend fun getInstagramShareSettings(): InstagramShareSetting = getInstagramShareSettingUseCase().first()
     }
-}

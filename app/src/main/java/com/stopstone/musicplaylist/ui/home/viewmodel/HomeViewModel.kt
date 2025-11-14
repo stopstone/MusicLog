@@ -53,7 +53,8 @@ class HomeViewModel @Inject constructor(
             }
             calendarDay.copy(
                 track = dailyTrack?.track,
-                emotions = dailyTrack?.emotions ?: emptyList()
+                emotions = dailyTrack?.emotions ?: emptyList(),
+                comment = dailyTrack?.comment,
             )
         }
         _calendarDates.value = updatedCalendarDays

@@ -2,6 +2,7 @@ package com.stopstone.musicplaylist.ui.login.auth
 
 import android.content.Context
 import com.stopstone.musicplaylist.ui.login.model.ProviderType
+import com.stopstone.musicplaylist.ui.login.model.UserProfile
 
 /**
  * 소셜 로그인을 통합 관리하는 핸들러
@@ -22,7 +23,7 @@ class SocialLoginHandler(
     // 소셜 로그인 수행
     suspend fun performSocialLogin(
         providerType: ProviderType,
-        onSuccess: (String) -> Unit,
+        onSuccess: (UserProfile) -> Unit,
         onFailure: (Throwable) -> Unit,
     ) {
         val provider =

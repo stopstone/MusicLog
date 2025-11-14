@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="감정플리"
+        android:text="@string/login_title"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tv_login_description"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="오늘 하루의 주제곡을 남겨보세요"
+        android:text="@string/login_description"
         app:layout_constraintBottom_toTopOf="@id/iv_login_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
