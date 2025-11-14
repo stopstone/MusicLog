@@ -8,6 +8,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
@@ -22,12 +23,20 @@ android {
         applicationId = "com.stopstone.musicplaylist"
         minSdk = 24
         targetSdk = 35
-        versionCode = 15
-        versionName = "1.4.0"
+        versionCode = 16
+        versionName = "1.5.1"
 
-        buildConfigField("String", "CLIENT_ID", "\"${properties["client.id"]}\"")
-        buildConfigField("String", "CLIENT_SECRET", "\"${properties["client.secret"]}\"")
-        buildConfigField("String", "FACEBOOK_APP_ID", "\"${properties["facebook.app.id"]}\"")
+        val clientId = properties["client.id"].toString().replace("\"", "")
+        val clientSecret = properties["client.secret"].toString().replace("\"", "")
+        val facebookAppId = properties["facebook.app.id"].toString().replace("\"", "")
+        val kakaoNativeAppKey = properties["kakao.native.app.key"].toString().replace("\"", "")
+
+        buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
+        buildConfigField("String", "CLIENT_SECRET", "\"$clientSecret\"")
+        buildConfigField("String", "FACEBOOK_APP_ID", "\"$facebookAppId\"")
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"$kakaoNativeAppKey\"")
+        manifestPlaceholders["kakaoAppKey"] = kakaoNativeAppKey
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -54,6 +63,9 @@ android {
 }
 
 dependencies {
+    // Kakao Module
+    implementation(libs.v2.all)
+
     // Splash
     implementation(libs.androidx.core.splashscreen)
     // DataStore
@@ -90,6 +102,11 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.analytics)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -12,8 +12,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.data.model.entity.SearchHistory
+import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.databinding.ActivityMusicSearchBinding
+import com.stopstone.musicplaylist.databinding.FragmentSignatureSongConfirmBinding
 import com.stopstone.musicplaylist.ui.common.adapter.TrackAdapter
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import com.stopstone.musicplaylist.ui.music_memo.MusicMemoActivity
@@ -22,6 +26,7 @@ import com.stopstone.musicplaylist.ui.music_search.adapter.SearchHistoryAdapter
 import com.stopstone.musicplaylist.ui.music_search.viewmodel.SearchUiState
 import com.stopstone.musicplaylist.ui.music_search.viewmodel.SearchViewModel
 import com.stopstone.musicplaylist.util.hideKeyboard
+import com.stopstone.musicplaylist.util.loadImage
 import com.stopstone.musicplaylist.util.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,15 +44,22 @@ class MusicSearchActivity :
     private val historyAdapter: SearchHistoryAdapter by lazy { SearchHistoryAdapter(this) }
     private val viewModel: SearchViewModel by viewModels()
 
+    private var searchMode: String = "NORMAL"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setupWindowInsets()
         setContentView(binding.root)
+        getSearchMode()
         setupRecycler()
         setupListeners()
         setupObservers()
         focusSearchField()
+    }
+
+    private fun getSearchMode() {
+        searchMode = intent.getStringExtra("searchMode") ?: "NORMAL"
     }
 
     private fun setupObservers() {
@@ -126,7 +138,11 @@ class MusicSearchActivity :
             }
 
             is TrackUiState -> {
-                navigateToMusicMemo(item)
+                if (searchMode == "SIGNATURE_SONG") {
+                    showSignatureSongConfirmDialog(item)
+                } else {
+                    navigateToMusicMemo(item)
+                }
             }
 
             else -> {
@@ -186,5 +202,34 @@ class MusicSearchActivity :
     private fun navigateToMusicMemo(track: TrackUiState) {
         val intent = MusicMemoActivity.createIntent(this, track)
         startActivity(intent)
+    }
+
+    private fun showSignatureSongConfirmDialog(track: TrackUiState) {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val dialogBinding = FragmentSignatureSongConfirmBinding.inflate(layoutInflater)
+
+        with(dialogBinding) {
+            ivConfirmTrackImage.loadImage(track.imageUrl)
+            tvConfirmTrackInfo.text = "${track.artist} - ${track.title}"
+
+            btnTrackCancel.setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
+
+            btnTrackConfirm.setOnClickListener {
+                val signatureSong =
+                    SignatureSong(
+                        track = track,
+                        selectedAt = java.util.Date(),
+                        isActive = true,
+                    )
+                viewModel.setSignatureSong(signatureSong)
+                bottomSheetDialog.dismiss()
+                finish()
+            }
+        }
+
+        bottomSheetDialog.setContentView(dialogBinding.root)
+        bottomSheetDialog.show()
     }
 }

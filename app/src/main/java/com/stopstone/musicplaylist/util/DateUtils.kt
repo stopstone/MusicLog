@@ -6,42 +6,43 @@ import java.util.Date
 import java.util.Locale
 
 object DateUtils {
-
     // 상수 정의
     private const val MONTHS_IN_YEAR = 12
     private const val FIRST_MONTH = 1
+    private const val MILLIS_IN_DAY = 24 * 60 * 60 * 1000L
 
     // 오늘 날짜를 반환 (시간 정보 제거)
-    fun getTodayDate(): Date {
-        return Calendar.getInstance().clearTime().time
-    }
+    fun getTodayDate(): Date = Calendar.getInstance().clearTime().time
 
     // 현재 년도를 반환
-    fun getCurrentYear(): Int {
-        return Calendar.getInstance().getYear()
-    }
+    fun getCurrentYear(): Int = Calendar.getInstance().getYear()
 
     // 현재 월을 반환 (1-12)
-    fun getCurrentMonth(): Int {
-        return Calendar.getInstance().getMonth()
-    }
+    fun getCurrentMonth(): Int = Calendar.getInstance().getMonth()
 
     // 년월을 현재 시스템 Locale 형식으로 포맷팅
-    fun getFormattedMonth(year: Int, month: Int): String {
+    fun getFormattedMonth(
+        year: Int,
+        month: Int,
+    ): String {
         val date = createDate(year, month, 1)
-        
+
         // 시스템 Locale에 따라 적절한 포맷 사용
         val locale = Locale.getDefault()
-        val dateFormat = when {
-            locale.language == "ko" -> SimpleDateFormat("yyyy년 M월", locale)
-            else -> SimpleDateFormat("MM yyyy", locale)
-        }
-        
+        val dateFormat =
+            when {
+                locale.language == "ko" -> SimpleDateFormat("yyyy년 M월", locale)
+                else -> SimpleDateFormat("MM yyyy", locale)
+            }
+
         return dateFormat.format(date)
     }
 
     // 다음 월 계산
-    fun getNextMonth(year: Int, month: Int): Pair<Int, Int> {
+    fun getNextMonth(
+        year: Int,
+        month: Int,
+    ): Pair<Int, Int> {
         var nextMonth = month + 1
         var nextYear = year
 
@@ -54,7 +55,10 @@ object DateUtils {
     }
 
     // 이전 월 계산
-    fun getPreviousMonth(year: Int, month: Int): Pair<Int, Int> {
+    fun getPreviousMonth(
+        year: Int,
+        month: Int,
+    ): Pair<Int, Int> {
         var previousMonth = month - 1
         var previousYear = year
 
@@ -67,25 +71,29 @@ object DateUtils {
     }
 
     // 날짜 정규화 (시간 정보를 00:00:00으로 설정)
-    fun normalizeDate(date: Date): Date {
-        return Calendar.getInstance().apply {
-            time = date
-            clearTime()
-        }.time
-    }
+    fun normalizeDate(date: Date): Date =
+        Calendar
+            .getInstance()
+            .apply {
+                time = date
+                clearTime()
+            }.time
 
     // 특정 날짜의 일(day)을 반환
-    fun getDayFromDate(date: Date): Int {
-        return Calendar.getInstance().apply { time = date }.getDay()
-    }
+    fun getDayFromDate(date: Date): Int = Calendar.getInstance().apply { time = date }.getDay()
 
     // 년, 월, 일로 Date 객체 생성 (시간은 00:00:00으로 설정)
-    fun createDate(year: Int, month: Int, day: Int): Date {
-        return Calendar.getInstance().apply {
-            set(year, month - 1, day, 0, 0, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.time
-    }
+    fun createDate(
+        year: Int,
+        month: Int,
+        day: Int,
+    ): Date =
+        Calendar
+            .getInstance()
+            .apply {
+                set(year, month - 1, day, 0, 0, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.time
 
     // Calendar 확장 함수들
     private fun Calendar.clearTime(): Calendar {
@@ -104,7 +112,10 @@ object DateUtils {
         return this
     }
 
-    fun Calendar.getMonthStart(year: Int, month: Int): Date {
+    fun Calendar.getMonthStart(
+        year: Int,
+        month: Int,
+    ): Date {
         apply {
             set(year, month - 1, 1)
             clearTime()
@@ -112,7 +123,10 @@ object DateUtils {
         return time
     }
 
-    fun Calendar.getMonthEnd(year: Int, month: Int): Date {
+    fun Calendar.getMonthEnd(
+        year: Int,
+        month: Int,
+    ): Date {
         apply {
             set(year, month - 1, getActualMaximum(Calendar.DAY_OF_MONTH))
             setEndOfDay()
@@ -127,12 +141,34 @@ object DateUtils {
     fun Calendar.getDay(): Int = get(Calendar.DAY_OF_MONTH)
 
     // 현재 시간을 밀리초로 반환
-    fun getCurrentTimeMillis(): Long {
-        return System.currentTimeMillis()
+    fun getCurrentTimeMillis(): Long = System.currentTimeMillis()
+
+    // 인생곡 선택 이후 지난 일수를 계산
+    fun getDaysSince(
+        date: Date,
+        baseDate: Date = Date(),
+    ): Int {
+        val timeDiff = baseDate.time - date.time
+        if (timeDiff <= 0L) {
+            return 1
+        }
+        val days = (timeDiff / MILLIS_IN_DAY).toInt()
+        return days.coerceAtLeast(0) + 1
+    }
+
+    fun formatWithPattern(
+        date: Date,
+        pattern: String,
+    ): String {
+        val formatter = SimpleDateFormat(pattern, Locale.getDefault())
+        return formatter.format(date)
     }
 
     // 캘린더 그리드에 필요한 빈 칸 수 계산
-    fun getEmptyDaysCount(year: Int, month: Int): Int {
+    fun getEmptyDaysCount(
+        year: Int,
+        month: Int,
+    ): Int {
         val calendar = Calendar.getInstance()
         calendar.set(year, month - 1, 1)
         val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
@@ -140,10 +176,12 @@ object DateUtils {
     }
 
     // 월의 총 일수 반환
-    fun getDaysInMonth(year: Int, month: Int): Int {
+    fun getDaysInMonth(
+        year: Int,
+        month: Int,
+    ): Int {
         val calendar = Calendar.getInstance()
         calendar.set(year, month - 1, 1)
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
     }
-
 }

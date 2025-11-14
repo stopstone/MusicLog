@@ -118,10 +118,15 @@ class TrackDetailActivity : AppCompatActivity() {
         }
 
         binding.btnTrackDetailInstagramShare.setOnClickListener {
-            InstagramShareHelper.shareCustomStoryToInstagram(
-                activity = this@TrackDetailActivity,
-                dailyTrack = args.DailyTrack,
-            )
+            lifecycleScope.launch {
+                val settings = viewModel.getInstagramShareSettings()
+                InstagramShareHelper.shareCustomStoryToInstagram(
+                    activity = this@TrackDetailActivity,
+                    dailyTrack = args.DailyTrack,
+                    showEmotions = settings.showEmotions,
+                    showMemo = settings.showMemo,
+                )
+            }
         }
 
         binding.root.setOnTouchListener { v, event ->

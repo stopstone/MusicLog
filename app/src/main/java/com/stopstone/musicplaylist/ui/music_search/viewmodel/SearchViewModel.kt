@@ -2,8 +2,10 @@ package com.stopstone.musicplaylist.ui.music_search.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.data.model.entity.SearchHistory
 import com.stopstone.musicplaylist.data.model.response.Track
+import com.stopstone.musicplaylist.domain.usecase.my.SetSignatureSongUseCase
 import com.stopstone.musicplaylist.domain.usecase.search.AddSearchUseCase
 import com.stopstone.musicplaylist.domain.usecase.search.DeleteAllSearchesUseCase
 import com.stopstone.musicplaylist.domain.usecase.search.DeleteSearchUseCase
@@ -26,6 +28,7 @@ class SearchViewModel
         private val addSearchUseCase: AddSearchUseCase,
         private val deleteSearchUseCase: DeleteSearchUseCase,
         private val deleteAllSearchesUseCase: DeleteAllSearchesUseCase,
+        private val setSignatureSongUseCase: SetSignatureSongUseCase,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Initial)
         val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
@@ -91,6 +94,11 @@ class SearchViewModel
         fun resetToHistory() {
             _uiState.value = SearchUiState.ShowHistory
         }
+
+        fun setSignatureSong(signatureSong: SignatureSong) =
+            viewModelScope.launch {
+                setSignatureSongUseCase(signatureSong)
+            }
 
         private fun Track.toTrackUiState(): TrackUiState =
             TrackUiState(

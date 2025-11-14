@@ -12,5 +12,6 @@ data class CalendarDay(
     val month: Int,
     val track: TrackUiState? = null,
     val emotions: List<Emotions> = emptyList(),
+    val comment: String? = null,
     val isToday: Boolean = false,
 ): Parcelable, BaseIdModel

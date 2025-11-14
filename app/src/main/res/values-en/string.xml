@@ -5,6 +5,7 @@
     <string name="label_navigation_home">Home</string>
     <string name="label_navigation_search">Search</string>
     <string name="label_navigation_playlist">Playlist</string>
+    <string name="label_navigation_my">My</string>
     <string name="label_setting">Settings</string>
     <string name="description_album_cover_image">Album cover</string>
     <string name="delete_track_title">Music Delete</string>
@@ -15,6 +16,18 @@
 
     <!--  Splash  -->
     <string name="message_check_internet_status">Please check your internet status.</string>
+
+    <!--  Login  -->
+    <string name="login_title">MusicLog</string>
+    <string name="login_description">Record your daily soundtrack</string>
+    <string name="login_user_cancelled">User cancelled login</string>
+    <string name="login_auth_error">Authentication failed. Please try again.</string>
+    <string name="login_api_error">Failed to communicate with Kakao server.</string>
+    <string name="login_client_error">An error occurred during login process.</string>
+    <string name="login_sdk_error">Kakao login failed.</string>
+    <string name="login_success">Login successful!</string>
+    <string name="login_success_sync_failed">Login successful! (Failed to load backup data)</string>
+    <string name="login_unknown_error">An unknown error occurred.</string>
 
     <!--  Home  -->
     <string name="label_home_title">Today\'s Music</string>
@@ -54,10 +67,72 @@
     <!--  Settings  -->
     <string name="label_setting_data_clear">Clear data</string>
 
+    <!--  MY Screen  -->
+    <string name="label_my_title">MY</string>
+    <string name="label_my_music_count">Total songs\nrecorded %d tracks</string>
+    <string name="label_my_music_count_empty">No playlists recorded yet</string>
+    <string name="label_my_settings_section">Settings</string>
+    <string name="label_my_menu_account_setting">Account Settings</string>
+    <string name="label_my_menu_emotion_tag">Emotion Tag Management</string>
+    <string name="label_my_menu_notification">Notification Settings</string>
+    <string name="label_my_menu_instagram_share">Instagram Share Settings</string>
+    <string name="label_signature_song_section">My Signature Song</string>
+    <string name="label_signature_song_more">View Signature Songs</string>
+    <string name="label_signature_song_none_cta">Choose your signature song</string>
+    <string name="label_signature_list_title">Signature Songs</string>
+    <string name="label_signature_list_empty">No signature songs have been saved yet.</string>
+    <string name="label_signature_song_since_detail">Since %1$s, %2$d%3$s</string>
+    <string name="label_signature_song_since_days_only">%1$d%2$s since it became my signature song</string>
+    <string name="label_signature_song_day_suffix"> days</string>
+    <string name="format_signature_song_date">MMM dd, yyyy</string>
+
+    <!--  Account Settings  -->
+    <string name="label_user_setting_title">Account Settings</string>
+    <string name="label_user_setting_login_info">Login Information</string>
+    <string name="label_user_setting_account_setting">Account Settings</string>
+    <string name="label_user_setting_logout">Logout</string>
+    <string name="label_user_setting_withdraw">Delete Account</string>
+    <string name="label_user_setting_withdraw_title">Delete Account</string>
+    <string name="label_user_setting_withdraw_confirm">Delete</string>
+    <string name="message_user_setting_withdraw_message">All your data will be deleted if you delete your account.\nAre you sure you want to proceed?</string>
+    <string name="label_user_setting_data_cleanup">Data Reset</string>
+    <string name="label_user_setting_data_cleanup_title">Data Reset</string>
+    <string name="label_user_setting_data_cleanup_confirm">Reset</string>
+    <string name="message_user_setting_data_cleanup_message">All your recorded music will be deleted.\nAre you sure you want to reset?</string>
+
+    <!--  Instagram Share Settings  -->
+    <string name="label_instagram_share_setting_title">Instagram Share Settings</string>
+    <string name="label_instagram_share_option_title">Share Options</string>
+    <string name="label_instagram_share_album_cover">Show Album Cover</string>
+    <string name="label_instagram_share_title">Show Song Title</string>
+    <string name="label_instagram_share_artist">Show Artist</string>
+    <string name="label_instagram_share_emotions">Show Emotion Tags</string>
+    <string name="label_instagram_share_memo">Show Memo</string>
+    <string name="label_instagram_share_preview">Preview</string>
+    <string name="label_instagram_share_preview_title">Song Title</string>
+    <string name="label_instagram_share_preview_artist">Artist</string>
+    <string name="label_instagram_share_preview_memo">Leave your emotions for today</string>
+    <string name="message_instagram_share_minimum_option">At least one option must be selected</string>
+
     <!--  Details  -->
     <string name="hint_track_detail_comment">Enter your comment</string>
     <string name="description_track_delete_button">Delete</string>
     <string name="description_track_instagram_share">Share to story</string>
+    <string name="description_drag_handle">Reorder</string>
+    <string name="label_add_custom_emotion">Add Emotion</string>
+    <string name="label_delete_emotion">Delete Emotion</string>
+    <string name="label_emotion_menu">Emotion Menu</string>
+    <string name="hint_emotion_name">Enter emotion name</string>
+    <string name="hint_add_emotion">Enter emotion to add</string>
+    <string name="message_emotion_name_empty">Please enter emotion name</string>
+    <string name="message_emotion_already_exists">This emotion already exists</string>
+    <string name="message_select_emotion_to_delete">Please select an emotion to delete</string>
+    <string name="message_emotion_deleted">Emotion deleted</string>
+    <string name="label_delete_selected_emotions">Delete selected emotions</string>
+    <string name="label_delete_n_emotions">Delete %d emotions</string>
+    <string name="message_delete_confirm_title">Delete Emotions</string>
+    <string name="message_delete_confirm">Do you want to delete selected emotions?</string>
+    <string name="label_delete">Delete</string>
 
     <!-- Emotions -->
     <string name="emotion_happy">Happy</string>

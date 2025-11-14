@@ -1,10 +1,11 @@
 package com.stopstone.musicplaylist.domain.model
 
 import android.content.Context
+import androidx.annotation.StringRes
 import com.stopstone.musicplaylist.R
 
 enum class Emotions(
-    private val stringResId: Int,
+    @StringRes val stringResId: Int,
 ) {
     HAPPY(R.string.emotion_happy),
     LOVING(R.string.emotion_loving),
