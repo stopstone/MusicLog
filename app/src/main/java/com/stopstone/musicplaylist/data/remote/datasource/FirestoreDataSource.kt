@@ -110,6 +110,36 @@ class FirestoreDataSource
                 Result.failure(e)
             }
 
+        // 인스타그램 공유 설정 삭제
+        suspend fun deleteInstagramShareSetting(userId: String): Result<Unit> =
+            try {
+                firestore
+                    .collection(COLLECTION_USERS)
+                    .document(userId)
+                    .collection(COLLECTION_SETTINGS)
+                    .document(DOCUMENT_INSTAGRAM_SHARE)
+                    .delete()
+                    .await()
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+        // 감정 태그 설정 삭제
+        suspend fun deleteEmotionSettings(userId: String): Result<Unit> =
+            try {
+                firestore
+                    .collection(COLLECTION_USERS)
+                    .document(userId)
+                    .collection(COLLECTION_SETTINGS)
+                    .document(DOCUMENT_EMOTION_SETTINGS)
+                    .delete()
+                    .await()
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
         suspend fun updateComment(
             userId: String,
             musicId: String,
@@ -167,10 +197,13 @@ class FirestoreDataSource
         suspend fun deleteUserAccount(userId: String): Result<Unit> =
             try {
                 // 1. musics subcollection 모든 데이터 삭제
-                deleteAllMusics(userId)
+                deleteAllMusics(userId).getOrThrow()
                 // 2. signature_songs subcollection 모든 데이터 삭제
-                deleteAllSignatureSongs(userId)
-                // 3. profile subcollection 삭제
+                deleteAllSignatureSongs(userId).getOrThrow()
+                // 3. settings collection 내 문서 삭제
+                deleteInstagramShareSetting(userId).getOrThrow()
+                deleteEmotionSettings(userId).getOrThrow()
+                // 4. profile subcollection 삭제
                 firestore
                     .collection(COLLECTION_USERS)
                     .document(userId)
@@ -178,7 +211,7 @@ class FirestoreDataSource
                     .document(DOCUMENT_PROFILE)
                     .delete()
                     .await()
-                // 4. user document 삭제
+                // 5. user document 삭제
                 firestore
                     .collection(COLLECTION_USERS)
                     .document(userId)
