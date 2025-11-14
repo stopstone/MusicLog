@@ -1,6 +1,7 @@
 package com.stopstone.musicplaylist.ui.my
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.stopstone.musicplaylist.databinding.FragmentMyBinding
 import com.stopstone.musicplaylist.databinding.ViewMySettingBinding
 import com.stopstone.musicplaylist.ui.my.model.MySettingMenu
 import com.stopstone.musicplaylist.ui.my.viewmodel.MyViewModel
+import com.stopstone.musicplaylist.ui.signature_list.SignatureListActivity
 import com.stopstone.musicplaylist.util.DateUtils
 import com.stopstone.musicplaylist.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,28 +51,28 @@ class MyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupSettingItems()
         setupSignatureSongClick()
-        setupMoreSignatureMusicClick()
         observeViewModel()
         viewModel.loadMusicCount()
         viewModel.loadSignatureSong()
-    }
-
-    private fun setupMoreSignatureMusicClick() {
-        binding.mySignatureSong.signatureSongMore.setOnClickListener {
-            val action = MyFragmentDirections.actionNavigationSignatureList()
-            findNavController().navigate(action)
-        }
     }
 
     private fun setupSignatureSongClick() {
         binding.mySignatureSongNone.cardMySignatureSong.setOnClickListener {
             navigateToMusicSearchForSignatureSong()
         }
+        binding.mySignatureSong.signatureSongMore.setOnClickListener {
+            navigateToSignatureSongList()
+        }
     }
 
     private fun navigateToMusicSearchForSignatureSong() {
         val action = MyFragmentDirections.actionMyToMusicSearch("SIGNATURE_SONG")
         findNavController().navigate(action)
+    }
+
+    private fun navigateToSignatureSongList() {
+        val intent = Intent(requireContext(), SignatureListActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

@@ -1,6 +1,5 @@
 package com.stopstone.musicplaylist.data.remote.dto
 
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.ui.model.TrackUiState
