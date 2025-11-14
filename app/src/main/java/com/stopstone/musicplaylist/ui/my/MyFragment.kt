@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.stopstone.musicplaylist.R
+import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.databinding.FragmentMyBinding
 import com.stopstone.musicplaylist.databinding.ViewMySettingBinding
 import com.stopstone.musicplaylist.ui.common.SignatureSongTextFormatter
@@ -132,7 +133,7 @@ class MyFragment : Fragment() {
         binding.tvMyHeader.text = getString(R.string.label_my_music_count, count)
     }
 
-    private fun updateSignatureSongView(signatureSong: com.stopstone.musicplaylist.data.model.entity.SignatureSong?) {
+    private fun updateSignatureSongView(signatureSong: SignatureSong?) {
         if (signatureSong != null) {
             // 인생곡이 있을 때
             binding.mySignatureSongNone.root.visibility = View.INVISIBLE
