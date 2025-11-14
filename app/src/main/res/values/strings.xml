@@ -74,6 +74,10 @@
     <string name="label_my_menu_instagram_share">인스타 공유 설정</string>
     <string name="label_signature_list_title">인생곡 모아보기</string>
     <string name="label_signature_list_empty">아직 등록한 인생곡이 없어요.</string>
+    <string name="label_signature_song_since_detail">%1$s부터 %2$d%3$s</string>
+    <string name="label_signature_song_since_days_only">인생곡이 된지 %1$d%2$s</string>
+    <string name="label_signature_song_day_suffix">일</string>
+    <string name="format_signature_song_date">yyyy년 MM월 dd일</string>
 
     <!--  계정 설정  -->
     <string name="label_user_setting_title">계정설정</string>

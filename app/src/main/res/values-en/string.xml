@@ -74,6 +74,10 @@
     <string name="label_my_menu_emotion_tag">Emotion Tag Management</string>
     <string name="label_my_menu_notification">Notification Settings</string>
     <string name="label_my_menu_instagram_share">Instagram Share Settings</string>
+    <string name="label_signature_song_since_detail">Since %1$s, %2$d%3$s</string>
+    <string name="label_signature_song_since_days_only">%1$d%2$s since it became my signature song</string>
+    <string name="label_signature_song_day_suffix"> days</string>
+    <string name="format_signature_song_date">MMM dd, yyyy</string>
 
     <!--  Account Settings  -->
     <string name="label_user_setting_title">Account Settings</string>
