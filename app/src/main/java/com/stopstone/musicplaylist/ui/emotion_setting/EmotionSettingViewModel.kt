@@ -142,21 +142,6 @@ class EmotionSettingViewModel
             return true
         }
 
-        // 감정 삭제 (커스텀 감정) 또는 숨김 (기본 감정)
-        fun deleteEmotion(emotion: EmotionUiState) {
-            viewModelScope.launch {
-                if (emotion.isCustom) {
-                    // 커스텀 감정은 완전 삭제
-                    val customName = emotion.displayName
-                    emotionPreferences.deleteCustomEmotion(customName)
-                } else {
-                    // 기본 감정은 숨김 처리
-                    emotionPreferences.hideEmotion(emotion.emotionId)
-                }
-                backupEmotionSettings()
-            }
-        }
-
         // 순서 변경
         fun moveEmotion(
             fromPosition: Int,
