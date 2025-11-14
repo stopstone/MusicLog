@@ -1,14 +1,14 @@
 package com.stopstone.musicplaylist.ui.emotion_setting
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.data.local.settings.EmotionPreferences
+import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.domain.usecase.emotion_setting.BackupEmotionSettingsUseCase
 import com.stopstone.musicplaylist.domain.usecase.search.GetEmotionsUseCase
+import com.stopstone.musicplaylist.ui.common.resource.StringResourceProvider
 import com.stopstone.musicplaylist.ui.emotion_setting.model.EmotionUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,10 +21,10 @@ import javax.inject.Inject
 class EmotionSettingViewModel
     @Inject
     constructor(
-        @ApplicationContext private val context: Context,
         private val getEmotionsUseCase: GetEmotionsUseCase,
         private val emotionPreferences: EmotionPreferences,
         private val backupEmotionSettingsUseCase: BackupEmotionSettingsUseCase,
+        private val stringResourceProvider: StringResourceProvider,
     ) : ViewModel() {
         private val _emotions = MutableStateFlow<List<EmotionUiState>>(emptyList())
         val emotions: StateFlow<List<EmotionUiState>> = _emotions.asStateFlow()
@@ -65,7 +65,7 @@ class EmotionSettingViewModel
             }
 
         private fun buildEmotionList(
-            baseEmotions: List<com.stopstone.musicplaylist.domain.model.Emotions>,
+            baseEmotions: List<Emotions>,
             customEmotions: Set<String>,
             order: String?,
             hiddenEmotions: Set<String>,
@@ -78,7 +78,7 @@ class EmotionSettingViewModel
                 emotionMap[id] =
                     EmotionUiState(
                         emotionId = id,
-                        displayName = emotion.getDisplayName(context),
+                        displayName = stringResourceProvider.getString(emotion.stringResId),
                         isCustom = false,
                         isHidden = hiddenEmotions.contains(id),
                         emotion = emotion,
