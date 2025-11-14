@@ -148,7 +148,7 @@ class MyFragment : Fragment() {
                 val daysSinceSelected = DateUtils.getDaysSince(signatureSong.selectedAt)
                 tvSignatureSongSince.text =
                     SignatureSongTextFormatter.buildDaysOnlyText(
-                        context = requireContext(),
+                        context = context,
                         daysSinceSelected = daysSinceSelected,
                     )
             }
