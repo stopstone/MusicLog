@@ -4,6 +4,7 @@ import com.stopstone.musicplaylist.data.local.dao.DailyTrackDao
 import com.stopstone.musicplaylist.data.local.dao.SearchHistoryDao
 import com.stopstone.musicplaylist.data.local.dao.SignatureSongDao
 import com.stopstone.musicplaylist.data.remote.datasource.FirestoreDataSource
+import com.stopstone.musicplaylist.domain.repository.insta_share.InstagramShareSettingRepository
 import javax.inject.Inject
 
 class ClearUserDataUseCase
@@ -13,6 +14,7 @@ class ClearUserDataUseCase
         private val dailyTrackDao: DailyTrackDao,
         private val signatureSongDao: SignatureSongDao,
         private val searchHistoryDao: SearchHistoryDao,
+        private val instagramShareSettingRepository: InstagramShareSettingRepository,
     ) {
         suspend operator fun invoke(userId: String): Result<Unit> {
             return try {
@@ -23,6 +25,7 @@ class ClearUserDataUseCase
                 dailyTrackDao.deleteAllTracks()
                 signatureSongDao.deleteAllSignatureSongs()
                 searchHistoryDao.deleteAllSearches()
+                instagramShareSettingRepository.clearLocalSettings() // 인스타 공유 설정 DataStore 초기화
                 Result.success(Unit)
             } catch (e: Exception) {
                 Result.failure(e)

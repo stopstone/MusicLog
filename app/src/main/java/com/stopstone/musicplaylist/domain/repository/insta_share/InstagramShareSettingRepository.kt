@@ -11,5 +11,7 @@ interface InstagramShareSettingRepository {
     suspend fun setShowMemo(show: Boolean)
 
     suspend fun syncRemoteSettings(userId: String): Result<Unit>
+
+    suspend fun clearLocalSettings()
 }
 

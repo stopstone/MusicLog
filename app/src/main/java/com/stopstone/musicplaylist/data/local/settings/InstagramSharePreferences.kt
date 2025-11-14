@@ -39,5 +39,12 @@ class InstagramSharePreferences
                 preferences[showMemoKey] = show
             }
         }
+
+        suspend fun clearSettings() {
+            dataStore.edit { preferences ->
+                preferences.remove(showEmotionsKey)
+                preferences.remove(showMemoKey)
+            }
+        }
     }
 

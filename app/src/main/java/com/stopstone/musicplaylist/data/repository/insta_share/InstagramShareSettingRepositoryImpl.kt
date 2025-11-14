@@ -78,4 +78,8 @@ class InstagramShareSettingRepositoryImpl
                 },
             )
         }
+
+        override suspend fun clearLocalSettings() {
+            instagramSharePreferences.clearSettings() // 인스타그램 공유 설정 DataStore 초기화
+        }
     }
