@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.FragmentMyBinding
 import com.stopstone.musicplaylist.databinding.ViewMySettingBinding
+import com.stopstone.musicplaylist.ui.common.SignatureSongTextFormatter
 import com.stopstone.musicplaylist.ui.my.model.MySettingMenu
 import com.stopstone.musicplaylist.ui.my.viewmodel.MyViewModel
 import com.stopstone.musicplaylist.ui.signature_list.SignatureListActivity
@@ -143,7 +144,12 @@ class MyFragment : Fragment() {
 
                 tvSignatureSongTitle.text = signatureSong.track.title
                 tvSignatureSongArtist.text = signatureSong.track.artist
-                tvSignatureSongSince.text = DateUtils.formatSignatureSongDate(signatureSong.selectedAt)
+                val daysSinceSelected = DateUtils.getDaysSince(signatureSong.selectedAt)
+                tvSignatureSongSince.text =
+                    SignatureSongTextFormatter.buildDaysOnlyText(
+                        context = requireContext(),
+                        daysSinceSelected = daysSinceSelected,
+                    )
             }
         } else {
             // 인생곡이 없을 때

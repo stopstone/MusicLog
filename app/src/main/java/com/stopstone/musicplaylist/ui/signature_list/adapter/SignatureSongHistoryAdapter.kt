@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.musicplaylist.base.BaseDiffCallback
 import com.stopstone.musicplaylist.databinding.ItemSignatureSongListBinding
+import com.stopstone.musicplaylist.ui.common.SignatureSongTextFormatter
 import com.stopstone.musicplaylist.ui.signature_list.model.SignatureSongHistoryUiState
 import com.stopstone.musicplaylist.util.loadImage
 
@@ -42,7 +43,13 @@ class SignatureSongHistoryAdapter :
         fun bind(item: SignatureSongHistoryUiState) {
             binding.tvSignatureSongTitle.text = item.title
             binding.tvSignatureSongArtist.text = item.artist
-            binding.tvSignatureSongSince.text = item.selectedAtLabel
+            val context = binding.root.context
+            binding.tvSignatureSongSince.text =
+                SignatureSongTextFormatter.buildSinceText(
+                    context = context,
+                    selectedDate = item.selectedAt,
+                    daysSinceSelected = item.daysSinceSelected,
+                )
             binding.ivSignatureSong.loadImage(item.imageUrl)
         }
     }

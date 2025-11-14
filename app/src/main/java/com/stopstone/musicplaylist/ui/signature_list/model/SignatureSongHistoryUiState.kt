@@ -3,13 +3,15 @@ package com.stopstone.musicplaylist.ui.signature_list.model
 import com.stopstone.musicplaylist.base.BaseIdModel
 import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.util.DateUtils
+import java.util.Date
 
 data class SignatureSongHistoryUiState(
     val historyId: Long,
     val title: String,
     val artist: String,
     val imageUrl: String,
-    val selectedAtLabel: String,
+    val selectedAt: Date,
+    val daysSinceSelected: Int,
     val isActive: Boolean,
 ) : BaseIdModel {
     override val id: Any
@@ -29,7 +31,8 @@ fun SignatureSong.toHistoryUiState(): SignatureSongHistoryUiState {
         title = track.title,
         artist = track.artist,
         imageUrl = track.imageUrl,
-        selectedAtLabel = DateUtils.formatSignatureSongDate(selectedAt),
+        selectedAt = selectedAt,
+        daysSinceSelected = DateUtils.getDaysSince(selectedAt),
         isActive = isActive,
     )
 }
