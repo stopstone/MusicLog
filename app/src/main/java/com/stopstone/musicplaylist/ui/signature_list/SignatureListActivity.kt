@@ -19,9 +19,6 @@ import com.stopstone.musicplaylist.ui.signature_list.viewmodel.SignatureListView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-/**
- * Activity that renders the signature song history list.
- */
 @AndroidEntryPoint
 class SignatureListActivity : AppCompatActivity() {
     private val binding: ActivitySignatureListBinding by lazy {
