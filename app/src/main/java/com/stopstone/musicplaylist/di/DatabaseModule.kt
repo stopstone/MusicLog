@@ -6,6 +6,7 @@ import com.stopstone.musicplaylist.data.local.dao.DailyTrackDao
 import com.stopstone.musicplaylist.data.local.dao.SignatureSongDao
 import com.stopstone.musicplaylist.data.local.dao.SearchHistoryDao
 import com.stopstone.musicplaylist.data.local.database.AppDatabase
+import com.stopstone.musicplaylist.data.local.database.migration.DatabaseMigrations
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,9 @@ object DatabaseModule {
                 context,
                 AppDatabase::class.java,
                 "app_database",
-            ).fallbackToDestructiveMigration()
+            )
+            .addMigrations(DatabaseMigrations.migration1To2)
+            .fallbackToDestructiveMigration()
             .build()
 
     @Provides

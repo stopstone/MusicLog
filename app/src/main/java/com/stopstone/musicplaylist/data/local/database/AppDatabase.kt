@@ -11,7 +11,11 @@ import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.data.model.entity.SearchHistory
 import com.stopstone.musicplaylist.util.Converters
 
-@Database(entities = [DailyTrack::class, SearchHistory::class, SignatureSong::class], version = 1, exportSchema = true)
+@Database(
+    entities = [DailyTrack::class, SearchHistory::class, SignatureSong::class],
+    version = 2,
+    exportSchema = true,
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dailyTrackDao(): DailyTrackDao
