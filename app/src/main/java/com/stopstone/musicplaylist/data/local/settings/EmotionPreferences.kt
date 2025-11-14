@@ -5,25 +5,27 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
+import com.stopstone.musicplaylist.data.local.settings.model.EmotionSettingPreferences
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-// 감정 설정을 저장하는 DataStore
+// 감정 설정을 DataStore에 저장 및 복원하는 클래스
 @Singleton
 class EmotionPreferences
     @Inject
     constructor(
         private val dataStore: DataStore<Preferences>,
     ) {
-        // 커스텀 감정 리스트 (JSON 형식)
+        // 커스텀 감정 리스트 키
         private val customEmotionsKey = stringSetPreferencesKey("custom_emotions")
-        
-        // 감정 순서 (Emotion ID를 쉼표로 구분)
+
+        // 감정 순서 키 (Emotion ID를 쉼표로 구분)
         private val emotionOrderKey = stringPreferencesKey("emotion_order")
         
-        // 숨김 처리된 감정 ID 리스트
+        // 숨김 처리된 감정 ID 리스트 키
         private val hiddenEmotionsKey = stringSetPreferencesKey("hidden_emotions")
 
         // 커스텀 감정 가져오기
@@ -91,5 +93,32 @@ class EmotionPreferences
                 preferences.remove(hiddenEmotionsKey)
             }
         }
-    }
 
+        // 현재 감정 설정 스냅샷을 가져오기
+        suspend fun getEmotionSettingsSnapshot(): EmotionSettingPreferences {
+            val preferences = dataStore.data.first()
+            val customEmotions = preferences[customEmotionsKey] ?: emptySet()
+            val rawOrder = preferences[emotionOrderKey] ?: ""
+            val emotionOrder =
+                if (rawOrder.isNotEmpty()) {
+                    rawOrder.split(",").filter { it.isNotBlank() }
+                } else {
+                    emptyList()
+                }
+            val hiddenEmotions = preferences[hiddenEmotionsKey] ?: emptySet()
+            return EmotionSettingPreferences(
+                customEmotions = customEmotions,
+                emotionOrder = emotionOrder,
+                hiddenEmotions = hiddenEmotions,
+            )
+        }
+
+        // 전달받은 스냅샷으로 감정 설정 전체 덮어쓰기
+        suspend fun overwriteEmotionSettings(settings: EmotionSettingPreferences) {
+            dataStore.edit { preferences ->
+                preferences[customEmotionsKey] = settings.customEmotions
+                preferences[hiddenEmotionsKey] = settings.hiddenEmotions
+                preferences[emotionOrderKey] = settings.emotionOrder.joinToString(",")
+            }
+        }
+    }
