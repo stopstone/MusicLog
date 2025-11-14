@@ -20,6 +20,9 @@
         android:theme="@style/Theme.MusicLog"
         tools:targetApi="31">
         <activity
+            android:name=".ui.signature_list.SignatureListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.signature_music.SignatureMusicActivity"
             android:exported="false" />
         <activity

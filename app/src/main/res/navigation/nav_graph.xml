@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_my_to_music_search"
             app:destination="@id/navigation_music_search" />
+        <action
+            android:id="@+id/action_navigation_signature_list"
+            app:destination="@id/navigation_signature_list" />
     </fragment>
 
     <activity
@@ -87,5 +90,10 @@
         android:name="com.stopstone.musicplaylist.ui.signature_music.SignatureMusicActivity"
         android:label="SignatureMusicActivity"
         tools:layout="@layout/activity_signature_music" />
+    <activity
+        android:id="@+id/navigation_signature_list"
+        android:name="com.stopstone.musicplaylist.ui.signature_list.SignatureListActivity"
+        android:label="SignatureListActivity"
+        tools:layout="@layout/activity_signature_list" />
 
 </navigation>
