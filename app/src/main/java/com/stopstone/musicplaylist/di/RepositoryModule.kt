@@ -3,6 +3,7 @@ package com.stopstone.musicplaylist.di
 import com.stopstone.musicplaylist.data.repository.common.AuthRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.common.PlayListRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.common.TrackRepositoryImpl
+import com.stopstone.musicplaylist.data.repository.emotion_setting.EmotionSettingRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.home.CalendarRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.insta_share.InstagramShareSettingRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.my.SignatureSongRepositoryImpl
@@ -12,6 +13,7 @@ import com.stopstone.musicplaylist.data.repository.user.UserProfileRepositoryImp
 import com.stopstone.musicplaylist.domain.repository.common.AuthRepository
 import com.stopstone.musicplaylist.domain.repository.common.PlayListRepository
 import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
+import com.stopstone.musicplaylist.domain.repository.emotion_setting.EmotionSettingRepository
 import com.stopstone.musicplaylist.domain.repository.home.CalendarRepository
 import com.stopstone.musicplaylist.domain.repository.insta_share.InstagramShareSettingRepository
 import com.stopstone.musicplaylist.domain.repository.my.SignatureSongRepository
@@ -81,4 +83,10 @@ abstract class RepositoryModule {
     abstract fun bindSignatureSongRepository(
         repository: SignatureSongRepositoryImpl,
     ): SignatureSongRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindEmotionSettingRepository(
+        repository: EmotionSettingRepositoryImpl,
+    ): EmotionSettingRepository
 }
