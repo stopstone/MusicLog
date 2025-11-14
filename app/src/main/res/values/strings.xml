@@ -68,6 +68,7 @@
     <!--  MY 화면  -->
     <string name="label_my_title">MY</string>
     <string name="label_my_music_count">지금까지 기록한\n감정플리 %d곡</string>
+    <string name="label_my_music_count_empty">아직까지 기록한\n감정플리 없습니다</string>
     <string name="label_my_menu_account_setting">계정 설정</string>
     <string name="label_my_menu_emotion_tag">감정 태그 관리</string>
     <string name="label_my_menu_notification">알림 설정</string>

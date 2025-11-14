@@ -130,7 +130,13 @@ class MyFragment : Fragment() {
     }
 
     private fun updateMusicCount(count: Int) {
-        binding.tvMyHeader.text = getString(R.string.label_my_music_count, count)
+        val headerText =
+            if (count == 0) {
+                getString(R.string.label_my_music_count_empty) // 음악 기록이 없을 때 문구
+            } else {
+                getString(R.string.label_my_music_count, count) // 음악 기록이 있을 때 문구
+            }
+        binding.tvMyHeader.text = headerText
     }
 
     private fun updateSignatureSongView(signatureSong: SignatureSong?) {
