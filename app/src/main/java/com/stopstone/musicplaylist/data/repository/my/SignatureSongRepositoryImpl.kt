@@ -46,6 +46,11 @@ class SignatureSongRepositoryImpl
             }
         }
 
+        override suspend fun clearLocalSignatureSongs() {
+            // 계정 전환 대비 로컬 데이터만 정리
+            signatureSongDao.deleteAllSignatureSongs()
+        }
+
         override suspend fun syncFromFirestore(userId: String): Result<Unit> =
             try {
                 val result = firestoreDataSource.getAllSignatureSongs(userId)

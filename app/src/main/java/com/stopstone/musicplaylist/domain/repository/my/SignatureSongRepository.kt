@@ -16,5 +16,7 @@ interface SignatureSongRepository {
 
     suspend fun deleteAllSignatureSongs()
 
+    suspend fun clearLocalSignatureSongs()
+
     suspend fun syncFromFirestore(userId: String): Result<Unit>
 }
