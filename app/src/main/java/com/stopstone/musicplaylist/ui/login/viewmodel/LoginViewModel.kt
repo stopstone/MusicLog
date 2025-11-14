@@ -3,6 +3,7 @@ package com.stopstone.musicplaylist.ui.login.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.data.model.dto.UserProfileDto
+import com.stopstone.musicplaylist.domain.usecase.insta_share.SyncInstagramShareSettingUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SaveUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncMusicFromFirestoreUseCase
@@ -27,6 +28,7 @@ class LoginViewModel
         private val saveUserIdUseCase: SaveUserIdUseCase,
         private val syncMusicFromFirestoreUseCase: SyncMusicFromFirestoreUseCase,
         private val syncSignatureSongFromFirestoreUseCase: SyncSignatureSongFromFirestoreUseCase,
+        private val syncInstagramShareSettingUseCase: SyncInstagramShareSettingUseCase,
         private val getTokenUseCase: GetTokenUseCase,
         private val saveUserProfileUseCase: SaveUserProfileUseCase,
         private val resetLocalUserCacheUseCase: ResetLocalUserCacheUseCase,
@@ -72,8 +74,13 @@ class LoginViewModel
                     saveUserProfileUseCase(userProfile.userId, profileDto)
                     val musicSyncResult = syncMusicFromFirestoreUseCase(userProfile.userId)
                     val signatureSongSyncResult = syncSignatureSongFromFirestoreUseCase(userProfile.userId)
+                    val instagramSettingSyncResult = syncInstagramShareSettingUseCase(userProfile.userId)
 
-                    if (musicSyncResult.isSuccess && signatureSongSyncResult.isSuccess) {
+                    if (
+                        musicSyncResult.isSuccess &&
+                        signatureSongSyncResult.isSuccess &&
+                        instagramSettingSyncResult.isSuccess
+                    ) {
                         _uiState.value = LoginUiState.Success
                     } else {
                         _uiState.value = LoginUiState.SuccessWithSyncError

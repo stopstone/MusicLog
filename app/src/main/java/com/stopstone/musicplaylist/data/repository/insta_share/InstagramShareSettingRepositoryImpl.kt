@@ -34,10 +34,9 @@ class InstagramShareSettingRepositoryImpl
         override suspend fun setShowEmotions(show: Boolean) {
             // 1. DataStore에 저장
             instagramSharePreferences.setShowEmotions(show)
-
             // 2. Firebase에 저장
             val userId = userPreferences.getUserId().first()
-            if (userId?.isEmpty() == true) {
+            if (userId?.isNotEmpty() == true) {
                 val currentSettings = getSettings().first()
                 val settingDto =
                     InstagramShareSettingDto(
@@ -51,7 +50,6 @@ class InstagramShareSettingRepositoryImpl
         override suspend fun setShowMemo(show: Boolean) {
             // 1. DataStore에 저장
             instagramSharePreferences.setShowMemo(show)
-
             // 2. Firebase에 저장
             val userId = userPreferences.getUserId().first()
             if (userId?.isNotEmpty() == true) {
@@ -63,5 +61,21 @@ class InstagramShareSettingRepositoryImpl
                     )
                 firestoreDataSource.saveInstagramShareSetting(userId, settingDto)
             }
+        }
+
+        override suspend fun syncRemoteSettings(userId: String): Result<Unit> {
+            val remoteResult = firestoreDataSource.getInstagramShareSetting(userId)
+            return remoteResult.fold(
+                onSuccess = { dto ->
+                    val showEmotions = dto?.showEmotions ?: false
+                    val showMemo = dto?.showMemo ?: false
+                    instagramSharePreferences.setShowEmotions(showEmotions)
+                    instagramSharePreferences.setShowMemo(showMemo)
+                    Result.success(Unit)
+                },
+                onFailure = { throwable ->
+                    Result.failure(throwable)
+                },
+            )
         }
     }

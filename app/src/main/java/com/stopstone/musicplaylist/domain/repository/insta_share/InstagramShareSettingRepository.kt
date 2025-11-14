@@ -9,5 +9,7 @@ interface InstagramShareSettingRepository {
     suspend fun setShowEmotions(show: Boolean)
 
     suspend fun setShowMemo(show: Boolean)
+
+    suspend fun syncRemoteSettings(userId: String): Result<Unit>
 }
 
