@@ -3,6 +3,7 @@ package com.stopstone.musicplaylist.ui.login.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.data.model.dto.UserProfileDto
+import com.stopstone.musicplaylist.domain.usecase.emotion_setting.SyncEmotionSettingsUseCase
 import com.stopstone.musicplaylist.domain.usecase.insta_share.SyncInstagramShareSettingUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SaveUserIdUseCase
@@ -29,6 +30,7 @@ class LoginViewModel
         private val syncMusicFromFirestoreUseCase: SyncMusicFromFirestoreUseCase,
         private val syncSignatureSongFromFirestoreUseCase: SyncSignatureSongFromFirestoreUseCase,
         private val syncInstagramShareSettingUseCase: SyncInstagramShareSettingUseCase,
+        private val syncEmotionSettingsUseCase: SyncEmotionSettingsUseCase,
         private val getTokenUseCase: GetTokenUseCase,
         private val saveUserProfileUseCase: SaveUserProfileUseCase,
         private val resetLocalUserCacheUseCase: ResetLocalUserCacheUseCase,
@@ -75,11 +77,13 @@ class LoginViewModel
                     val musicSyncResult = syncMusicFromFirestoreUseCase(userProfile.userId)
                     val signatureSongSyncResult = syncSignatureSongFromFirestoreUseCase(userProfile.userId)
                     val instagramSettingSyncResult = syncInstagramShareSettingUseCase(userProfile.userId)
+                    val emotionSettingSyncResult = syncEmotionSettingsUseCase.execute(userProfile.userId)
 
                     if (
                         musicSyncResult.isSuccess &&
                         signatureSongSyncResult.isSuccess &&
-                        instagramSettingSyncResult.isSuccess
+                        instagramSettingSyncResult.isSuccess &&
+                        emotionSettingSyncResult.isSuccess
                     ) {
                         _uiState.value = LoginUiState.Success
                     } else {

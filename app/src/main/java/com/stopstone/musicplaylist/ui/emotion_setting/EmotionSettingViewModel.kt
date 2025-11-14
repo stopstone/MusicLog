@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.data.local.settings.EmotionPreferences
+import com.stopstone.musicplaylist.domain.usecase.emotion_setting.BackupEmotionSettingsUseCase
 import com.stopstone.musicplaylist.domain.usecase.search.GetEmotionsUseCase
 import com.stopstone.musicplaylist.ui.emotion_setting.model.EmotionUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +24,7 @@ class EmotionSettingViewModel
         @ApplicationContext private val context: Context,
         private val getEmotionsUseCase: GetEmotionsUseCase,
         private val emotionPreferences: EmotionPreferences,
+        private val backupEmotionSettingsUseCase: BackupEmotionSettingsUseCase,
     ) : ViewModel() {
         private val _emotions = MutableStateFlow<List<EmotionUiState>>(emptyList())
         val emotions: StateFlow<List<EmotionUiState>> = _emotions.asStateFlow()
@@ -135,6 +137,7 @@ class EmotionSettingViewModel
 
             viewModelScope.launch {
                 emotionPreferences.addCustomEmotion(name)
+                backupEmotionSettings()
             }
             return true
         }
@@ -150,6 +153,7 @@ class EmotionSettingViewModel
                     // 기본 감정은 숨김 처리
                     emotionPreferences.hideEmotion(emotion.emotionId)
                 }
+                backupEmotionSettings()
             }
         }
 
@@ -169,6 +173,7 @@ class EmotionSettingViewModel
             viewModelScope.launch {
                 val order = _emotions.value.joinToString(",") { it.emotionId }
                 emotionPreferences.saveEmotionOrder(order)
+                backupEmotionSettings()
             }
         }
 
@@ -214,6 +219,11 @@ class EmotionSettingViewModel
                         }
                     }
                 disableDeleteMode()
+                backupEmotionSettings()
             }
+        }
+
+        private suspend fun backupEmotionSettings() {
+            backupEmotionSettingsUseCase.execute()
         }
     }
