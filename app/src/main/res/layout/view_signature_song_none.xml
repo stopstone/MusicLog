@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="당신의 인생곡을 선정해보세요"
+        android:text="@string/label_signature_song_none_cta"
         app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
         app:layout_constraintStart_toStartOf="@id/card_my_signature_song"
         app:layout_constraintTop_toBottomOf="@id/iv_signature_song" />

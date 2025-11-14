@@ -69,10 +69,14 @@
     <string name="label_my_title">MY</string>
     <string name="label_my_music_count">지금까지 기록한\n감정플리 %d곡</string>
     <string name="label_my_music_count_empty">아직까지 기록한\n감정플리 없습니다</string>
+    <string name="label_my_settings_section">설정</string>
     <string name="label_my_menu_account_setting">계정 설정</string>
     <string name="label_my_menu_emotion_tag">감정 태그 관리</string>
     <string name="label_my_menu_notification">알림 설정</string>
     <string name="label_my_menu_instagram_share">인스타 공유 설정</string>
+    <string name="label_signature_song_section">나의 인생곡</string>
+    <string name="label_signature_song_more">인생곡 모아보기</string>
+    <string name="label_signature_song_none_cta">당신의 인생곡을 선정해보세요</string>
     <string name="label_signature_list_title">인생곡 모아보기</string>
     <string name="label_signature_list_empty">아직 등록한 인생곡이 없어요.</string>
     <string name="label_signature_song_since_detail">%1$s부터 %2$d%3$s</string>
