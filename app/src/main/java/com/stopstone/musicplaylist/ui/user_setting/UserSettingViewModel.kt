@@ -89,9 +89,21 @@ class UserSettingViewModel
         fun logout() {
             viewModelScope.launch {
                 try {
+                    _uiState.update { it.copy(isLoading = true) }
                     logoutUseCase()
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            isLoggedOut = true,
+                        )
+                    }
                 } catch (e: Exception) {
-                    // 로그아웃은 실패해도 진행
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = e.message,
+                        )
+                    }
                 }
             }
         }
@@ -188,4 +200,5 @@ data class UserSettingUiState(
     val errorMessage: String? = null,
     val isAccountDeleted: Boolean = false,
     val isDataCleared: Boolean = false,
+    val isLoggedOut: Boolean = false,
 )

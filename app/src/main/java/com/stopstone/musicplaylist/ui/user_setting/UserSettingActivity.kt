@@ -91,6 +91,16 @@ class UserSettingActivity : AppCompatActivity() {
                         }
                     }
             }
+            launch {
+                viewModel.uiState
+                    .map { it.isLoggedOut }
+                    .distinctUntilChanged()
+                    .collect { isLoggedOut ->
+                        if (isLoggedOut) {
+                            navigateToLogin()
+                        }
+                    }
+            }
         }
     }
 
@@ -152,7 +162,6 @@ class UserSettingActivity : AppCompatActivity() {
 
     private fun performLogout() {
         viewModel.logout()
-        navigateToLogin()
     }
 
     private fun navigateToLogin() {
