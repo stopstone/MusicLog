@@ -50,18 +50,25 @@ class MyFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         setupSettingItems()
-        setupSignatureSongClick()
+        setupListeners()
         observeViewModel()
         viewModel.loadMusicCount()
         viewModel.loadSignatureSong()
     }
 
-    private fun setupSignatureSongClick() {
-        binding.mySignatureSongNone.cardMySignatureSong.setOnClickListener {
-            navigateToMusicSearchForSignatureSong()
-        }
-        binding.mySignatureSong.signatureSongMore.setOnClickListener {
-            navigateToSignatureSongList()
+    private fun setupListeners() {
+        with(binding) {
+            mySignatureSongNone.cardMySignatureSong.setOnClickListener {
+                navigateToMusicSearchForSignatureSong()
+            }
+
+            mySignatureSong.cardMySignatureSong.setOnClickListener {
+                navigateToMusicSearchForSignatureSong()
+            }
+
+            mySignatureSong.signatureSongMore.setOnClickListener {
+                navigateToSignatureSongList()
+            }
         }
     }
 
