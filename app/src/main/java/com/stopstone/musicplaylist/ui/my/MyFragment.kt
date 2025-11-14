@@ -49,9 +49,17 @@ class MyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupSettingItems()
         setupSignatureSongClick()
+        setupMoreSignatureMusicClick()
         observeViewModel()
         viewModel.loadMusicCount()
         viewModel.loadSignatureSong()
+    }
+
+    private fun setupMoreSignatureMusicClick() {
+        binding.mySignatureSong.signatureSongMore.setOnClickListener {
+            val action = MyFragmentDirections.actionNavigationSignatureList()
+            findNavController().navigate(action)
+        }
     }
 
     private fun setupSignatureSongClick() {
