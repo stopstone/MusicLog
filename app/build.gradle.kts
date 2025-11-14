@@ -23,14 +23,14 @@ android {
         applicationId = "com.stopstone.musicplaylist"
         minSdk = 24
         targetSdk = 35
-        versionCode = 15
-        versionName = "1.4.0"
+        versionCode = 16
+        versionName = "1.5.1"
 
         val clientId = properties["client.id"].toString().replace("\"", "")
         val clientSecret = properties["client.secret"].toString().replace("\"", "")
         val facebookAppId = properties["facebook.app.id"].toString().replace("\"", "")
         val kakaoNativeAppKey = properties["kakao.native.app.key"].toString().replace("\"", "")
-        
+
         buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
         buildConfigField("String", "CLIENT_SECRET", "\"$clientSecret\"")
         buildConfigField("String", "FACEBOOK_APP_ID", "\"$facebookAppId\"")
