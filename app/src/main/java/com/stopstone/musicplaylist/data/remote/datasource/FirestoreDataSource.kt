@@ -5,6 +5,7 @@ import com.google.firebase.firestore.SetOptions
 import com.stopstone.musicplaylist.data.model.dto.MusicDto
 import com.stopstone.musicplaylist.data.model.dto.UserProfileDto
 import com.stopstone.musicplaylist.data.model.entity.SignatureSong
+import com.stopstone.musicplaylist.data.remote.dto.EmotionSettingDto
 import com.stopstone.musicplaylist.data.remote.dto.InstagramShareSettingDto
 import com.stopstone.musicplaylist.data.remote.dto.SignatureSongRemoteDto
 import com.stopstone.musicplaylist.data.remote.dto.toEntity
@@ -25,6 +26,7 @@ class FirestoreDataSource
             private const val DOCUMENT_PROFILE = "profile"
             private const val COLLECTION_SETTINGS = "settings"
             private const val DOCUMENT_INSTAGRAM_SHARE = "instagram_share"
+            private const val DOCUMENT_EMOTION_SETTINGS = "emotion_settings"
             private const val COLLECTION_SIGNATURE_SONGS = "signature_songs"
         }
 
@@ -220,6 +222,41 @@ class FirestoreDataSource
                         .await()
 
                 val setting = snapshot.toObject(InstagramShareSettingDto::class.java)
+                Result.success(setting)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+        // 감정 태그 설정 저장
+        suspend fun saveEmotionSettings(
+            userId: String,
+            settingDto: EmotionSettingDto,
+        ): Result<Unit> =
+            try {
+                firestore
+                    .collection(COLLECTION_USERS)
+                    .document(userId)
+                    .collection(COLLECTION_SETTINGS)
+                    .document(DOCUMENT_EMOTION_SETTINGS)
+                    .set(settingDto, SetOptions.merge())
+                    .await()
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+        // 감정 태그 설정 불러오기
+        suspend fun getEmotionSettings(userId: String): Result<EmotionSettingDto?> =
+            try {
+                val snapshot =
+                    firestore
+                        .collection(COLLECTION_USERS)
+                        .document(userId)
+                        .collection(COLLECTION_SETTINGS)
+                        .document(DOCUMENT_EMOTION_SETTINGS)
+                        .get()
+                        .await()
+                val setting = snapshot.toObject(EmotionSettingDto::class.java)
                 Result.success(setting)
             } catch (e: Exception) {
                 Result.failure(e)
