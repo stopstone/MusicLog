@@ -10,7 +10,6 @@ import com.stopstone.musicplaylist.domain.usecase.login.SaveUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncMusicFromFirestoreUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncSignatureSongFromFirestoreUseCase
 import com.stopstone.musicplaylist.domain.usecase.splash.GetTokenUseCase
-import com.stopstone.musicplaylist.domain.usecase.user.ResetLocalUserCacheUseCase
 import com.stopstone.musicplaylist.domain.usecase.user.SaveUserProfileUseCase
 import com.stopstone.musicplaylist.ui.login.model.UserProfile
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +32,6 @@ class LoginViewModel
         private val syncEmotionSettingsUseCase: SyncEmotionSettingsUseCase,
         private val getTokenUseCase: GetTokenUseCase,
         private val saveUserProfileUseCase: SaveUserProfileUseCase,
-        private val resetLocalUserCacheUseCase: ResetLocalUserCacheUseCase,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
         val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -59,11 +57,6 @@ class LoginViewModel
             viewModelScope.launch {
                 try {
                     _uiState.value = LoginUiState.Loading
-                    val previousUserId = getUserIdUseCase()
-                    if (previousUserId == null || previousUserId != userProfile.userId) {
-                        // 사용자 전환 시 로컬 캐시를 먼저 정리해 동기화 시 충돌을 방지
-                        resetLocalUserCacheUseCase()
-                    }
                     saveUserIdUseCase(userProfile.userId)
                     val profileDto =
                         UserProfileDto(
