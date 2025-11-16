@@ -21,9 +21,9 @@ import androidx.navigation.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityTrackDetailBinding
-import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.detail.viewmodel.TrackDetailViewModel
 import com.stopstone.musicplaylist.util.DateUtils
+import com.stopstone.musicplaylist.util.EmotionDisplayMapper
 import com.stopstone.musicplaylist.util.InstagramShareHelper
 import com.stopstone.musicplaylist.util.hideKeyboard
 import com.stopstone.musicplaylist.util.loadImage
@@ -154,16 +154,17 @@ class TrackDetailActivity : AppCompatActivity() {
     }
 
     private fun addEmotionTags() {
-        args.DailyTrack.emotions.forEach { emotion ->
-            val textView = createEmotionTextView(emotion)
+        val displayList = EmotionDisplayMapper.mapToDisplayNames(this, args.DailyTrack.emotions)
+        displayList.forEach { emotionName ->
+            val textView = createEmotionTextView(emotionName)
             addTextViewToLayout(textView)
         }
     }
 
-    private fun createEmotionTextView(emotion: Emotions) =
+    private fun createEmotionTextView(emotionName: String) =
         TextView(this).apply {
             id = View.generateViewId()
-            text = emotion.getDisplayName(this@TrackDetailActivity)
+            text = emotionName
             background = AppCompatResources.getDrawable(context, R.drawable.background_gray)
             setPadding(16, 8, 16, 8)
         }

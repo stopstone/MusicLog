@@ -1,7 +1,6 @@
 package com.stopstone.musicplaylist.domain.usecase.search
 
 import com.stopstone.musicplaylist.data.model.entity.DailyTrack
-import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import java.util.Date
@@ -14,7 +13,7 @@ class SaveDailyTrackUseCase
     ) {
         suspend operator fun invoke(
             track: TrackUiState,
-            emotions: List<Emotions>,
+            emotions: List<String>,
             date: Date,
             comment: String? = null,
         ) {
