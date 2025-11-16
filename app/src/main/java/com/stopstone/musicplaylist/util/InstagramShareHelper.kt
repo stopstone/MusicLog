@@ -22,7 +22,6 @@ import com.stopstone.musicplaylist.BuildConfig
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.LayoutInstagramStoryShareBinding
 import com.stopstone.musicplaylist.domain.model.CalendarDay
-import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import java.io.File
 import java.io.FileOutputStream
@@ -103,7 +102,7 @@ object InstagramShareHelper {
     private fun loadImageAndCreateStory(
         activity: Activity,
         track: TrackUiState,
-        emotions: List<Emotions>,
+        emotions: List<String>,
         comment: String?,
         showEmotions: Boolean,
         showMemo: Boolean,
@@ -167,7 +166,7 @@ object InstagramShareHelper {
     private fun createStoryView(
         context: Context,
         track: TrackUiState,
-        emotions: List<Emotions>,
+        emotions: List<String>,
         comment: String?,
         showEmotions: Boolean,
         showMemo: Boolean,
@@ -190,10 +189,11 @@ object InstagramShareHelper {
 
                 // 감정 태그 표시 (설정에 따라)
                 if (showEmotions && emotions.isNotEmpty()) {
-                    emotions.forEach { emotion ->
+                    val displayList = EmotionDisplayMapper.mapToDisplayNames(context, emotions)
+                    displayList.forEach { emotion ->
                         val textView =
                             TextView(context).apply {
-                                text = emotion.getDisplayName(context)
+                                text = emotion
                                 background =
                                     AppCompatResources.getDrawable(context, R.drawable.background_gray)
                                 setPadding(16, 8, 16, 8)
