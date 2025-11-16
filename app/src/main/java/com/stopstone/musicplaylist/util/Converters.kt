@@ -3,7 +3,6 @@ package com.stopstone.musicplaylist.util
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import java.util.Date
 
@@ -19,13 +18,13 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromEmotions(emotions: List<Emotions>): String {
+    fun fromEmotionStrings(emotions: List<String>): String {
         return Gson().toJson(emotions)
     }
 
     @TypeConverter
-    fun toEmotions(emotionsString: String): List<Emotions> {
-        val type = object : TypeToken<List<Emotions>>() {}.type
+    fun toEmotionStrings(emotionsString: String): List<String> {
+        val type = object : TypeToken<List<String>>() {}.type
         return Gson().fromJson(emotionsString, type)
     }
 
