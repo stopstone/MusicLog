@@ -16,7 +16,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityMusicMemoBinding
-import com.stopstone.musicplaylist.domain.model.Emotions
 import com.stopstone.musicplaylist.ui.MainActivity
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import com.stopstone.musicplaylist.ui.music_memo.viewmodel.MusicMemoViewModel
@@ -71,7 +70,10 @@ class MusicMemoActivity : AppCompatActivity() {
                 showToast(getString(R.string.message_track_info_not_available))
                 return@setOnClickListener
             }
-            val comment = binding.etSearch.text?.toString()?.trim()
+            val comment =
+                binding.etSearch.text
+                    ?.toString()
+                    ?.trim()
             viewModel.saveTrack(currentTrack, comment)
         }
     }
@@ -86,6 +88,11 @@ class MusicMemoActivity : AppCompatActivity() {
                     }
                 }
                 launch {
+                    viewModel.availableEmotions.collect { emotions ->
+                        renderEmotionChips(emotions)
+                    }
+                }
+                launch {
                     viewModel.trackSaved.collect { isSaved ->
                         handleTrackSaved(isSaved)
                     }
@@ -96,14 +103,18 @@ class MusicMemoActivity : AppCompatActivity() {
 
     private fun setupEmotionChips() {
         binding.cgEmotion.removeAllViews()
-        Emotions.entries.forEach { emotion ->
-            val chip = createEmotionChip(emotion)
+    }
+
+    private fun renderEmotionChips(emotions: List<String>) {
+        binding.cgEmotion.removeAllViews()
+        emotions.forEach { name ->
+            val chip = createEmotionChip(name)
             binding.cgEmotion.addView(chip)
         }
         updateChipStates(viewModel.selectedEmotions.value)
     }
 
-    private fun createEmotionChip(emotion: Emotions): Chip {
+    private fun createEmotionChip(emotionName: String): Chip {
         val chip =
             LayoutInflater.from(this).inflate(
                 R.layout.item_emotion_chip,
@@ -111,11 +122,12 @@ class MusicMemoActivity : AppCompatActivity() {
                 false,
             ) as Chip
         chip.id = View.generateViewId()
-        chip.text = emotion.getDisplayName(this)
-        chip.tag = emotion
-        chip.isChecked = viewModel.selectedEmotions.value.contains(emotion)
+        chip.text = emotionName
+        chip.tag = emotionName
+        chip.isChecked = viewModel.selectedEmotions.value.contains(emotionName)
         chip.setOnClickListener {
-            val wasToggled = viewModel.toggleEmotion(emotion)
+            val name = chip.tag as? String ?: return@setOnClickListener
+            val wasToggled = viewModel.toggleEmotion(name)
             if (!wasToggled) {
                 chip.isChecked = false
             }
@@ -123,11 +135,11 @@ class MusicMemoActivity : AppCompatActivity() {
         return chip
     }
 
-    private fun updateChipStates(selectedEmotions: List<Emotions>) {
+    private fun updateChipStates(selectedEmotions: List<String>) {
         for (i in 0 until binding.cgEmotion.childCount) {
             val chip = binding.cgEmotion.getChildAt(i) as? Chip ?: continue
-            val emotion = chip.tag as? Emotions ?: continue
-            chip.isChecked = selectedEmotions.contains(emotion)
+            val emotionName = chip.tag as? String ?: continue
+            chip.isChecked = selectedEmotions.contains(emotionName)
         }
     }
 
