@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,7 +46,7 @@ class MusicMemoViewModel
         private fun loadAvailableEmotions() {
             viewModelScope.launch {
                 combine(
-                    kotlinx.coroutines.flow.flow { emit(getEmotionsUseCase()) },
+                    flow { emit(getEmotionsUseCase()) },
                     emotionPreferences.getCustomEmotions(),
                     emotionPreferences.getEmotionOrder(),
                     emotionPreferences.getHiddenEmotions(),
@@ -105,17 +106,20 @@ class MusicMemoViewModel
             }
         }
 
-    fun saveTrack(track: TrackUiState, comment: String?) {
-        viewModelScope.launch {
-            val today = DateUtils.getTodayDate()
-            try {
-                saveDailyTrackUseCase(track, _selectedEmotions.value, today, comment)
-                _trackSaved.emit(true)
-            } catch (exception: Exception) {
-                _trackSaved.emit(false)
+        fun saveTrack(
+            track: TrackUiState,
+            comment: String?,
+        ) {
+            viewModelScope.launch {
+                val today = DateUtils.getTodayDate()
+                try {
+                    saveDailyTrackUseCase(track, _selectedEmotions.value, today, comment)
+                    _trackSaved.emit(true)
+                } catch (exception: Exception) {
+                    _trackSaved.emit(false)
+                }
             }
         }
-    }
 
         companion object {
             const val MAX_SELECTED_EMOTIONS: Int = 5

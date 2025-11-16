@@ -85,6 +85,7 @@ class MusicMemoActivity : AppCompatActivity() {
                 launch {
                     viewModel.selectedEmotions.collect { selected ->
                         updateChipStates(selected)
+                        binding.btnSaveMemo.isEnabled = selected.isNotEmpty()
                     }
                 }
                 launch {
