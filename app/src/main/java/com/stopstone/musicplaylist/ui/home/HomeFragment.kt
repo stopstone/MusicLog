@@ -19,6 +19,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.core.widget.TextViewCompat
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.data.model.entity.SearchHistory
 import com.stopstone.musicplaylist.databinding.FragmentHomeBinding
@@ -130,6 +131,7 @@ class HomeFragment :
                     LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 gravity = Gravity.CENTER
                 setPadding(0, 8, 0, 8)
+                TextViewCompat.setTextAppearance(this, R.style.TextAppearance_MusicLog_BodyMedium)
                 setTypeface(null, Typeface.BOLD)
 
                 binding.calendarContent.llWeekDays.addView(this)
