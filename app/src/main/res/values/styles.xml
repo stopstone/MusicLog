@@ -78,4 +78,69 @@
         <item name="shapeAppearanceOverlay">@style/AppRoundedImage.Large</item>
     </style>
 
+    <!-- Button 스타일 정의 -->
+    <style name="Widget.MusicLog.Button" parent="Widget.AppCompat.Button">
+        <item name="android:elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAppearance">@style/TextAppearance.MusicLog.BodyLarge</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.MusicLog.Button.Primary" parent="Widget.MusicLog.Button">
+        <item name="android:background">@drawable/background_blue300</item>
+        <item name="android:textColor">@color/background_dark</item>
+    </style>
+
+    <style name="Widget.MusicLog.Button.Secondary" parent="Widget.MusicLog.Button">
+        <item name="android:background">@drawable/background_button_gray_200</item>
+        <item name="android:textColor">@color/background_dark</item>
+    </style>
+
+    <style name="Widget.MusicLog.Button.Delete" parent="Widget.MusicLog.Button">
+        <item name="android:background">@drawable/background_button_delete</item>
+        <item name="android:textColor">@color/button_text_color</item>
+    </style>
+
+    <style name="Widget.MusicLog.Button.Save" parent="Widget.MusicLog.Button">
+        <item name="android:background">@drawable/selector_background_save_memo</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:translationZ">0dp</item>
+    </style>
+
+    <!-- CardView 스타일 정의 -->
+    <style name="Widget.MusicLog.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="Widget.MusicLog.CardView.Signature" parent="Widget.MusicLog.CardView">
+        <item name="cardBackgroundColor">@color/blue_300</item>
+        <item name="cardCornerRadius">12dp</item>
+    </style>
+
+    <style name="Widget.MusicLog.CardView.Calendar" parent="Widget.MusicLog.CardView">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">1dp</item>
+    </style>
+
+    <style name="Widget.MusicLog.CardView.Menu" parent="Widget.MusicLog.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
+    <!-- TextInputLayout 스타일 정의 -->
+    <style name="Widget.MusicLog.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeColor">@color/text_field_stroke_color</item>
+        <item name="boxStrokeWidth">0.5dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="cursorColor">@color/blue_300</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <!-- ImageButton 스타일 정의 -->
+    <style name="Widget.MusicLog.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
 </resources>
