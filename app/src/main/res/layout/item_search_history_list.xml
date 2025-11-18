@@ -29,6 +29,7 @@
         android:layout_marginBottom="1dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/iv_search_icon"
         app:layout_constraintEnd_toStartOf="@id/btn_search_cancel"
