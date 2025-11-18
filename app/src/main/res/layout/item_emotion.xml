@@ -36,11 +36,9 @@
 
     <CheckBox
         android:id="@+id/cb_emotion_delete"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="12dp"
-        android:background="@null"
-        android:button="@drawable/checkbox_emotion_selector"
+        style="@style/Widget.MusicLog.CheckBox"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:clickable="false"
         android:focusable="false"
         android:visibility="gone"
