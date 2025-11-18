@@ -154,4 +154,16 @@
         <item name="trackTint">@color/switch_track_color</item>
     </style>
 
+    <!-- ProgressBar 스타일 정의 -->
+    <style name="Widget.MusicLog.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:progressTint">@color/blue_300</item>
+        <item name="android:indeterminateTint">@color/blue_300</item>
+    </style>
+
+    <!-- CircularProgressIndicator 스타일 정의 -->
+    <style name="Widget.MusicLog.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="indicatorSize">36dp</item>
+        <item name="indicatorColor">@color/blue_300</item>
+    </style>
+
 </resources>
