@@ -2,9 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Android 12(API 31) 이상 다크모드 스플래시 테마 -->
     <style name="Theme.MusicLog.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/background_dark</item>
+        <item name="windowSplashScreenBackground">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="windowSplashScreenIconBackgroundColor">@color/background_dark</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="postSplashScreenTheme">@style/Theme.MusicLog</item>
     </style>
