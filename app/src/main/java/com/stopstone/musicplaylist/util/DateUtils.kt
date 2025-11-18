@@ -31,7 +31,7 @@ object DateUtils {
         val locale = Locale.getDefault()
         val dateFormat =
             when {
-                locale.language == "ko" -> SimpleDateFormat("yyyy년 M월", locale)
+                locale.language == "ko" -> SimpleDateFormat("yyyy년 MM월", locale)
                 else -> SimpleDateFormat("MM yyyy", locale)
             }
 
