@@ -70,4 +70,12 @@
         <item name="cornerSize">2dp</item>
     </style>
 
+    <!-- FAB 스타일 정의 -->
+    <style name="Widget.MusicLog.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/blue_300</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="shapeAppearanceOverlay">@style/AppRoundedImage.Large</item>
+    </style>
+
 </resources>
