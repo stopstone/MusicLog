@@ -136,7 +136,7 @@ class TrackDetailActivity : AppCompatActivity() {
             true
         }
 
-        binding.toolbarTrackDetail.setOnClickListener {
+        binding.toolbarTrackDetail.setNavigationOnClickListener {
             finish()
         }
     }
