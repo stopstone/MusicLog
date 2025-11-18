@@ -19,10 +19,10 @@
 
     <ImageButton
         android:id="@+id/btn_track_detail_instagram_share"
+        style="@style/Widget.MusicLog.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:background="@android:color/transparent"
         android:contentDescription="@string/description_track_instagram_share"
         android:src="@drawable/ic_instagram_share"
         app:layout_constraintBottom_toBottomOf="@id/btn_track_detail_delete"
@@ -31,10 +31,10 @@
 
     <ImageButton
         android:id="@+id/btn_track_detail_delete"
+        style="@style/Widget.MusicLog.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
-        android:background="@android:color/transparent"
         android:contentDescription="@string/description_track_delete_button"
         android:padding="10dp"
         android:src="@drawable/ic_delete"

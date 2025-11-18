@@ -7,10 +7,10 @@
 
     <ImageButton
         android:id="@+id/btn_previous_month"
+        style="@style/Widget.MusicLog.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/description_previous_month"
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintBottom_toBottomOf="@id/tv_current_month"
@@ -31,10 +31,10 @@
 
     <ImageButton
         android:id="@+id/btn_next_month"
+        style="@style/Widget.MusicLog.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/description_next_month"
         android:src="@drawable/ic_arrow_forward"
         app:layout_constraintBottom_toBottomOf="@id/tv_current_month"
