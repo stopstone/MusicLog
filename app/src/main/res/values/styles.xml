@@ -70,6 +70,12 @@
         <item name="cornerSize">2dp</item>
     </style>
 
+    <!-- Widget base 스타일 -->
+    <style name="Widget" />
+
+    <!-- Widget.MusicLog base 스타일 -->
+    <style name="Widget.MusicLog" />
+
     <!-- FAB 스타일 정의 -->
     <style name="Widget.MusicLog.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/blue_300</item>
@@ -164,6 +170,16 @@
     <style name="Widget.MusicLog.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
         <item name="indicatorSize">36dp</item>
         <item name="indicatorColor">@color/blue_300</item>
+    </style>
+
+    <!-- MaterialDivider 스타일 정의 -->
+    <style name="Widget.MusicLog.Divider">
+        <item name="dividerColor">@color/gray_200</item>
+        <item name="dividerThickness">0.5dp</item>
+    </style>
+
+    <style name="Widget.MusicLog.Divider.Thin" parent="Widget.MusicLog.Divider">
+        <item name="dividerThickness">0.1dp</item>
     </style>
 
 </resources>

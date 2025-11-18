@@ -67,11 +67,10 @@
         tools:text="20250102~" />
 
     <com.google.android.material.divider.MaterialDivider
+        style="@style/Widget.MusicLog.Divider.Thin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        app:dividerColor="@color/gray_200"
-        app:dividerThickness="0.1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_signature_song_since" />
