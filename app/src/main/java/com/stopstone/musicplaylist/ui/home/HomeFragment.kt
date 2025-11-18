@@ -171,24 +171,24 @@ class HomeFragment :
     }
 
     private fun displayEmotions(emotions: List<String>) {
-        binding.llHomeEmotions.removeAllViews()
+        binding.chipGroupHomeEmotions.removeAllViews()
         emotionTextViews.clear()
 
         if (emotions.isNotEmpty()) {
             val displayList = EmotionDisplayMapper.mapToDisplayNames(appContext, emotions)
-            val remainingCount = displayList.size - 1
+            val remainingCount = displayList.size - 2
 
-            // 처음 1개만 표시
+            // 처음 2개만 표시
             displayList.take(2).forEach { emotionName ->
                 val textView = createEmotionTextView(emotionName, showBackground = true)
-                binding.llHomeEmotions.addView(textView)
+                binding.chipGroupHomeEmotions.addView(textView)
                 emotionTextViews.add(textView)
             }
 
-            // 1개를 넘으면 "+N" 표시
+            // 2개를 넘으면 "+N" 표시
             if (remainingCount > 0) {
                 val moreTextView = createEmotionTextView("+$remainingCount", showBackground = false)
-                binding.llHomeEmotions.addView(moreTextView)
+                binding.chipGroupHomeEmotions.addView(moreTextView)
                 emotionTextViews.add(moreTextView)
             }
         }
