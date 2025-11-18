@@ -4,6 +4,7 @@ import android.content.Context
 import com.kakao.sdk.common.model.ApiError
 import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.stopstone.musicplaylist.R
@@ -26,13 +27,8 @@ class KakaoLoginManager(
         onSuccess: (UserProfile) -> Unit,
         onFailure: (Throwable) -> Unit,
     ) {
-        unlinkKakao()
         try {
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                loginWithKakaoTalk()
-            } else {
-                loginWithKakaoAccount()
-            }
+            executeLogin()
             val userProfile = getUserInfo()
             onSuccess(userProfile)
         } catch (error: AuthError) {
@@ -46,6 +42,20 @@ class KakaoLoginManager(
         } catch (exception: Exception) {
             onFailure(exception)
         }
+    }
+
+    private suspend fun executeLogin() {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+            try {
+                loginWithKakaoTalk()
+                return
+            } catch (error: Throwable) {
+                if (error.isUserCancelled()) {
+                    throw error
+                }
+            }
+        }
+        loginWithKakaoAccount()
     }
 
     private suspend fun getUserInfo(): UserProfile =
@@ -87,20 +97,13 @@ class KakaoLoginManager(
             }
         }
 
-    private suspend fun unlinkKakao(): Unit =
-        suspendCancellableCoroutine { continuation ->
-            UserApiClient.instance.unlink { continuation.resume(Unit) }
-        }
-
     private suspend fun loginWithKakaoTalk(): Unit =
         suspendCancellableCoroutine { continuation ->
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                if (error != null) {
-                    continuation.resumeWith(Result.failure(Exception(context.getString(R.string.login_user_cancelled))))
-                } else if (token != null) {
-                    continuation.resume(Unit)
-                } else {
-                    continuation.resumeWith(Result.failure(Exception(context.getString(R.string.login_user_cancelled))))
+                when {
+                    error != null -> continuation.resumeWith(Result.failure(error))
+                    token != null -> continuation.resume(Unit)
+                    else -> continuation.resumeWith(Result.failure(IllegalStateException(context.getString(R.string.login_user_cancelled))))
                 }
             }
         }
@@ -108,13 +111,21 @@ class KakaoLoginManager(
     private suspend fun loginWithKakaoAccount(): Unit =
         suspendCancellableCoroutine { continuation ->
             UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
-                if (error != null) {
-                    continuation.resumeWith(Result.failure(Exception(context.getString(R.string.login_user_cancelled))))
-                } else if (token != null) {
-                    continuation.resume(Unit)
-                } else {
-                    continuation.resumeWith(Result.failure(Exception(context.getString(R.string.login_user_cancelled))))
+                when {
+                    error != null -> continuation.resumeWith(Result.failure(error))
+                    token != null -> continuation.resume(Unit)
+                    else -> continuation.resumeWith(Result.failure(IllegalStateException(context.getString(R.string.login_user_cancelled))))
                 }
             }
         }
+
+    private fun Throwable.isUserCancelled(): Boolean {
+        if (this is ClientError && reason == ClientErrorCause.Cancelled) {
+            return true
+        }
+        if (this is AuthError && this.statusCode == 302) {
+            return true
+        }
+        return false
+    }
 }

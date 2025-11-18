@@ -11,40 +11,46 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class TokenManager @Inject constructor(
-    private val dataStore: DataStore<Preferences>
-) {
-    private val tokenKey = stringPreferencesKey("token")
-    private val tokenExpireTimeKey = longPreferencesKey("token_expire_time")
+class TokenManager
+    @Inject
+    constructor(
+        private val dataStore: DataStore<Preferences>,
+    ) {
+        private val tokenKey = stringPreferencesKey("token")
+        private val tokenExpireTimeKey = longPreferencesKey("token_expire_time")
 
-    fun getToken(): Flow<String?> = dataStore.data.map { preferences ->
-        preferences[tokenKey]
-    }
+        fun getToken(): Flow<String?> =
+            dataStore.data.map { preferences ->
+                preferences[tokenKey]
+            }
 
-    suspend fun saveToken(token: String) {
-        dataStore.edit { preferences ->
-            preferences[tokenKey] = token
+        suspend fun saveToken(token: String) {
+            dataStore.edit { preferences ->
+                preferences[tokenKey] = token
+            }
+        }
+
+        fun getTokenExpireTime(): Flow<Long?> =
+            dataStore.data.map { preferences ->
+                preferences[tokenExpireTimeKey]
+            }
+
+        suspend fun saveTokenExpireTime(expireTime: Long) {
+            dataStore.edit { preferences ->
+                preferences[tokenExpireTimeKey] = expireTime
+            }
+        }
+
+        suspend fun isTokenExpired(): Boolean {
+            val expireTime = getTokenExpireTime().first()
+            return expireTime == null || DateUtils.getCurrentTimeMillis() >= expireTime
+        }
+
+        suspend fun clearToken() {
+            dataStore.edit { preferences ->
+                preferences.remove(tokenKey)
+                preferences.remove(tokenExpireTimeKey)
+            }
         }
     }
 
-    fun getTokenExpireTime(): Flow<Long?> = dataStore.data.map { preferences ->
-        preferences[tokenExpireTimeKey]
-    }
-
-    suspend fun saveTokenExpireTime(expireTime: Long) {
-        dataStore.edit { preferences ->
-            preferences[tokenExpireTimeKey] = expireTime
-        }
-    }
-
-    suspend fun isTokenExpired(): Boolean {
-        val expireTime = getTokenExpireTime().first()
-        return expireTime == null || DateUtils.getCurrentTimeMillis() >= expireTime
-    }
-
-    suspend fun clearAll() {
-        dataStore.edit { preferences ->
-            preferences.clear()
-        }
-    }
-}

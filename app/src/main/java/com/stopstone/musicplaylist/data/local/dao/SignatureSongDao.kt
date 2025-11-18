@@ -12,10 +12,10 @@ interface SignatureSongDao {
     @Insert
     suspend fun insert(signatureSong: SignatureSong)
 
-    @Query("SELECT * FROM signature_song WHERE isActive = 1 LIMIT 1")
+    @Query("SELECT * FROM signature_song WHERE isActive = 1 ORDER BY selectedAt DESC LIMIT 1")
     fun getActiveSignatureSong(): Flow<SignatureSong?>
 
-    @Query("SELECT * FROM signature_song WHERE isActive = 1 LIMIT 1")
+    @Query("SELECT * FROM signature_song WHERE isActive = 1 ORDER BY selectedAt DESC LIMIT 1")
     suspend fun getActiveSignatureSongOnce(): SignatureSong?
 
     @Query("SELECT * FROM signature_song ORDER BY selectedAt DESC")
