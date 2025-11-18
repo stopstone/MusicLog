@@ -20,6 +20,35 @@
         <item name="android:textSize">24sp</item>
     </style>
 
+    <style name="TextAppearance.MusicLog" parent="@android:style/TextAppearance">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.TitleLarge" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.TitleMedium" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.TitleSmall" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.BodyLarge" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.BodyMedium" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.BodySmall" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
     <style name="AppRoundedImage">
         <item name="cornerSize">8dp</item>
     </style>
