@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.widget.TextViewCompat
 import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
@@ -197,6 +198,7 @@ object InstagramShareHelper {
                                 background =
                                     AppCompatResources.getDrawable(context, R.drawable.background_gray)
                                 setPadding(16, 8, 16, 8)
+                                TextViewCompat.setTextAppearance(this, R.style.TextAppearance_MusicLog_BodyMedium)
                             }
                         chipGroupStoryEmotions.addView(textView)
                     }

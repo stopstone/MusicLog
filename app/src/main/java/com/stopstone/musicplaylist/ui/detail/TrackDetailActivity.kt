@@ -14,6 +14,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -167,6 +168,7 @@ class TrackDetailActivity : AppCompatActivity() {
             text = emotionName
             background = AppCompatResources.getDrawable(context, R.drawable.background_gray)
             setPadding(16, 8, 16, 8)
+            TextViewCompat.setTextAppearance(this, R.style.TextAppearance_MusicLog_BodyMedium)
         }
 
     private fun addTextViewToLayout(textView: TextView) {
