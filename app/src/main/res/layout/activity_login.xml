@@ -50,6 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         android:background="@android:color/transparent"
+        android:foreground="@null"
         android:src="@drawable/btn_kakao_login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

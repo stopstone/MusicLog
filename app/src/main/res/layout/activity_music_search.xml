@@ -17,17 +17,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tf_search_text_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MusicLog.TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="32dp"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="@color/text_field_stroke_color"
-        app:boxStrokeWidth="0.5dp"
-        app:boxStrokeWidthFocused="1dp"
-        app:cursorColor="@color/blue_300"
-        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_toolbar"
@@ -55,9 +49,9 @@
 
     <ProgressBar
         android:id="@+id/pb_loading"
+        style="@style/Widget.MusicLog.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:progressTint="@color/blue_300"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

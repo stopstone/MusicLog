@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIcon="@drawable/ic_navigation_arrow_back"
         app:title="@string/label_music_memo" />
 
     <View
@@ -54,7 +54,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tf_search_text_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MusicLog.TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -93,19 +93,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_save_memo"
+        style="@style/Widget.MusicLog.Button.Save"
         android:layout_width="0dp"
         android:layout_height="58dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/selector_background_save_memo"
         android:enabled="false"
-        android:elevation="0dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:stateListAnimator="@null"
         android:text="@string/label_save_memo"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:translationZ="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

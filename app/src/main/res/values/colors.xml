@@ -23,6 +23,9 @@
     <color name="gray_500">#9A9A9A</color>
     <color name="gray_700">#434343</color>
 
+    <color name="ripple_light">#20000000</color>
+    <color name="music_count_highlight">#1565C0</color>
+
     <color name="instagram_story_top_background">#C2E2FA</color>
     <color name="instagram_story_bottom_background">#764ba2</color>
 </resources>

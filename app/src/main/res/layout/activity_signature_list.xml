@@ -15,12 +15,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIcon="@drawable/ic_navigation_arrow_back"
         app:title="@string/label_signature_list_title"
         app:titleCentered="false" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/pi_signature_list_loading"
+        style="@style/Widget.MusicLog.CircularProgressIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -36,7 +37,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/label_signature_list_empty"
         android:textColor="@color/gray_500"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

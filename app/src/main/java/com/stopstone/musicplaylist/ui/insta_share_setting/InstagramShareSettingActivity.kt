@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.lifecycleScope
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityInstagramShareSettingBinding
@@ -92,6 +93,7 @@ class InstagramShareSettingActivity : AppCompatActivity() {
                             R.drawable.background_gray,
                         )
                     setPadding(16, 8, 16, 8)
+                    TextViewCompat.setTextAppearance(this, R.style.TextAppearance_MusicLog_BodyMedium)
                 }
             binding.layoutPreview.chipGroupStoryEmotions.addView(textView)
         }

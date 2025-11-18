@@ -9,15 +9,15 @@
         android:id="@+id/tv_signature_song_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="12dp"
         android:text="@string/label_signature_song_section"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/card_my_signature_song"
-        app:layout_constraintStart_toStartOf="@id/card_my_signature_song" />
+        app:layout_constraintStart_toStartOf="@id/card_my_signature_song"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/signature_song_more"
@@ -36,14 +36,13 @@
             android:layout_height="wrap_content"
             android:text="@string/label_signature_song_more"
             android:textColor="@color/gray_400"
-            android:textSize="12sp"
+            android:textAppearance="@style/TextAppearance.MusicLog.BodySmall"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/iv_signature_song_arrow"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginStart="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_forward"
             app:tint="@color/gray_400" />
 
@@ -51,15 +50,13 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_my_signature_song"
+        style="@style/Widget.MusicLog.CardView.Signature"
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="14dp"
         android:clickable="true"
         android:focusable="true"
-        app:cardBackgroundColor="@color/blue_300"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +86,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.TitleMedium"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
         app:layout_constraintStart_toEndOf="@id/iv_signature_song"
@@ -100,12 +97,12 @@
         android:id="@+id/tv_signature_song_artist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/gray_500"
-        android:textSize="18sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyMedium"
         app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
         app:layout_constraintStart_toStartOf="@id/tv_signature_song_title"
         app:layout_constraintTop_toBottomOf="@id/tv_signature_song_title"
@@ -115,15 +112,12 @@
         android:id="@+id/tv_signature_song_since"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/gray_500"
-        android:textSize="14sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodySmall"
         app:layout_constraintBottom_toBottomOf="@id/iv_signature_song"
         app:layout_constraintEnd_toEndOf="@id/card_my_signature_song"
         app:layout_constraintStart_toStartOf="@id/tv_signature_song_artist"
-        app:layout_goneMarginTop="14dp"
-        tools:text="20250102~" />
+        tools:text="인생곡이 된지 1일" />
 </androidx.constraintlayout.widget.ConstraintLayout>

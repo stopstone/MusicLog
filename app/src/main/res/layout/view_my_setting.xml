@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:paddingVertical="18dp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +31,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_setting_title" />
 
     <com.google.android.material.divider.MaterialDivider
+        style="@style/Widget.MusicLog.Divider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
