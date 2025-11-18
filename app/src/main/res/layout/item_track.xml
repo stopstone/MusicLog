@@ -29,7 +29,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_track_image"

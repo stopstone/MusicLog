@@ -15,8 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_navigation_arrow_back"
-        app:title="음악 상세"
-        app:titleTextAppearance="@style/ToolbarTitleStyle" />
+        app:title="음악 상세" />
 
     <ImageButton
         android:id="@+id/btn_track_detail_instagram_share"
@@ -76,7 +75,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:textSize="24sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.TitleLarge"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +89,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:textSize="18sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.TitleSmall"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_track_detail_title"

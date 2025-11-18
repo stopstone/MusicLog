@@ -38,7 +38,7 @@
         android:paddingEnd="16dp"
         android:text="인생곡으로 등록하시겠어요?"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
