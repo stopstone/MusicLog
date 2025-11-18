@@ -20,6 +20,12 @@
         <item name="android:textSize">24sp</item>
     </style>
 
+    <!-- MaterialToolbar 스타일 정의 -->
+    <style name="Widget.MusicLog.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="titleMarginStart">0dp</item>
+    </style>
+
     <style name="TextAppearance.MusicLog" parent="@android:style/TextAppearance">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
