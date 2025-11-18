@@ -13,13 +13,14 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.core.widget.TextViewCompat
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.data.model.entity.SearchHistory
 import com.stopstone.musicplaylist.databinding.FragmentHomeBinding
@@ -29,6 +30,7 @@ import com.stopstone.musicplaylist.ui.home.adapter.CalendarAdapter
 import com.stopstone.musicplaylist.ui.home.viewmodel.HomeViewModel
 import com.stopstone.musicplaylist.ui.music_search.adapter.OnItemClickListener
 import com.stopstone.musicplaylist.util.DateUtils
+import com.stopstone.musicplaylist.util.EmotionDisplayMapper
 import com.stopstone.musicplaylist.util.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -47,6 +49,7 @@ class HomeFragment :
     private var currentMonth: Int = DateUtils.getCurrentMonth()
 
     private lateinit var appContext: Context
+    private val emotionTextViews = mutableListOf<TextView>()
 
     private val activityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -160,10 +163,48 @@ class HomeFragment :
                 binding.tvTrackTitle.text = track.title
                 binding.tvTrackArtist.text = track.artist
                 binding.ivTrackImage.loadImage(track.imageUrl)
+                displayEmotions(dailyTrack.emotions)
             } else {
                 toggleTodayMusicVisibility(false)
             }
         }
+    }
+
+    private fun displayEmotions(emotions: List<String>) {
+        binding.llHomeEmotions.removeAllViews()
+        emotionTextViews.clear()
+
+        if (emotions.isNotEmpty()) {
+            val displayList = EmotionDisplayMapper.mapToDisplayNames(appContext, emotions)
+            val remainingCount = displayList.size - 1
+
+            // 처음 1개만 표시
+            displayList.take(2).forEach { emotionName ->
+                val textView = createEmotionTextView(emotionName, showBackground = true)
+                binding.llHomeEmotions.addView(textView)
+                emotionTextViews.add(textView)
+            }
+
+            // 1개를 넘으면 "+N" 표시
+            if (remainingCount > 0) {
+                val moreTextView = createEmotionTextView("+$remainingCount", showBackground = false)
+                binding.llHomeEmotions.addView(moreTextView)
+                emotionTextViews.add(moreTextView)
+            }
+        }
+    }
+
+    private fun createEmotionTextView(
+        emotionName: String,
+        showBackground: Boolean = true,
+    ) = TextView(context).apply {
+        id = View.generateViewId()
+        text = emotionName
+        if (showBackground) {
+            background = AppCompatResources.getDrawable(context, R.drawable.background_gray)
+        }
+        setPadding(12, 6, 12, 6)
+        TextViewCompat.setTextAppearance(this, R.style.TextAppearance_MusicLog_BodySmall)
     }
 
     private fun setListeners() {
