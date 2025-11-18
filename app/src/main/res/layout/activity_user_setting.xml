@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIcon="@drawable/ic_navigation_arrow_back"
         app:title="@string/label_user_setting_title" />
 
     <TextView
@@ -25,6 +25,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
         android:text="@string/label_user_setting_login_info"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +39,7 @@
         android:layout_marginTop="8dp"
         android:paddingHorizontal="12dp"
         android:paddingVertical="12dp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_user_setting_account_info_label"
@@ -61,6 +63,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
         android:text="@string/label_user_setting_account_setting"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +80,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="16dp"
         android:text="@string/label_user_setting_logout"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_user_setting_account_setting_label" />
@@ -91,6 +95,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="16dp"
         android:text="@string/label_user_setting_withdraw"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_user_setting_logout" />
@@ -105,6 +110,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="16dp"
         android:text="@string/label_user_setting_data_cleanup"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_user_setting_withdraw" />

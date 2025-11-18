@@ -44,8 +44,10 @@ class CalendarAdapter(
         private val onClickListener: (position: Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.ivCalendarAlbumCover.setOnClickListener {
-                onClickListener(adapterPosition)
+            binding.root.setOnClickListener {
+                if (binding.ivCalendarAlbumCover.visibility == View.VISIBLE) {
+                    onClickListener(adapterPosition)
+                }
             }
         }
 
@@ -72,6 +74,8 @@ class CalendarAdapter(
         ) {
             binding.tvCalendarDate.visibility = if (dateVisible) View.VISIBLE else View.INVISIBLE
             binding.ivCalendarAlbumCover.visibility = if (albumVisible) View.VISIBLE else View.GONE
+            binding.root.isClickable = albumVisible
+            binding.root.isFocusable = albumVisible
         }
 
         private fun showAlbumCover(track: TrackUiState) {

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_track_empty_title"
-        android:textSize="24sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.TitleLarge"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/label_track_empty_subtitle"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         app:layout_constraintEnd_toEndOf="@id/tv_track_empty_title"
         app:layout_constraintStart_toStartOf="@id/tv_track_empty_title"
         app:layout_constraintTop_toBottomOf="@id/tv_track_empty_title" />

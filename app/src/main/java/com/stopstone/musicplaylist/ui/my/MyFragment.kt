@@ -2,10 +2,16 @@ package com.stopstone.musicplaylist.ui.my
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -130,13 +136,32 @@ class MyFragment : Fragment() {
     }
 
     private fun updateMusicCount(count: Int) {
-        val headerText =
-            if (count == 0) {
-                getString(R.string.label_my_music_count_empty) // 음악 기록이 없을 때 문구
+        if (count == 0) {
+            // 음악 기록이 없을 때 문구
+            val headerText = getString(R.string.label_my_music_count_empty)
+            binding.tvMyHeader.text = headerText
+        } else {
+            val fullText = getString(R.string.label_my_music_count, count)
+            val parts = fullText.split(" ")
+            if (parts.isNotEmpty()) {
+                val lastPart = parts.last() // 마지막 부분 (예: "5곡")
+                val spannableString = SpannableString(fullText)
+                val startIndex = fullText.lastIndexOf(lastPart)
+                val endIndex = startIndex + lastPart.length
+
+                // 색상 변경
+                val color = ContextCompat.getColor(requireContext(), R.color.music_count_highlight)
+                spannableString.setSpan(
+                    ForegroundColorSpan(color),
+                    startIndex,
+                    endIndex,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+                )
+                binding.tvMyHeader.text = spannableString
             } else {
-                getString(R.string.label_my_music_count, count) // 음악 기록이 있을 때 문구
+                binding.tvMyHeader.text = fullText
             }
-        binding.tvMyHeader.text = headerText
+        }
     }
 
     private fun updateSignatureSongView(signatureSong: SignatureSong?) {

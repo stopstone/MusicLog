@@ -15,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_drag_handle"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,11 +36,9 @@
 
     <CheckBox
         android:id="@+id/cb_emotion_delete"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="12dp"
-        android:background="@null"
-        android:button="@drawable/checkbox_emotion_selector"
+        style="@style/Widget.MusicLog.CheckBox"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:clickable="false"
         android:focusable="false"
         android:visibility="gone"

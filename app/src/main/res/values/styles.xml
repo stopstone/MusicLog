@@ -20,6 +20,41 @@
         <item name="android:textSize">24sp</item>
     </style>
 
+    <!-- MaterialToolbar 스타일 정의 -->
+    <style name="Widget.MusicLog.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="titleMarginStart">0dp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog" parent="@android:style/TextAppearance">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.TitleLarge" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.TitleMedium" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.TitleSmall" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.BodyLarge" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.BodyMedium" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.MusicLog.BodySmall" parent="TextAppearance.MusicLog">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
     <style name="AppRoundedImage">
         <item name="cornerSize">8dp</item>
     </style>
@@ -39,6 +74,126 @@
     <style name="ShapeAppearance.MusicLog.EmotionChip" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">2dp</item>
+    </style>
+
+    <!-- Widget base 스타일 -->
+    <style name="Widget" />
+
+    <!-- Widget.MusicLog base 스타일 -->
+    <style name="Widget.MusicLog" />
+
+    <!-- FAB 스타일 정의 -->
+    <style name="Widget.MusicLog.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/blue_300</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="shapeAppearanceOverlay">@style/AppRoundedImage.Large</item>
+    </style>
+
+    <!-- Button 스타일 정의 -->
+    <style name="Widget.MusicLog.Button" parent="Widget.AppCompat.Button">
+        <item name="android:elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAppearance">@style/TextAppearance.MusicLog.BodyLarge</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.MusicLog.Button.Primary" parent="Widget.MusicLog.Button">
+        <item name="android:background">@drawable/background_blue300</item>
+        <item name="android:textColor">@color/background_dark</item>
+    </style>
+
+    <style name="Widget.MusicLog.Button.Secondary" parent="Widget.MusicLog.Button">
+        <item name="android:background">@drawable/background_button_gray_200</item>
+        <item name="android:textColor">@color/background_dark</item>
+    </style>
+
+    <style name="Widget.MusicLog.Button.Delete" parent="Widget.MusicLog.Button">
+        <item name="android:background">@drawable/background_button_delete</item>
+        <item name="android:textColor">@color/button_text_color</item>
+    </style>
+
+    <style name="Widget.MusicLog.Button.Save" parent="Widget.MusicLog.Button">
+        <item name="android:background">@drawable/selector_background_save_memo</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:translationZ">0dp</item>
+    </style>
+
+    <!-- CardView 스타일 정의 -->
+    <style name="Widget.MusicLog.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="Widget.MusicLog.CardView.Signature" parent="Widget.MusicLog.CardView">
+        <item name="cardBackgroundColor">@color/blue_300</item>
+        <item name="cardCornerRadius">12dp</item>
+    </style>
+
+    <style name="Widget.MusicLog.CardView.Calendar" parent="Widget.MusicLog.CardView">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">1dp</item>
+    </style>
+
+    <style name="Widget.MusicLog.CardView.Menu" parent="Widget.MusicLog.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
+    <!-- TextInputLayout 스타일 정의 -->
+    <style name="Widget.MusicLog.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeColor">@color/text_field_stroke_color</item>
+        <item name="boxStrokeWidth">0.5dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="cursorColor">@color/blue_300</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <!-- ImageButton 스타일 정의 -->
+    <style name="Widget.MusicLog.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <!-- SwitchMaterial 스타일 정의 -->
+    <style name="Widget.MusicLog.SwitchMaterial" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="android:background">@null</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:scaleX">1.3</item>
+        <item name="android:scaleY">1.3</item>
+        <item name="thumbTint">@color/switch_thumb_color</item>
+        <item name="trackTint">@color/switch_track_color</item>
+    </style>
+
+    <!-- CheckBox 스타일 정의 (원형) -->
+    <style name="Widget.MusicLog.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_emotion_selector</item>
+        <item name="android:background">@null</item>
+        <item name="buttonTint">@color/checkbox_button_tint</item>
+        <item name="buttonTintMode">src_in</item>
+    </style>
+
+    <!-- ProgressBar 스타일 정의 -->
+    <style name="Widget.MusicLog.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:progressTint">@color/blue_300</item>
+        <item name="android:indeterminateTint">@color/blue_300</item>
+    </style>
+
+    <!-- CircularProgressIndicator 스타일 정의 -->
+    <style name="Widget.MusicLog.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="indicatorSize">36dp</item>
+        <item name="indicatorColor">@color/blue_300</item>
+    </style>
+
+    <!-- MaterialDivider 스타일 정의 -->
+    <style name="Widget.MusicLog.Divider">
+        <item name="dividerColor">@color/gray_200</item>
+        <item name="dividerThickness">0.5dp</item>
+    </style>
+
+    <style name="Widget.MusicLog.Divider.Thin" parent="Widget.MusicLog.Divider">
+        <item name="dividerThickness">0.1dp</item>
     </style>
 
 </resources>
