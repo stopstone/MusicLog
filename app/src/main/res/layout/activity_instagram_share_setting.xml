@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/label_instagram_share_emotions"
                         android:textColor="@android:color/black"
-                        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
+                        android:textAppearance="@style/TextAppearance.MusicLog.BodyMedium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/switch_show_emotions"
                         app:layout_constraintStart_toStartOf="parent"
@@ -75,19 +75,13 @@
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switch_show_emotions"
+                        style="@style/Widget.MusicLog.SwitchMaterial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="8dp"
-                        android:background="@null"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:scaleX="1.3"
-                        android:scaleY="1.3"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:thumbTint="@color/switch_thumb_color"
-                        app:trackTint="@color/switch_track_color" />
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.divider.MaterialDivider
@@ -117,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/label_instagram_share_memo"
                         android:textColor="@android:color/black"
-                        android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
+                        android:textAppearance="@style/TextAppearance.MusicLog.BodyMedium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/switch_show_memo"
                         app:layout_constraintStart_toStartOf="parent"
@@ -125,19 +119,13 @@
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switch_show_memo"
+                        style="@style/Widget.MusicLog.SwitchMaterial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="8dp"
-                        android:background="@null"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:scaleX="1.3"
-                        android:scaleY="1.3"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:thumbTint="@color/switch_thumb_color"
-                        app:trackTint="@color/switch_track_color" />
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.divider.MaterialDivider

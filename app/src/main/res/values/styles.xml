@@ -143,4 +143,15 @@
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
+    <!-- SwitchMaterial 스타일 정의 -->
+    <style name="Widget.MusicLog.SwitchMaterial" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="android:background">@null</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:scaleX">1.3</item>
+        <item name="android:scaleY">1.3</item>
+        <item name="thumbTint">@color/switch_thumb_color</item>
+        <item name="trackTint">@color/switch_track_color</item>
+    </style>
+
 </resources>
