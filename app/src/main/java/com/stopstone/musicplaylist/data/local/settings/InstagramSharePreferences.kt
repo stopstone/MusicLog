@@ -17,6 +17,7 @@ class InstagramSharePreferences
     ) {
         private val showEmotionsKey = booleanPreferencesKey("show_emotions")
         private val showMemoKey = booleanPreferencesKey("show_memo")
+        private val showRecordedTimeKey = booleanPreferencesKey("show_recorded_time")
 
         fun getShowEmotions(): Flow<Boolean> =
             dataStore.data.map { preferences ->
@@ -40,10 +41,22 @@ class InstagramSharePreferences
             }
         }
 
+        fun getShowRecordedTime(): Flow<Boolean> =
+            dataStore.data.map { preferences ->
+                preferences[showRecordedTimeKey] ?: false
+            }
+
+        suspend fun setShowRecordedTime(show: Boolean) {
+            dataStore.edit { preferences ->
+                preferences[showRecordedTimeKey] = show
+            }
+        }
+
         suspend fun clearSettings() {
             dataStore.edit { preferences ->
                 preferences.remove(showEmotionsKey)
                 preferences.remove(showMemoKey)
+                preferences.remove(showRecordedTimeKey)
             }
         }
     }
