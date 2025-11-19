@@ -32,6 +32,8 @@ import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Date
 
 @AndroidEntryPoint
 class TrackDetailActivity : AppCompatActivity() {
@@ -86,6 +88,7 @@ class TrackDetailActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { collectComment() }
                 launch { collectDeleteResult() }
+                launch { collectRecordedAt() }
             }
         }
 
@@ -106,6 +109,26 @@ class TrackDetailActivity : AppCompatActivity() {
                 showToast(getString(R.string.label_track_delete_failed))
             }
         }
+    }
+
+    private suspend fun collectRecordedAt() {
+        viewModel.recordedAt.collectLatest { recordedAt ->
+            updateTimeDisplay(recordedAt)
+        }
+    }
+
+    private fun updateTimeDisplay(recordedAt: Date?) {
+        if (recordedAt == null) {
+            // recordedAt이 없으면 00:00 / 24:00으로 표시
+            binding.tvTrackDetailTime.text = "00:00 / 24:00"
+            binding.seekbarTrackDetailTime.progress = 0
+            return
+        }
+        // DateUtils를 사용하여 시각 정보 추출 및 포맷팅
+        val timeText = DateUtils.formatTime(recordedAt)
+        val totalMinutes = DateUtils.getTotalMinutes(recordedAt)
+        binding.tvTrackDetailTime.text = "$timeText / 24:00"
+        binding.seekbarTrackDetailTime.progress = totalMinutes
     }
 
     private fun setListeners() {

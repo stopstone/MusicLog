@@ -95,6 +95,31 @@
         app:layout_constraintTop_toBottomOf="@id/tv_track_detail_title"
         tools:text="Track Title" />
 
+    <SeekBar
+        android:id="@+id/seekbar_track_detail_time"
+        style="@style/Widget.MusicLog.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:enabled="false"
+        android:max="1440"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_track_detail_artist" />
+
+    <TextView
+        android:id="@+id/tv_track_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.MusicLog.BodyMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbar_track_detail_time"
+        tools:text="00:00 / 24:00" />
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/et_track_detail_comment"
         android:layout_width="0dp"
@@ -107,7 +132,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_track_detail_artist" />
+        app:layout_constraintTop_toBottomOf="@id/tv_track_detail_time" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_track_detail_save"

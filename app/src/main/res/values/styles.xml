@@ -180,6 +180,12 @@
         <item name="android:indeterminateTint">@color/blue_300</item>
     </style>
 
+    <!-- Track detail seekbar 스타일 -->
+    <style name="Widget.MusicLog.SeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:thumbTint">@color/black</item>
+        <item name="android:progressTint">@color/black</item>
+    </style>
+
     <!-- CircularProgressIndicator 스타일 정의 -->
     <style name="Widget.MusicLog.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
         <item name="indicatorSize">36dp</item>
