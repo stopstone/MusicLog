@@ -148,8 +148,10 @@ class TrackDetailActivity : AppCompatActivity() {
                 InstagramShareHelper.shareCustomStoryToInstagram(
                     activity = this@TrackDetailActivity,
                     dailyTrack = args.DailyTrack,
+                    recordedAt = viewModel.recordedAt.value,
                     showEmotions = settings.showEmotions,
                     showMemo = settings.showMemo,
+                    showRecordedTime = settings.showRecordedTime,
                 )
             }
         }
