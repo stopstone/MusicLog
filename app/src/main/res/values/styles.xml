@@ -184,6 +184,7 @@
     <style name="Widget.MusicLog.SeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:thumbTint">@color/black</item>
         <item name="android:progressTint">@color/black</item>
+        <item name="android:progressBackgroundTint">@color/gray_200</item>
     </style>
 
     <!-- CircularProgressIndicator 스타일 정의 -->

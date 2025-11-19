@@ -73,6 +73,7 @@ class TrackDetailActivity : AppCompatActivity() {
         with(args.DailyTrack) {
             DateUtils.createDate(year, month, id) // 저장된 트랙의 날짜를, date 타입의 시간으로 변경
         }.also { viewModel.setCurrentDate(it) }
+        disableSeekBarTouch()
 
         with(binding) {
             val track = args.DailyTrack.track!!
@@ -163,6 +164,13 @@ class TrackDetailActivity : AppCompatActivity() {
         binding.toolbarTrackDetail.setNavigationOnClickListener {
             finish()
         }
+    }
+
+    private fun disableSeekBarTouch() {
+        // Disable user interaction to keep progress fixed
+        binding.seekbarTrackDetailTime.setOnTouchListener { _, _ -> true }
+        binding.seekbarTrackDetailTime.isClickable = false
+        binding.seekbarTrackDetailTime.isFocusable = false
     }
 
     private fun setDialogBuilder() {
