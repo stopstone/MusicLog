@@ -7,6 +7,7 @@ import javax.inject.Inject
 data class InstagramShareSetting(
     val showEmotions: Boolean,
     val showMemo: Boolean,
+    val showRecordedTime: Boolean,
 )
 
 class GetInstagramShareSettingUseCase

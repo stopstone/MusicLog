@@ -26,6 +26,7 @@ import com.stopstone.musicplaylist.domain.model.CalendarDay
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Date
 
 // 상수 정의
 private const val INSTAGRAM_PACKAGE_NAME = "com.instagram.android"
@@ -46,8 +47,10 @@ object InstagramShareHelper {
     fun shareCustomStoryToInstagram(
         activity: Activity,
         dailyTrack: CalendarDay,
+        recordedAt: Date?,
         showEmotions: Boolean = true,
         showMemo: Boolean = true,
+        showRecordedTime: Boolean = true,
     ) {
         try {
             // 1. 인스타그램 설치여부 확인
@@ -72,6 +75,8 @@ object InstagramShareHelper {
                 dailyTrack.comment,
                 showEmotions,
                 showMemo,
+                showRecordedTime,
+                recordedAt,
             )
         } catch (e: Exception) {
             activity.showToast(activity.getString(R.string.message_share_error))
@@ -107,6 +112,8 @@ object InstagramShareHelper {
         comment: String?,
         showEmotions: Boolean,
         showMemo: Boolean,
+        showRecordedTime: Boolean,
+        recordedAt: Date?,
     ) {
         Glide
             .with(activity)
@@ -128,6 +135,8 @@ object InstagramShareHelper {
                                 comment,
                                 showEmotions,
                                 showMemo,
+                                showRecordedTime,
+                                recordedAt,
                                 resource,
                             )
 
@@ -171,6 +180,8 @@ object InstagramShareHelper {
         comment: String?,
         showEmotions: Boolean,
         showMemo: Boolean,
+        showRecordedTime: Boolean,
+        recordedAt: Date?,
         albumBitmap: Bitmap,
     ): View {
         LayoutInstagramStoryShareBinding
@@ -213,6 +224,19 @@ object InstagramShareHelper {
                     tvStoryMemo.visibility = View.VISIBLE
                 } else {
                     tvStoryMemo.visibility = View.GONE
+                }
+
+                // 저장 시간 표시 (설정에 따라)
+                if (showRecordedTime) {
+                    val timeText = recordedAt?.let { DateUtils.formatTime(it) } ?: "00:00"
+                    val totalMinutes = recordedAt?.let { DateUtils.getTotalMinutes(it) } ?: 0
+                    seekbarStoryTime.progress = totalMinutes
+                    tvStoryTime.text = "$timeText / 24:00"
+                    seekbarStoryTime.visibility = View.VISIBLE
+                    tvStoryTime.visibility = View.VISIBLE
+                } else {
+                    seekbarStoryTime.visibility = View.GONE
+                    tvStoryTime.visibility = View.GONE
                 }
 
                 // View 크기 설정 및 레이아웃

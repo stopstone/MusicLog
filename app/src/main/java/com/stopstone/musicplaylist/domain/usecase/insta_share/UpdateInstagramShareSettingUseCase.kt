@@ -15,4 +15,8 @@ class UpdateInstagramShareSettingUseCase
         suspend fun setShowMemo(show: Boolean) {
             repository.setShowMemo(show)
         }
+
+        suspend fun setShowRecordedTime(show: Boolean) {
+            repository.setShowRecordedTime(show)
+        }
     }

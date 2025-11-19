@@ -106,6 +106,7 @@
     <string name="label_instagram_share_artist">아티스트 표시</string>
     <string name="label_instagram_share_emotions">감정 태그 표시</string>
     <string name="label_instagram_share_memo">메모 표시</string>
+    <string name="label_instagram_share_recorded_time">저장 시각 표시</string>
     <string name="label_instagram_share_preview">미리보기</string>
     <string name="label_instagram_share_preview_title">노래 제목</string>
     <string name="label_instagram_share_preview_artist">아티스트</string>

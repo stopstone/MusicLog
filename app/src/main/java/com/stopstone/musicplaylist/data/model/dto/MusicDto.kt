@@ -20,6 +20,7 @@ data class MusicDto(
     var comment: String? = null,
     var createdAt: Date = Date(),
     var updatedAt: Date = Date(),
+    var recordedAt: Date? = null, // 저장한 시각 정보
 ) {
     companion object {
         /**
@@ -37,14 +38,21 @@ data class MusicDto(
                 comment = dailyTrack.comment,
                 createdAt = dailyTrack.date,
                 updatedAt = Date(),
+                recordedAt = dailyTrack.recordedAt,
             )
     }
 
     /**
      * MusicDto를 DailyTrack으로 변환
      */
-    fun toDailyTrack(): DailyTrack =
-        DailyTrack(
+    fun toDailyTrack(): DailyTrack {
+        // updatedAt이 recordedAt보다 나중이면 updatedAt 사용, 그렇지 않으면 recordedAt 사용
+        val finalRecordedAt = when {
+            updatedAt.after(recordedAt ?: Date(0)) -> updatedAt
+            recordedAt != null -> recordedAt
+            else -> null
+        }
+        return DailyTrack(
             id = musicId.toLongOrNull() ?: 0L,
             date = date,
             track =
@@ -56,5 +64,7 @@ data class MusicDto(
                 ),
             emotions = emotions,
             comment = comment,
+            recordedAt = finalRecordedAt,
         )
+    }
 }

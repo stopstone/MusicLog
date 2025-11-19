@@ -45,7 +45,6 @@ class InstagramShareSettingActivity : AppCompatActivity() {
                 finish()
             }
             
-            // Row 클릭 시 스위치 토글
             layoutEmotionsRow.setOnClickListener {
                 switchShowEmotions.toggle()
             }
@@ -53,8 +52,11 @@ class InstagramShareSettingActivity : AppCompatActivity() {
             layoutMemoRow.setOnClickListener {
                 switchShowMemo.toggle()
             }
+
+            layoutRecordedTimeRow.setOnClickListener {
+                switchShowRecordedTime.toggle()
+            }
             
-            // 스위치 상태 변경 리스너
             switchShowEmotions.setOnCheckedChangeListener { _, isChecked ->
                 if (viewModel.uiState.value.isLoadingFromDataStore) return@setOnCheckedChangeListener
                 viewModel.updateShowEmotions(isChecked)
@@ -62,6 +64,10 @@ class InstagramShareSettingActivity : AppCompatActivity() {
             switchShowMemo.setOnCheckedChangeListener { _, isChecked ->
                 if (viewModel.uiState.value.isLoadingFromDataStore) return@setOnCheckedChangeListener
                 viewModel.updateShowMemo(isChecked)
+            }
+            switchShowRecordedTime.setOnCheckedChangeListener { _, isChecked ->
+                if (viewModel.uiState.value.isLoadingFromDataStore) return@setOnCheckedChangeListener
+                viewModel.updateShowRecordedTime(isChecked)
             }
         }
     }
@@ -72,6 +78,8 @@ class InstagramShareSettingActivity : AppCompatActivity() {
             tvStoryArtist.text = getString(R.string.label_instagram_share_preview_artist)
             tvStoryMemo.text = getString(R.string.label_instagram_share_preview_memo)
             ivStoryAlbumCover.setBackgroundColor(getColor(R.color.gray_400))
+            seekbarStoryTime.progress = SAMPLE_RECORDED_TIME_MINUTES
+            tvStoryTime.text = SAMPLE_RECORDED_TIME_TEXT
             addSampleEmotionChips()
         }
     }
@@ -104,9 +112,11 @@ class InstagramShareSettingActivity : AppCompatActivity() {
             viewModel.uiState.collect { uiState ->
                 binding.switchShowEmotions.isChecked = uiState.showEmotions
                 binding.switchShowMemo.isChecked = uiState.showMemo
+                binding.switchShowRecordedTime.isChecked = uiState.showRecordedTime
 
                 updateEmotionsPreview(uiState.showEmotions)
                 updateMemoPreview(uiState.showMemo)
+                updateRecordedTimePreview(uiState.showRecordedTime)
             }
         }
     }
@@ -118,5 +128,16 @@ class InstagramShareSettingActivity : AppCompatActivity() {
 
     private fun updateMemoPreview(show: Boolean) {
         binding.layoutPreview.tvStoryMemo.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    private fun updateRecordedTimePreview(show: Boolean) {
+        val visibility = if (show) View.VISIBLE else View.GONE
+        binding.layoutPreview.seekbarStoryTime.visibility = visibility
+        binding.layoutPreview.tvStoryTime.visibility = visibility
+    }
+
+    companion object {
+        private const val SAMPLE_RECORDED_TIME_MINUTES: Int = 22 * 60 + 30
+        private const val SAMPLE_RECORDED_TIME_TEXT = "22:30 / 24:00"
     }
 }

@@ -22,6 +22,13 @@ object DatabaseMigrations {
             }
         }
 
+    val migration3To4: Migration =
+        object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                addRecordedAtColumn(database)
+            }
+        }
+
     private fun addEmotionsColumn(database: SupportSQLiteDatabase) {
         addColumnIfMissing(
             database = database,
@@ -37,6 +44,16 @@ object DatabaseMigrations {
             tableName = "daily_tracks",
             columnName = "comment",
             columnDefinition = "TEXT",
+        )
+    }
+
+    private fun addRecordedAtColumn(database: SupportSQLiteDatabase) {
+        // recordedAt은 INTEGER (Date를 밀리초로 저장) 타입이고 NULL 가능
+        addColumnIfMissing(
+            database = database,
+            tableName = "daily_tracks",
+            columnName = "recordedAt",
+            columnDefinition = "INTEGER",
         )
     }
 
