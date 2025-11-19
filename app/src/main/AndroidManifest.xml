@@ -54,7 +54,7 @@
             android:name=".ui.detail.TrackDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.music_search.MusicSearchActivity"
             android:exported="false"
