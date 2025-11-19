@@ -32,6 +32,7 @@ object DatabaseModule {
             .addMigrations(
                 DatabaseMigrations.migration1To2,
                 DatabaseMigrations.migration2To3,
+                DatabaseMigrations.migration3To4,
             )
             .build()
 

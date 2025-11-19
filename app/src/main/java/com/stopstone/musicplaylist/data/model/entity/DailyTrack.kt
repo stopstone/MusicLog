@@ -13,4 +13,5 @@ data class DailyTrack(
     val track: TrackUiState,
     val emotions: List<String> = emptyList(),
     val comment: String? = null,
+    val recordedAt: Date? = null,
 )

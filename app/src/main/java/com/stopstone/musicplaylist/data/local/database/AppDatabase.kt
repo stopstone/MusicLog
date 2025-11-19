@@ -13,7 +13,7 @@ import com.stopstone.musicplaylist.util.Converters
 
 @Database(
     entities = [DailyTrack::class, SearchHistory::class, SignatureSong::class],
-    version = 3,
+    version = 4,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
