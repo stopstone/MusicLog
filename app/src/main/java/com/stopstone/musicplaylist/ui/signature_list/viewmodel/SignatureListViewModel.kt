@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.domain.usecase.my.GetAllSignatureSongsUseCase
 import com.stopstone.musicplaylist.ui.signature_list.model.SignatureListUiState
-import com.stopstone.musicplaylist.ui.signature_list.model.toHistoryUiState
+import com.stopstone.musicplaylist.ui.signature_list.model.toHistoryUiStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,7 +39,7 @@ class SignatureListViewModel
                             )
                         }
                     }.collect { songs ->
-                        val uiSongs = songs.map { it.toHistoryUiState() }
+                        val uiSongs = songs.toHistoryUiStates()
                         _uiState.update {
                             it.copy(
                                 isLoading = false,

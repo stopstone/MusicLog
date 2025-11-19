@@ -24,7 +24,7 @@ data class SignatureListUiState(
     val errorMessage: String? = null,
 )
 
-fun SignatureSong.toHistoryUiState(): SignatureSongHistoryUiState {
+fun SignatureSong.toHistoryUiState(baseDate: Date): SignatureSongHistoryUiState {
     val identifier = if (id == 0L) selectedAt.time else id
     return SignatureSongHistoryUiState(
         historyId = identifier,
@@ -32,7 +32,20 @@ fun SignatureSong.toHistoryUiState(): SignatureSongHistoryUiState {
         artist = track.artist,
         imageUrl = track.imageUrl,
         selectedAt = selectedAt,
-        daysSinceSelected = DateUtils.getDaysSince(selectedAt),
+        daysSinceSelected = DateUtils.getDaysSince(selectedAt, baseDate),
         isActive = isActive,
     )
 }
+
+fun List<SignatureSong>.toHistoryUiStates(): List<SignatureSongHistoryUiState> =
+    mapIndexed { index, signatureSong ->
+        val baseDate =
+            if (index == 0) {
+                Date()
+            } else {
+                val newerSong = this[index - 1]
+                val normalizedNewerDate = DateUtils.normalizeDate(newerSong.selectedAt)
+                Date(normalizedNewerDate.time - 1L)
+            }
+        signatureSong.toHistoryUiState(baseDate)
+    }
