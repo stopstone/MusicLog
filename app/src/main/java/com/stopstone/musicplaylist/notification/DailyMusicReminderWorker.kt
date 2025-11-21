@@ -42,6 +42,10 @@ class DailyMusicReminderWorker(
     }
 
     private suspend fun shouldSkipNotification(): Boolean {
+        val isReminderEnabled = workerDependencies.getDailyReminderEnabledUseCase().invoke()
+        if (!isReminderEnabled) {
+            return true
+        }
         val todayTrack = workerDependencies.getTodayTrackUseCase().invoke(DateUtils.getTodayDate())
         return todayTrack != null
     }
