@@ -133,6 +133,12 @@
     <string name="message_delete_confirm">선택한 감정을 삭제하시겠습니까?</string>
     <string name="label_delete">삭제</string>
 
+    <!-- 알림 관련 -->
+    <string name="notification_channel_name">음악 알림</string>
+    <string name="notification_channel_description">오늘의 음악 추가 알림을 받습니다</string>
+    <string name="daily_music_reminder_title">오늘의 음악을 추가해보세요</string>
+    <string name="daily_music_reminder_content">오늘 들었던 음악을 기록해보세요</string>
+
     <!--  감정  -->
     <!-- Emotions -->
     <string name="emotion_happy">행복</string>
