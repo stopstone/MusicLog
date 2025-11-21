@@ -1,18 +1,19 @@
 package com.stopstone.musicplaylist.ui.my
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -42,17 +43,22 @@ class MyFragment : Fragment() {
     private lateinit var context: Context
     private val viewModel: MyViewModel by viewModels()
     private var isNotificationSwitchListenerEnabled: Boolean = true
+    private var pendingEnableRequest: Boolean = false
 
     private val notificationPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted ->
             if (isGranted) {
+                pendingEnableRequest = false
                 enableDailyReminder()
                 updateNotificationSwitchState(true)
             } else {
+                pendingEnableRequest = false
                 updateNotificationSwitchState(false)
-                showNotificationPermissionDeniedMessage()
+                if (!shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    showNotificationPermissionDeniedDialog()
+                }
             }
         }
 
@@ -229,27 +235,30 @@ class MyFragment : Fragment() {
 
     private fun handleNotificationToggle(shouldEnable: Boolean) {
         if (shouldEnable) {
-            requestNotificationPermissionIfNeeded()
-        } else {
-            disableDailyReminder()
-        }
-    }
-
-    private fun requestNotificationPermissionIfNeeded() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val hasPermission =
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.POST_NOTIFICATIONS,
-                ) == PackageManager.PERMISSION_GRANTED
-            if (hasPermission) {
+            if (hasNotificationPermission()) {
+                pendingEnableRequest = false
                 enableDailyReminder()
+                updateNotificationSwitchState(true)
             } else {
+                pendingEnableRequest = true
+                updateNotificationSwitchState(false)
                 notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         } else {
-            enableDailyReminder()
+            pendingEnableRequest = false
+            disableDailyReminder()
+            updateNotificationSwitchState(false)
         }
+    }
+
+    private fun hasNotificationPermission(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return true
+        }
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.POST_NOTIFICATIONS,
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun enableDailyReminder() {
@@ -271,12 +280,22 @@ class MyFragment : Fragment() {
         isNotificationSwitchListenerEnabled = true
     }
 
-    private fun showNotificationPermissionDeniedMessage() {
-        Toast
-            .makeText(
-                requireContext(),
-                R.string.message_notification_permission_required,
-                Toast.LENGTH_SHORT,
-            ).show()
+    private fun showNotificationPermissionDeniedDialog() {
+        AlertDialog
+            .Builder(requireContext())
+            .setTitle(R.string.label_notification_setting_title)
+            .setMessage(R.string.message_notification_permission_required)
+            .setPositiveButton(R.string.label_open_notification_settings) { _, _ ->
+                openNotificationSettings()
+            }.setNegativeButton(R.string.label_common_cancel, null)
+            .show()
+    }
+
+    private fun openNotificationSettings() {
+        val intent =
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+            }
+        startActivity(intent)
     }
 }
