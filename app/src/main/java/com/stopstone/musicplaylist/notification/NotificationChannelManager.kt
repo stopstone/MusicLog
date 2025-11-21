@@ -15,10 +15,11 @@ object NotificationChannelManager {
                 NotificationChannel(
                     CHANNEL_ID,
                     context.getString(R.string.notification_channel_name),
-                    NotificationManager.IMPORTANCE_DEFAULT,
+                    NotificationManager.IMPORTANCE_HIGH,
                 ).apply {
                     description = context.getString(R.string.notification_channel_description)
                     enableVibration(true)
+                    enableLights(true)
                 }
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

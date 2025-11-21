@@ -12,27 +12,51 @@ import androidx.core.content.ContextCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.stopstone.musicplaylist.R
+import com.stopstone.musicplaylist.di.worker.DailyReminderWorkerEntryPoint
 import com.stopstone.musicplaylist.ui.MainActivity
+import com.stopstone.musicplaylist.util.DateUtils
+import dagger.hilt.android.EntryPointAccessors
 
 class DailyMusicReminderWorker(
     context: Context,
     params: WorkerParameters,
 ) : CoroutineWorker(context, params) {
-    override suspend fun doWork(): Result =
-        try {
-            showNotification()
-            Result.success()
+    private val workerDependencies: DailyReminderWorkerEntryPoint by lazy {
+        EntryPointAccessors.fromApplication(
+            applicationContext,
+            DailyReminderWorkerEntryPoint::class.java,
+        )
+    }
+
+    override suspend fun doWork(): Result {
+        return try {
+            if (shouldSkipNotification()) {
+                Result.success()
+            } else {
+                showNotification()
+                Result.success()
+            }
         } catch (e: Exception) {
             Result.retry()
         }
+    }
+
+    private suspend fun shouldSkipNotification(): Boolean {
+        val todayTrack = workerDependencies.getTodayTrackUseCase().invoke(DateUtils.getTodayDate())
+        return todayTrack != null
+    }
 
     private fun showNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.POST_NOTIFICATIONS,
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        val hasPermission =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PackageManager.PERMISSION_GRANTED
+            } else {
+                true
+            }
+        if (!hasPermission) {
             return
         }
 
@@ -57,7 +81,8 @@ class DailyMusicReminderWorker(
                 ).setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(applicationContext.getString(R.string.app_name))
                 .setContentText(applicationContext.getString(R.string.daily_music_reminder_content))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build()
