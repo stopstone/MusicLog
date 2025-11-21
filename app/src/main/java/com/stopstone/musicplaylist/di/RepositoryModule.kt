@@ -7,6 +7,7 @@ import com.stopstone.musicplaylist.data.repository.emotion_setting.EmotionSettin
 import com.stopstone.musicplaylist.data.repository.home.CalendarRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.insta_share.InstagramShareSettingRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.my.SignatureSongRepositoryImpl
+import com.stopstone.musicplaylist.data.repository.notification.NotificationRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.search.SearchHistoryRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.search.SearchRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.user.UserProfileRepositoryImpl
@@ -17,6 +18,7 @@ import com.stopstone.musicplaylist.domain.repository.emotion_setting.EmotionSett
 import com.stopstone.musicplaylist.domain.repository.home.CalendarRepository
 import com.stopstone.musicplaylist.domain.repository.insta_share.InstagramShareSettingRepository
 import com.stopstone.musicplaylist.domain.repository.my.SignatureSongRepository
+import com.stopstone.musicplaylist.domain.repository.notification.NotificationRepository
 import com.stopstone.musicplaylist.domain.repository.search.SearchHistoryRepository
 import com.stopstone.musicplaylist.domain.repository.search.SearchRepository
 import com.stopstone.musicplaylist.domain.repository.user.UserProfileRepository
@@ -89,4 +91,10 @@ abstract class RepositoryModule {
     abstract fun bindEmotionSettingRepository(
         repository: EmotionSettingRepositoryImpl,
     ): EmotionSettingRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindNotificationRepository(
+        repository: NotificationRepositoryImpl,
+    ): NotificationRepository
 }
