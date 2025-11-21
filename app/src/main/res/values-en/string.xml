@@ -100,6 +100,17 @@
     <string name="label_user_setting_data_cleanup_confirm">Reset</string>
     <string name="message_user_setting_data_cleanup_message">All your recorded music will be deleted.\nAre you sure you want to reset?</string>
 
+    <!-- Notification -->
+    <string name="notification_channel_name">Music Reminder</string>
+    <string name="notification_channel_description">Get a reminder to save today’s music.</string>
+    <string name="daily_music_reminder_title">Add today’s music.</string>
+    <string name="daily_music_reminder_content">Do you have a theme song for today?</string>
+    <string name="label_notification_setting_title">Notification Reminder</string>
+    <string name="label_notification_setting_description">Stay on track with a 9 PM reminder.</string>
+    <string name="message_notification_permission_required">Allow notification permission to receive reminders.</string>
+    <string name="label_open_notification_settings">Settings</string>
+    <string name="label_common_cancel">Cancel</string>
+
     <!--  Instagram Share Settings  -->
     <string name="label_instagram_share_setting_title">Instagram Share Settings</string>
     <string name="label_instagram_share_option_title">Share Options</string>

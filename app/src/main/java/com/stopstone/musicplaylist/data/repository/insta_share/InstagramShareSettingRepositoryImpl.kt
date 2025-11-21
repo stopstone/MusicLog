@@ -24,10 +24,12 @@ class InstagramShareSettingRepositoryImpl
             combine(
                 instagramSharePreferences.getShowEmotions(),
                 instagramSharePreferences.getShowMemo(),
-            ) { showEmotions, showMemo ->
+                instagramSharePreferences.getShowRecordedTime(),
+            ) { showEmotions, showMemo, showRecordedTime ->
                 InstagramShareSetting(
                     showEmotions = showEmotions,
                     showMemo = showMemo,
+                    showRecordedTime = showRecordedTime,
                 )
             }
 
@@ -42,6 +44,7 @@ class InstagramShareSettingRepositoryImpl
                     InstagramShareSettingDto(
                         showEmotions = show,
                         showMemo = currentSettings.showMemo,
+                        showRecordedTime = currentSettings.showRecordedTime,
                     )
                 firestoreDataSource.saveInstagramShareSetting(userId, settingDto)
             }
@@ -58,6 +61,22 @@ class InstagramShareSettingRepositoryImpl
                     InstagramShareSettingDto(
                         showEmotions = currentSettings.showEmotions,
                         showMemo = show,
+                        showRecordedTime = currentSettings.showRecordedTime,
+                    )
+                firestoreDataSource.saveInstagramShareSetting(userId, settingDto)
+            }
+        }
+
+        override suspend fun setShowRecordedTime(show: Boolean) {
+            instagramSharePreferences.setShowRecordedTime(show)
+            val userId = userPreferences.getUserId().first()
+            if (userId?.isNotEmpty() == true) {
+                val currentSettings = getSettings().first()
+                val settingDto =
+                    InstagramShareSettingDto(
+                        showEmotions = currentSettings.showEmotions,
+                        showMemo = currentSettings.showMemo,
+                        showRecordedTime = show,
                     )
                 firestoreDataSource.saveInstagramShareSetting(userId, settingDto)
             }
@@ -69,8 +88,10 @@ class InstagramShareSettingRepositoryImpl
                 onSuccess = { dto ->
                     val showEmotions = dto?.showEmotions ?: false
                     val showMemo = dto?.showMemo ?: false
+                    val showRecordedTime = dto?.showRecordedTime ?: false
                     instagramSharePreferences.setShowEmotions(showEmotions)
                     instagramSharePreferences.setShowMemo(showMemo)
+                    instagramSharePreferences.setShowRecordedTime(showRecordedTime)
                     Result.success(Unit)
                 },
                 onFailure = { throwable ->

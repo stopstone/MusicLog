@@ -23,6 +23,7 @@ class SaveDailyTrackUseCase
                     track = track,
                     emotions = emotions,
                     comment = comment,
+                    recordedAt = Date(), // 저장한 시각 기록
                 )
             repository.saveDailyTrack(dailyTrack)
         }

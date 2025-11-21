@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.domain.usecase.my.GetActiveSignatureSongUseCase
 import com.stopstone.musicplaylist.domain.usecase.my.GetMusicCountUseCase
+import com.stopstone.musicplaylist.domain.usecase.notification.ObserveDailyReminderEnabledUseCase
+import com.stopstone.musicplaylist.domain.usecase.notification.SetDailyReminderEnabledUseCase
 import com.stopstone.musicplaylist.ui.my.model.MyUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,12 +22,18 @@ class MyViewModel
     constructor(
         private val getMusicCountUseCase: GetMusicCountUseCase,
         private val getActiveSignatureSongUseCase: GetActiveSignatureSongUseCase,
+        private val observeDailyReminderEnabledUseCase: ObserveDailyReminderEnabledUseCase,
+        private val setDailyReminderEnabledUseCase: SetDailyReminderEnabledUseCase,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(MyUiState())
         val uiState: StateFlow<MyUiState> = _uiState.asStateFlow()
 
         private val _signatureSong = MutableStateFlow<SignatureSong?>(null)
         val signatureSong: StateFlow<SignatureSong?> = _signatureSong.asStateFlow()
+
+        init {
+            observeDailyReminderSetting()
+        }
 
         fun loadMusicCount() =
             viewModelScope.launch {
@@ -53,6 +61,18 @@ class MyViewModel
             viewModelScope.launch {
                 getActiveSignatureSongUseCase().collect { signatureSong ->
                     _signatureSong.value = signatureSong
+                }
+            }
+
+        fun updateDailyReminderEnabled(enabled: Boolean) =
+            viewModelScope.launch {
+                setDailyReminderEnabledUseCase(enabled)
+            }
+
+        private fun observeDailyReminderSetting() =
+            viewModelScope.launch {
+                observeDailyReminderEnabledUseCase().collect { isEnabled ->
+                    _uiState.update { it.copy(isDailyReminderEnabled = isEnabled) }
                 }
             }
     }

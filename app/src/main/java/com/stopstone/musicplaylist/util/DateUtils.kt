@@ -79,6 +79,22 @@ object DateUtils {
                 clearTime()
             }.time
 
+    fun getStartOfDay(date: Date): Date =
+        Calendar
+            .getInstance()
+            .apply {
+                time = date
+                clearTime()
+            }.time
+
+    fun getEndOfDay(date: Date): Date =
+        Calendar
+            .getInstance()
+            .apply {
+                time = date
+                setEndOfDay()
+            }.time
+
     // 특정 날짜의 일(day)을 반환
     fun getDayFromDate(date: Date): Int = Calendar.getInstance().apply { time = date }.getDay()
 
@@ -183,5 +199,33 @@ object DateUtils {
         val calendar = Calendar.getInstance()
         calendar.set(year, month - 1, 1)
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+    }
+
+    // Date에서 시각(0-23) 추출
+    fun getHourOfDay(date: Date): Int {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        return calendar.get(Calendar.HOUR_OF_DAY)
+    }
+
+    // Date에서 분(0-59) 추출
+    fun getMinute(date: Date): Int {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        return calendar.get(Calendar.MINUTE)
+    }
+
+    // Date를 하루의 총 분(0-1440)으로 변환
+    fun getTotalMinutes(date: Date): Int {
+        val hour = getHourOfDay(date)
+        val minute = getMinute(date)
+        return hour * 60 + minute
+    }
+
+    // Date를 "HH:mm" 형식으로 포맷팅
+    fun formatTime(date: Date): String {
+        val hour = getHourOfDay(date)
+        val minute = getMinute(date)
+        return String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
     }
 }

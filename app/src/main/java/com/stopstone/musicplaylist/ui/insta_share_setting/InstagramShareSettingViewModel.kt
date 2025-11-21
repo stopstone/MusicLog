@@ -33,6 +33,7 @@ class InstagramShareSettingViewModel
                         InstagramShareSettingUiState(
                             showEmotions = setting.showEmotions,
                             showMemo = setting.showMemo,
+                            showRecordedTime = setting.showRecordedTime,
                             isLoadingFromDataStore = false,
                         )
                 }
@@ -50,10 +51,17 @@ class InstagramShareSettingViewModel
                 updateInstagramShareSettingUseCase.setShowMemo(show)
             }
         }
+
+        fun updateShowRecordedTime(show: Boolean) {
+            viewModelScope.launch {
+                updateInstagramShareSettingUseCase.setShowRecordedTime(show)
+            }
+        }
     }
 
 data class InstagramShareSettingUiState(
     val showEmotions: Boolean = false,
     val showMemo: Boolean = false,
+    val showRecordedTime: Boolean = false,
     val isLoadingFromDataStore: Boolean = true,
 )

@@ -32,6 +32,8 @@ import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Date
 
 @AndroidEntryPoint
 class TrackDetailActivity : AppCompatActivity() {
@@ -71,6 +73,7 @@ class TrackDetailActivity : AppCompatActivity() {
         with(args.DailyTrack) {
             DateUtils.createDate(year, month, id) // 저장된 트랙의 날짜를, date 타입의 시간으로 변경
         }.also { viewModel.setCurrentDate(it) }
+        disableSeekBarTouch()
 
         with(binding) {
             val track = args.DailyTrack.track!!
@@ -86,6 +89,7 @@ class TrackDetailActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { collectComment() }
                 launch { collectDeleteResult() }
+                launch { collectRecordedAt() }
             }
         }
 
@@ -108,6 +112,26 @@ class TrackDetailActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun collectRecordedAt() {
+        viewModel.recordedAt.collectLatest { recordedAt ->
+            updateTimeDisplay(recordedAt)
+        }
+    }
+
+    private fun updateTimeDisplay(recordedAt: Date?) {
+        if (recordedAt == null) {
+            // recordedAt이 없으면 00:00 / 24:00으로 표시
+            binding.tvTrackDetailTime.text = "00:00 / 24:00"
+            binding.seekbarTrackDetailTime.progress = 0
+            return
+        }
+        // DateUtils를 사용하여 시각 정보 추출 및 포맷팅
+        val timeText = DateUtils.formatTime(recordedAt)
+        val totalMinutes = DateUtils.getTotalMinutes(recordedAt)
+        binding.tvTrackDetailTime.text = "$timeText / 24:00"
+        binding.seekbarTrackDetailTime.progress = totalMinutes
+    }
+
     private fun setListeners() {
         binding.btnTrackDetailSave.setOnClickListener {
             viewModel.updateComment(binding.etTrackDetailComment.text.toString())
@@ -124,8 +148,10 @@ class TrackDetailActivity : AppCompatActivity() {
                 InstagramShareHelper.shareCustomStoryToInstagram(
                     activity = this@TrackDetailActivity,
                     dailyTrack = args.DailyTrack,
+                    recordedAt = viewModel.recordedAt.value,
                     showEmotions = settings.showEmotions,
                     showMemo = settings.showMemo,
+                    showRecordedTime = settings.showRecordedTime,
                 )
             }
         }
@@ -140,6 +166,13 @@ class TrackDetailActivity : AppCompatActivity() {
         binding.toolbarTrackDetail.setNavigationOnClickListener {
             finish()
         }
+    }
+
+    private fun disableSeekBarTouch() {
+        // Disable user interaction to keep progress fixed
+        binding.seekbarTrackDetailTime.setOnTouchListener { _, _ -> true }
+        binding.seekbarTrackDetailTime.isClickable = false
+        binding.seekbarTrackDetailTime.isFocusable = false
     }
 
     private fun setDialogBuilder() {

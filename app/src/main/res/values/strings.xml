@@ -106,6 +106,7 @@
     <string name="label_instagram_share_artist">아티스트 표시</string>
     <string name="label_instagram_share_emotions">감정 태그 표시</string>
     <string name="label_instagram_share_memo">메모 표시</string>
+    <string name="label_instagram_share_recorded_time">저장 시각 표시</string>
     <string name="label_instagram_share_preview">미리보기</string>
     <string name="label_instagram_share_preview_title">노래 제목</string>
     <string name="label_instagram_share_preview_artist">아티스트</string>
@@ -131,6 +132,17 @@
     <string name="message_delete_confirm_title">감정 삭제</string>
     <string name="message_delete_confirm">선택한 감정을 삭제하시겠습니까?</string>
     <string name="label_delete">삭제</string>
+
+    <!-- 알림 관련 -->
+    <string name="notification_channel_name">음악 알림</string>
+    <string name="notification_channel_description">오늘의 음악 추가 알림을 받습니다</string>
+    <string name="daily_music_reminder_title">오늘의 음악을 추가해보세요</string>
+    <string name="daily_music_reminder_content">오늘하루를 대표할 주제곡이 있나요?</string>
+    <string name="label_notification_setting_title">알림 설정</string>
+    <string name="label_notification_setting_description">매일 오후 9시에 잊지 않게 알림이 울립니다.</string>
+    <string name="message_notification_permission_required">알림을 받으려면 알림 권한을 허용해 주세요.</string>
+    <string name="label_open_notification_settings">허용</string>
+    <string name="label_common_cancel">취소</string>
 
     <!--  감정  -->
     <!-- Emotions -->
