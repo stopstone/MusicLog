@@ -1,7 +1,9 @@
 package com.stopstone.musicplaylist.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
@@ -63,21 +65,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkAndRequestNotificationPermission() {
         // Android 13 이상에서만 권한 필요
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.POST_NOTIFICATIONS,
-                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
-            ) {
-                // 이미 권한 있으면 알림 스케줄링
-                NotificationScheduler.scheduleDailyMusicReminder(this)
-            } else {
-                // 없으면 권한 요청
-                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-            }
-        } else {
-            // Android 12 이하
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             NotificationScheduler.scheduleDailyMusicReminder(this)
+            return
+        }
+        val hasPermission =
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) == PackageManager.PERMISSION_GRANTED
+        if (hasPermission) {
+            NotificationScheduler.scheduleDailyMusicReminder(this)
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
 

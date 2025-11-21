@@ -10,7 +10,7 @@ object NotificationChannelManager {
     private const val CHANNEL_ID = "daily_music_reminder_channel"
 
     fun createNotificationChannel(context: Context) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
                 NotificationChannel(
                     CHANNEL_ID,

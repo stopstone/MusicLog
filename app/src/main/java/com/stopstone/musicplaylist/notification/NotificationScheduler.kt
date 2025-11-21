@@ -12,9 +12,13 @@ import java.util.concurrent.TimeUnit
 
 object NotificationScheduler {
     private const val WORK_NAME = "daily_music_reminder_work"
+    private const val REMINDER_INTERVAL_HOURS = 24L
+    private const val REMINDER_TARGET_HOUR = 17
+    private const val REMINDER_TARGET_MINUTE = 16
 
     fun scheduleDailyMusicReminder(context: Context) {
-        val workRequest = createPeriodicWorkRequest()
+        val initialDelay = calculateInitialDelay()
+        val workRequest = createPeriodicWorkRequest(initialDelay)
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
@@ -26,17 +30,15 @@ object NotificationScheduler {
         WorkManager.getInstance(context).cancelUniqueWork(WORK_NAME)
     }
 
-    private fun createPeriodicWorkRequest(): PeriodicWorkRequest {
+    private fun createPeriodicWorkRequest(initialDelay: Long): PeriodicWorkRequest {
         val constraints =
             Constraints
                 .Builder()
                 .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
                 .build()
 
-        val initialDelay = calculateInitialDelay()
-
         return PeriodicWorkRequestBuilder<DailyMusicReminderWorker>(
-            24,
+            REMINDER_INTERVAL_HOURS,
             TimeUnit.HOURS,
         ).setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .setConstraints(constraints)
@@ -45,25 +47,21 @@ object NotificationScheduler {
 
     private fun calculateInitialDelay(): Long {
         val calendar = Calendar.getInstance()
-        val calendarHour = calendar.get(Calendar.HOUR)
+        val calendarHour = calendar.get(Calendar.HOUR_OF_DAY)
         val calendarMinute = calendar.get(Calendar.MINUTE)
-
-        val targetHour = 9
-        val targetMinute = 0
-
         val targetCalendar =
             Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, targetHour)
-                set(Calendar.MINUTE, targetMinute)
+                set(Calendar.HOUR_OF_DAY, REMINDER_TARGET_HOUR)
+                set(Calendar.MINUTE, REMINDER_TARGET_MINUTE)
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }
-
-        if (calendarHour > targetHour ||
-            (calendarHour == targetHour && calendarMinute >= targetMinute)
-        ) {
+        val hasPassedTargetHour = calendarHour > REMINDER_TARGET_HOUR
+        val hasPassedTargetMinute = calendarHour == REMINDER_TARGET_HOUR && calendarMinute >= REMINDER_TARGET_MINUTE
+        if (hasPassedTargetHour || hasPassedTargetMinute) {
             targetCalendar.add(Calendar.DAY_OF_MONTH, 1)
         }
-        return targetCalendar.timeInMillis - System.currentTimeMillis()
+        val delay = targetCalendar.timeInMillis - System.currentTimeMillis()
+        return delay
     }
 }
