@@ -23,8 +23,8 @@ android {
         applicationId = "com.stopstone.musicplaylist"
         minSdk = 24
         targetSdk = 35
-        versionCode = 20
-        versionName = "1.6.1"
+        versionCode = 21
+        versionName = "1.7.1"
 
         val clientId = properties["client.id"].toString().replace("\"", "")
         val clientSecret = properties["client.secret"].toString().replace("\"", "")
