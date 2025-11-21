@@ -79,6 +79,22 @@ object DateUtils {
                 clearTime()
             }.time
 
+    fun getStartOfDay(date: Date): Date =
+        Calendar
+            .getInstance()
+            .apply {
+                time = date
+                clearTime()
+            }.time
+
+    fun getEndOfDay(date: Date): Date =
+        Calendar
+            .getInstance()
+            .apply {
+                time = date
+                setEndOfDay()
+            }.time
+
     // 특정 날짜의 일(day)을 반환
     fun getDayFromDate(date: Date): Int = Calendar.getInstance().apply { time = date }.getDay()
 

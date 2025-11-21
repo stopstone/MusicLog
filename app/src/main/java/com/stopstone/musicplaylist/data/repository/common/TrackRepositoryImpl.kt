@@ -7,8 +7,10 @@ import com.stopstone.musicplaylist.data.model.dto.MusicDto
 import com.stopstone.musicplaylist.data.model.entity.DailyTrack
 import com.stopstone.musicplaylist.data.remote.datasource.FirestoreDataSource
 import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
+import com.stopstone.musicplaylist.util.DateUtils.getEndOfDay
 import com.stopstone.musicplaylist.util.DateUtils.getMonthEnd
 import com.stopstone.musicplaylist.util.DateUtils.getMonthStart
+import com.stopstone.musicplaylist.util.DateUtils.getStartOfDay
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -35,7 +37,9 @@ class TrackRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTodayTrack(date: Date): DailyTrack? {
-        return dailyTrackDao.getDailyTrack(date)
+        val startOfDay = getStartOfDay(date)
+        val endOfDay = getEndOfDay(date)
+        return dailyTrackDao.getDailyTrackBetween(startOfDay, endOfDay)
     }
 
     override suspend fun getComment(date: Date): String? {

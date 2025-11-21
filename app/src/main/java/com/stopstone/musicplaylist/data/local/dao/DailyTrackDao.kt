@@ -16,6 +16,12 @@ interface DailyTrackDao {
     @Query("SELECT * FROM daily_tracks WHERE date = :date")
     suspend fun getDailyTrack(date: Date): DailyTrack?
 
+    @Query("SELECT * FROM daily_tracks WHERE date BETWEEN :startDate AND :endDate LIMIT 1")
+    suspend fun getDailyTrackBetween(
+        startDate: Date,
+        endDate: Date,
+    ): DailyTrack?
+
     @Transaction
     suspend fun upsert(dailyTrack: DailyTrack) {
         val existingTrack = getDailyTrack(dailyTrack.date)

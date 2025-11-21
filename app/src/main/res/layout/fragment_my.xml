@@ -55,8 +55,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="32dp"
         android:text="@string/label_my_settings_section"
-        android:textColor="@color/black"
         android:textAppearance="@style/TextAppearance.MusicLog.BodyMedium"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/my_signature_song" />
@@ -65,9 +65,63 @@
         android:id="@+id/ll_settings_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_my_settings" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_alarm_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:clipToPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_settings_container">
+
+        <TextView
+            android:id="@+id/tv_setting_alarm_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/label_notification_setting_title"
+            android:textAppearance="@style/TextAppearance.MusicLog.BodyLarge"
+            app:layout_constraintEnd_toStartOf="@id/switch_show_emotions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_setting_alarm_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/label_notification_setting_description"
+            android:textAppearance="@style/TextAppearance.MusicLog.BodySmall"
+            android:textColor="@color/gray_400"
+            app:layout_constraintEnd_toStartOf="@id/switch_show_emotions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_setting_alarm_title" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_show_emotions"
+            style="@style/Widget.MusicLog.SwitchMaterial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        style="@style/Widget.MusicLog.Divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_alarm_row" />
 </androidx.constraintlayout.widget.ConstraintLayout>

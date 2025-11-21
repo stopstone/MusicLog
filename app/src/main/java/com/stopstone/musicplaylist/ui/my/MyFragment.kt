@@ -1,16 +1,20 @@
 package com.stopstone.musicplaylist.ui.my
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +26,7 @@ import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.data.model.entity.SignatureSong
 import com.stopstone.musicplaylist.databinding.FragmentMyBinding
 import com.stopstone.musicplaylist.databinding.ViewMySettingBinding
+import com.stopstone.musicplaylist.notification.NotificationScheduler
 import com.stopstone.musicplaylist.ui.common.SignatureSongTextFormatter
 import com.stopstone.musicplaylist.ui.my.model.MySettingMenu
 import com.stopstone.musicplaylist.ui.my.viewmodel.MyViewModel
@@ -37,6 +42,25 @@ class MyFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var context: Context
     private val viewModel: MyViewModel by viewModels()
+    private var isNotificationSwitchListenerEnabled: Boolean = true
+    private var pendingEnableRequest: Boolean = false
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isGranted ->
+            if (isGranted) {
+                pendingEnableRequest = false
+                enableDailyReminder()
+                updateNotificationSwitchState(true)
+            } else {
+                pendingEnableRequest = false
+                updateNotificationSwitchState(false)
+                if (!shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    showNotificationPermissionDeniedDialog()
+                }
+            }
+        }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -59,6 +83,7 @@ class MyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupSettingItems()
         setupListeners()
+        setupNotificationSetting()
         observeViewModel()
         viewModel.loadMusicCount()
         viewModel.loadSignatureSong()
@@ -77,6 +102,19 @@ class MyFragment : Fragment() {
             mySignatureSong.signatureSongMore.setOnClickListener {
                 navigateToSignatureSongList()
             }
+        }
+    }
+
+    private fun setupNotificationSetting() {
+        binding.layoutAlarmRow.setOnClickListener {
+            binding.switchShowEmotions.performClick()
+        }
+
+        binding.switchShowEmotions.setOnCheckedChangeListener { _, isChecked ->
+            if (!isNotificationSwitchListenerEnabled) {
+                return@setOnCheckedChangeListener
+            }
+            handleNotificationToggle(isChecked)
         }
     }
 
@@ -123,6 +161,7 @@ class MyFragment : Fragment() {
                 launch {
                     viewModel.uiState.collect { uiState ->
                         updateMusicCount(uiState.musicCount)
+                        updateNotificationSwitchState(uiState.isDailyReminderEnabled)
                     }
                 }
 
@@ -192,5 +231,71 @@ class MyFragment : Fragment() {
 
     private fun actionSettingMenu(menu: MySettingMenu) {
         findNavController().navigate(menu.destinationId)
+    }
+
+    private fun handleNotificationToggle(shouldEnable: Boolean) {
+        if (shouldEnable) {
+            if (hasNotificationPermission()) {
+                pendingEnableRequest = false
+                enableDailyReminder()
+                updateNotificationSwitchState(true)
+            } else {
+                pendingEnableRequest = true
+                updateNotificationSwitchState(false)
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        } else {
+            pendingEnableRequest = false
+            disableDailyReminder()
+            updateNotificationSwitchState(false)
+        }
+    }
+
+    private fun hasNotificationPermission(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return true
+        }
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.POST_NOTIFICATIONS,
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun enableDailyReminder() {
+        NotificationScheduler.scheduleDailyMusicReminder(requireContext().applicationContext)
+        viewModel.updateDailyReminderEnabled(true)
+    }
+
+    private fun disableDailyReminder() {
+        NotificationScheduler.cancelDailyNotification(requireContext().applicationContext)
+        viewModel.updateDailyReminderEnabled(false)
+    }
+
+    private fun updateNotificationSwitchState(isEnabled: Boolean) {
+        if (binding.switchShowEmotions.isChecked == isEnabled) {
+            return
+        }
+        isNotificationSwitchListenerEnabled = false
+        binding.switchShowEmotions.isChecked = isEnabled
+        isNotificationSwitchListenerEnabled = true
+    }
+
+    private fun showNotificationPermissionDeniedDialog() {
+        AlertDialog
+            .Builder(requireContext())
+            .setTitle(R.string.label_notification_setting_title)
+            .setMessage(R.string.message_notification_permission_required)
+            .setPositiveButton(R.string.label_open_notification_settings) { _, _ ->
+                openNotificationSettings()
+            }.setNegativeButton(R.string.label_common_cancel, null)
+            .show()
+    }
+
+    private fun openNotificationSettings() {
+        val intent =
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+            }
+        startActivity(intent)
     }
 }
