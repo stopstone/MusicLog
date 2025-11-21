@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit
 object NotificationScheduler {
     private const val WORK_NAME = "daily_music_reminder_work"
     private const val REMINDER_INTERVAL_HOURS = 24L
-    private const val REMINDER_TARGET_HOUR = 17
-    private const val REMINDER_TARGET_MINUTE = 16
+    private const val REMINDER_TARGET_HOUR = 21
+    private const val REMINDER_TARGET_MINUTE = 0
 
     fun scheduleDailyMusicReminder(context: Context) {
         val initialDelay = calculateInitialDelay()
