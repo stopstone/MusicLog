@@ -137,7 +137,7 @@
     <string name="notification_channel_name">음악 알림</string>
     <string name="notification_channel_description">오늘의 음악 추가 알림을 받습니다</string>
     <string name="daily_music_reminder_title">오늘의 음악을 추가해보세요</string>
-    <string name="daily_music_reminder_content">오늘을 대표할 주제곡이 있나요?</string>
+    <string name="daily_music_reminder_content">오늘하루를 대표할 주제곡이 있나요?</string>
 
     <!--  감정  -->
     <!-- Emotions -->
