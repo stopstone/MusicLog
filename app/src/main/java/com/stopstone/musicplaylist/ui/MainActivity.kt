@@ -1,24 +1,18 @@
 package com.stopstone.musicplaylist.ui
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityMainBinding
-import com.stopstone.musicplaylist.notification.NotificationScheduler
 import com.stopstone.musicplaylist.util.showSnackBarWithNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,16 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private var lastBackPressedTime: Long = 0L
-
-    // 알림 권한 요청
-    val requestPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission(),
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                NotificationScheduler.scheduleDailyMusicReminder(this)
-            }
-        }
 
     private val backPressedCallback =
         object : OnBackPressedCallback(true) {
@@ -60,25 +44,6 @@ class MainActivity : AppCompatActivity() {
         setupWindowInsets()
         initBottomNavigation()
         onBackPressedDispatcher.addCallback(this, backPressedCallback)
-        checkAndRequestNotificationPermission()
-    }
-
-    private fun checkAndRequestNotificationPermission() {
-        // Android 13 이상에서만 권한 필요
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            NotificationScheduler.scheduleDailyMusicReminder(this)
-            return
-        }
-        val hasPermission =
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS,
-            ) == PackageManager.PERMISSION_GRANTED
-        if (hasPermission) {
-            NotificationScheduler.scheduleDailyMusicReminder(this)
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-        }
     }
 
     private fun setupWindowInsets() {
