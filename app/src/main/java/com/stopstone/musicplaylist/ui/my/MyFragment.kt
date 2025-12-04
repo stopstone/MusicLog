@@ -33,7 +33,7 @@ import com.stopstone.musicplaylist.ui.my.viewmodel.MyViewModel
 import com.stopstone.musicplaylist.ui.signature_list.SignatureListActivity
 import com.stopstone.musicplaylist.util.DateUtils
 import com.stopstone.musicplaylist.util.loadImage
-import com.stopstone.musicplaylist.util.setOnCheckedChangeWithHaptic
+import com.stopstone.musicplaylist.util.performHaptic
 import com.stopstone.musicplaylist.util.setOnClickWithHaptic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -112,10 +112,11 @@ class MyFragment : Fragment() {
             binding.switchShowEmotions.performClick()
         }
 
-        binding.switchShowEmotions.setOnCheckedChangeWithHaptic { isChecked ->
+        binding.switchShowEmotions.setOnCheckedChangeListener { view, isChecked ->
             if (!isNotificationSwitchListenerEnabled) {
-                return@setOnCheckedChangeWithHaptic
+                return@setOnCheckedChangeListener
             }
+            view.performHaptic()
             handleNotificationToggle(isChecked)
         }
     }
@@ -275,6 +276,9 @@ class MyFragment : Fragment() {
 
     private fun updateNotificationSwitchState(isEnabled: Boolean) {
         if (binding.switchShowEmotions.isChecked == isEnabled) {
+            if (!isNotificationSwitchListenerEnabled) {
+                isNotificationSwitchListenerEnabled = true
+            }
             return
         }
         isNotificationSwitchListenerEnabled = false
