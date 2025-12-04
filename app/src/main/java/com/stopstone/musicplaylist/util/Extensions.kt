@@ -52,7 +52,7 @@ fun View.showSnackBarWithNavigation(
 
 fun View.setOnClickWithHaptic(
     hapticFeedbackType: Int = HapticFeedbackConstants.CONFIRM,
-    action: () -> Unit,
+    action: (view: View) -> Unit,
 ) {
     val feedbackType =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -62,6 +62,6 @@ fun View.setOnClickWithHaptic(
         }
     setOnClickListener { view ->
         view.performHapticFeedback(feedbackType)
-        action()
+        action(this)
     }
 }
