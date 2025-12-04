@@ -28,6 +28,7 @@ import com.stopstone.musicplaylist.util.EmotionDisplayMapper
 import com.stopstone.musicplaylist.util.InstagramShareHelper
 import com.stopstone.musicplaylist.util.hideKeyboard
 import com.stopstone.musicplaylist.util.loadImage
+import com.stopstone.musicplaylist.util.setOnClickWithHaptic
 import com.stopstone.musicplaylist.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -133,9 +134,9 @@ class TrackDetailActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        binding.btnTrackDetailSave.setOnClickListener {
+        binding.btnTrackDetailSave.setOnClickWithHaptic { view ->
             viewModel.updateComment(binding.etTrackDetailComment.text.toString())
-            it.hideKeyboard()
+            view.hideKeyboard()
         }
 
         binding.btnTrackDetailDelete.setOnClickListener {
