@@ -51,6 +51,16 @@ fun View.showSnackBarWithNavigation(
         setAnchorView(navigationView)
     }.show()
 
+fun View.performHaptic(hapticFeedbackType: Int = HapticFeedbackConstants.CONFIRM) {
+    val feedbackType =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            hapticFeedbackType
+        } else {
+            HapticFeedbackConstants.VIRTUAL_KEY
+        }
+    performHapticFeedback(feedbackType)
+}
+
 fun View.setOnClickWithHaptic(
     hapticFeedbackType: Int = HapticFeedbackConstants.CONFIRM,
     action: (view: View) -> Unit,
@@ -64,22 +74,5 @@ fun View.setOnClickWithHaptic(
     setOnClickListener { view ->
         view.performHapticFeedback(feedbackType)
         action(this)
-    }
-}
-
-fun CompoundButton.setOnCheckedChangeWithHaptic(
-    hapticFeedbackType: Int = HapticFeedbackConstants.CONFIRM,
-    action: (isChecked: Boolean) -> Unit,
-) {
-    val feedbackType =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            hapticFeedbackType
-        } else {
-            HapticFeedbackConstants.VIRTUAL_KEY
-        }
-
-    setOnCheckedChangeListener { view, isChecked ->
-        view.performHapticFeedback(feedbackType)
-        action(isChecked)
     }
 }
