@@ -2,8 +2,11 @@ package com.stopstone.musicplaylist.util
 
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.os.Build
+import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -47,3 +50,29 @@ fun View.showSnackBarWithNavigation(
     .apply {
         setAnchorView(navigationView)
     }.show()
+
+fun View.performHaptic(hapticFeedbackType: Int = HapticFeedbackConstants.CONFIRM) {
+    val feedbackType =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            hapticFeedbackType
+        } else {
+            HapticFeedbackConstants.VIRTUAL_KEY
+        }
+    performHapticFeedback(feedbackType)
+}
+
+fun View.setOnClickWithHaptic(
+    hapticFeedbackType: Int = HapticFeedbackConstants.CONFIRM,
+    action: (view: View) -> Unit,
+) {
+    val feedbackType =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            hapticFeedbackType
+        } else {
+            HapticFeedbackConstants.VIRTUAL_KEY
+        }
+    setOnClickListener { view ->
+        view.performHapticFeedback(feedbackType)
+        action(this)
+    }
+}

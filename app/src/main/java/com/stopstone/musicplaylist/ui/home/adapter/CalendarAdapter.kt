@@ -12,6 +12,7 @@ import com.stopstone.musicplaylist.domain.model.CalendarDay
 import com.stopstone.musicplaylist.ui.model.TrackUiState
 import com.stopstone.musicplaylist.ui.music_search.adapter.OnItemClickListener
 import com.stopstone.musicplaylist.util.loadImage
+import com.stopstone.musicplaylist.util.setOnClickWithHaptic
 
 class CalendarAdapter(
     private val listener: OnItemClickListener?,
@@ -44,7 +45,7 @@ class CalendarAdapter(
         private val onClickListener: (position: Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener {
+            binding.root.setOnClickWithHaptic {
                 if (binding.ivCalendarAlbumCover.visibility == View.VISIBLE) {
                     onClickListener(adapterPosition)
                 }
@@ -58,13 +59,21 @@ class CalendarAdapter(
             }
 
             when {
-                calendarDay.id == 0 ->
+                calendarDay.id == 0 -> {
                     setViewVisibility(
                         dateVisible = false,
                         albumVisible = false,
-                    ) // 다른 달인 경우 date, cover 모두 INVISIBLE
-                calendarDay.track != null -> showAlbumCover(calendarDay.track)
-                else -> showDateText(calendarDay.id) // 노래만 등록 안된 경우 date만 VISIBLE
+                    )
+                }
+
+                // 다른 달인 경우 date, cover 모두 INVISIBLE
+                calendarDay.track != null -> {
+                    showAlbumCover(calendarDay.track)
+                }
+
+                else -> {
+                    showDateText(calendarDay.id)
+                } // 노래만 등록 안된 경우 date만 VISIBLE
             }
         }
 

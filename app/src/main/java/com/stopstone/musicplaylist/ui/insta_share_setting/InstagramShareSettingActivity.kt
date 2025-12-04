@@ -13,6 +13,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.lifecycleScope
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityInstagramShareSettingBinding
+import com.stopstone.musicplaylist.util.performHaptic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -44,11 +45,11 @@ class InstagramShareSettingActivity : AppCompatActivity() {
             toolbarInstagramShareSetting.setNavigationOnClickListener {
                 finish()
             }
-            
+
             layoutEmotionsRow.setOnClickListener {
                 switchShowEmotions.toggle()
             }
-            
+
             layoutMemoRow.setOnClickListener {
                 switchShowMemo.toggle()
             }
@@ -56,17 +57,20 @@ class InstagramShareSettingActivity : AppCompatActivity() {
             layoutRecordedTimeRow.setOnClickListener {
                 switchShowRecordedTime.toggle()
             }
-            
-            switchShowEmotions.setOnCheckedChangeListener { _, isChecked ->
+
+            switchShowEmotions.setOnCheckedChangeListener { view, isChecked ->
                 if (viewModel.uiState.value.isLoadingFromDataStore) return@setOnCheckedChangeListener
+                view.performHaptic()
                 viewModel.updateShowEmotions(isChecked)
             }
-            switchShowMemo.setOnCheckedChangeListener { _, isChecked ->
+            switchShowMemo.setOnCheckedChangeListener { view, isChecked ->
                 if (viewModel.uiState.value.isLoadingFromDataStore) return@setOnCheckedChangeListener
+                view.performHaptic()
                 viewModel.updateShowMemo(isChecked)
             }
-            switchShowRecordedTime.setOnCheckedChangeListener { _, isChecked ->
+            switchShowRecordedTime.setOnCheckedChangeListener { view, isChecked ->
                 if (viewModel.uiState.value.isLoadingFromDataStore) return@setOnCheckedChangeListener
+                view.performHaptic()
                 viewModel.updateShowRecordedTime(isChecked)
             }
         }
