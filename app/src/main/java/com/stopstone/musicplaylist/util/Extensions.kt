@@ -6,6 +6,7 @@ import android.os.Build
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -63,5 +64,22 @@ fun View.setOnClickWithHaptic(
     setOnClickListener { view ->
         view.performHapticFeedback(feedbackType)
         action(this)
+    }
+}
+
+fun CompoundButton.setOnCheckedChangeWithHaptic(
+    hapticFeedbackType: Int = HapticFeedbackConstants.CONFIRM,
+    action: (isChecked: Boolean) -> Unit,
+) {
+    val feedbackType =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            hapticFeedbackType
+        } else {
+            HapticFeedbackConstants.VIRTUAL_KEY
+        }
+
+    setOnCheckedChangeListener { view, isChecked ->
+        view.performHapticFeedback(feedbackType)
+        action(isChecked)
     }
 }
