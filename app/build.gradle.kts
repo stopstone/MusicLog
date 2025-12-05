@@ -9,6 +9,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
@@ -107,6 +108,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)

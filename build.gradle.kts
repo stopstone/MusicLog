@@ -5,6 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.51.1" apply false
     id("com.google.devtools.ksp") version "1.9.20-1.0.14" apply false
     alias(libs.plugins.google.gms.google.services) apply false
+    alias(libs.plugins.google.firebase.crashlytics) apply false
 }
 
 buildscript {
