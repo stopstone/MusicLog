@@ -31,70 +31,43 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
+    @Binds
+    @Singleton
+    abstract fun bindTrackRepository(repository: TrackRepositoryImpl): TrackRepository
 
     @Binds
     @Singleton
-    abstract fun bindTrackRepository(
-        repository: TrackRepositoryImpl
-    ): TrackRepository
+    abstract fun bindCalendarRepository(repository: CalendarRepositoryImpl): CalendarRepository
 
     @Binds
     @Singleton
-    abstract fun bindCalendarRepository(
-        repository: CalendarRepositoryImpl
-    ): CalendarRepository
+    abstract fun bindSearchRepository(repository: SearchRepositoryImpl): SearchRepository
 
     @Binds
     @Singleton
-    abstract fun bindSearchRepository(
-        repository: SearchRepositoryImpl
-    ): SearchRepository
+    abstract fun bindPlayListRepository(repository: PlayListRepositoryImpl): PlayListRepository
 
     @Binds
     @Singleton
-    abstract fun bindPlayListRepository(
-        repository: PlayListRepositoryImpl
-    ): PlayListRepository
+    abstract fun bindSearchHistoryRepository(repository: SearchHistoryRepositoryImpl): SearchHistoryRepository
 
     @Binds
     @Singleton
-    abstract fun bindAuthRepository(
-        repository: AuthRepositoryImpl
-    ): AuthRepository
+    abstract fun bindUserProfileRepository(repository: UserProfileRepositoryImpl): UserProfileRepository
 
     @Binds
     @Singleton
-    abstract fun bindSearchHistoryRepository(
-        repository: SearchHistoryRepositoryImpl
-    ): SearchHistoryRepository
+    abstract fun bindInstagramShareSettingRepository(repository: InstagramShareSettingRepositoryImpl): InstagramShareSettingRepository
 
     @Binds
     @Singleton
-    abstract fun bindUserProfileRepository(
-        repository: UserProfileRepositoryImpl,
-    ): UserProfileRepository
+    abstract fun bindSignatureSongRepository(repository: SignatureSongRepositoryImpl): SignatureSongRepository
 
     @Binds
     @Singleton
-    abstract fun bindInstagramShareSettingRepository(
-        repository: InstagramShareSettingRepositoryImpl,
-    ): InstagramShareSettingRepository
+    abstract fun bindEmotionSettingRepository(repository: EmotionSettingRepositoryImpl): EmotionSettingRepository
 
     @Binds
     @Singleton
-    abstract fun bindSignatureSongRepository(
-        repository: SignatureSongRepositoryImpl,
-    ): SignatureSongRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindEmotionSettingRepository(
-        repository: EmotionSettingRepositoryImpl,
-    ): EmotionSettingRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindNotificationRepository(
-        repository: NotificationRepositoryImpl,
-    ): NotificationRepository
+    abstract fun bindNotificationRepository(repository: NotificationRepositoryImpl): NotificationRepository
 }
