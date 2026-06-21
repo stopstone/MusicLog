@@ -1,6 +1,5 @@
 package com.stopstone.musicplaylist.di
 
-import com.stopstone.musicplaylist.data.repository.common.AuthRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.common.PlayListRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.common.TrackRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.emotion_setting.EmotionSettingRepositoryImpl
@@ -11,7 +10,6 @@ import com.stopstone.musicplaylist.data.repository.notification.NotificationRepo
 import com.stopstone.musicplaylist.data.repository.search.SearchHistoryRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.search.SearchRepositoryImpl
 import com.stopstone.musicplaylist.data.repository.user.UserProfileRepositoryImpl
-import com.stopstone.musicplaylist.domain.repository.common.AuthRepository
 import com.stopstone.musicplaylist.domain.repository.common.PlayListRepository
 import com.stopstone.musicplaylist.domain.repository.common.TrackRepository
 import com.stopstone.musicplaylist.domain.repository.emotion_setting.EmotionSettingRepository

@@ -9,7 +9,6 @@ import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SaveUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncMusicFromFirestoreUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncSignatureSongFromFirestoreUseCase
-import com.stopstone.musicplaylist.domain.usecase.splash.GetTokenUseCase
 import com.stopstone.musicplaylist.domain.usecase.user.SaveUserProfileUseCase
 import com.stopstone.musicplaylist.ui.login.model.UserProfile
 import dagger.hilt.android.lifecycle.HiltViewModel

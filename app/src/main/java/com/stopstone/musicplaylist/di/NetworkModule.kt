@@ -1,11 +1,6 @@
 package com.stopstone.musicplaylist.di
 
-import com.stopstone.musicplaylist.data.local.auth.AuthInterceptor
-import com.stopstone.musicplaylist.data.local.auth.AuthService
-import com.stopstone.musicplaylist.data.local.auth.TokenManager
 import com.stopstone.musicplaylist.data.remote.api.ITunesApi
-import com.stopstone.musicplaylist.data.remote.api.SpotifyApi
-import com.stopstone.musicplaylist.data.remote.api.SpotifyAuthApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
