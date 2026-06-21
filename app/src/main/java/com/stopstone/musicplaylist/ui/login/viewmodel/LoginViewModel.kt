@@ -30,7 +30,6 @@ class LoginViewModel
         private val syncSignatureSongFromFirestoreUseCase: SyncSignatureSongFromFirestoreUseCase,
         private val syncInstagramShareSettingUseCase: SyncInstagramShareSettingUseCase,
         private val syncEmotionSettingsUseCase: SyncEmotionSettingsUseCase,
-        private val getTokenUseCase: GetTokenUseCase,
         private val saveUserProfileUseCase: SaveUserProfileUseCase,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
@@ -42,7 +41,6 @@ class LoginViewModel
                     _uiState.value = LoginUiState.Loading
                     val userId = getUserIdUseCase()
                     if (userId != null) {
-                        getTokenUseCase()
                         _uiState.value = LoginUiState.AutoLoginSuccess
                     } else {
                         _uiState.value = LoginUiState.ShowLoginScreen
