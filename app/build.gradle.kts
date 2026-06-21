@@ -9,6 +9,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
@@ -23,16 +24,12 @@ android {
         applicationId = "com.stopstone.musicplaylist"
         minSdk = 24
         targetSdk = 35
-        versionCode = 21
-        versionName = "1.7.1"
+        versionCode = 22
+        versionName = "1.8.0"
 
-        val clientId = properties["client.id"].toString().replace("\"", "")
-        val clientSecret = properties["client.secret"].toString().replace("\"", "")
         val facebookAppId = properties["facebook.app.id"].toString().replace("\"", "")
         val kakaoNativeAppKey = properties["kakao.native.app.key"].toString().replace("\"", "")
 
-        buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
-        buildConfigField("String", "CLIENT_SECRET", "\"$clientSecret\"")
         buildConfigField("String", "FACEBOOK_APP_ID", "\"$facebookAppId\"")
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"$kakaoNativeAppKey\"")
         manifestPlaceholders["kakaoAppKey"] = kakaoNativeAppKey
@@ -107,6 +104,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)

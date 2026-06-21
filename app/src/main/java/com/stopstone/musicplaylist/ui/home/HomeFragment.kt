@@ -7,6 +7,7 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ import com.stopstone.musicplaylist.ui.music_search.adapter.OnItemClickListener
 import com.stopstone.musicplaylist.util.DateUtils
 import com.stopstone.musicplaylist.util.EmotionDisplayMapper
 import com.stopstone.musicplaylist.util.loadImage
+import com.stopstone.musicplaylist.util.setOnClickWithHaptic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -223,7 +225,7 @@ class HomeFragment :
             }
         }
 
-        binding.btnAddMusic.setOnClickListener {
+        binding.btnAddMusic.setOnClickWithHaptic {
             val action = HomeFragmentDirections.actionNavigationHomeToNavigationMusicSearch()
             findNavController().navigate(action)
         }

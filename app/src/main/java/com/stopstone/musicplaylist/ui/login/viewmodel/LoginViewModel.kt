@@ -9,7 +9,6 @@ import com.stopstone.musicplaylist.domain.usecase.login.GetUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SaveUserIdUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncMusicFromFirestoreUseCase
 import com.stopstone.musicplaylist.domain.usecase.login.SyncSignatureSongFromFirestoreUseCase
-import com.stopstone.musicplaylist.domain.usecase.splash.GetTokenUseCase
 import com.stopstone.musicplaylist.domain.usecase.user.SaveUserProfileUseCase
 import com.stopstone.musicplaylist.ui.login.model.UserProfile
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +29,6 @@ class LoginViewModel
         private val syncSignatureSongFromFirestoreUseCase: SyncSignatureSongFromFirestoreUseCase,
         private val syncInstagramShareSettingUseCase: SyncInstagramShareSettingUseCase,
         private val syncEmotionSettingsUseCase: SyncEmotionSettingsUseCase,
-        private val getTokenUseCase: GetTokenUseCase,
         private val saveUserProfileUseCase: SaveUserProfileUseCase,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
@@ -42,7 +40,6 @@ class LoginViewModel
                     _uiState.value = LoginUiState.Loading
                     val userId = getUserIdUseCase()
                     if (userId != null) {
-                        getTokenUseCase()
                         _uiState.value = LoginUiState.AutoLoginSuccess
                     } else {
                         _uiState.value = LoginUiState.ShowLoginScreen

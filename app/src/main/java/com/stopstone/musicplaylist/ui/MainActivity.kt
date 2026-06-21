@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.stopstone.musicplaylist.R
 import com.stopstone.musicplaylist.databinding.ActivityMainBinding
+import com.stopstone.musicplaylist.util.performHaptic
 import com.stopstone.musicplaylist.util.showSnackBarWithNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -79,6 +80,17 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.container_home) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavigationHome.setupWithNavController(navController)
+        
+        binding.bottomNavigationHome.setOnItemSelectedListener { item ->
+            binding.bottomNavigationHome.performHaptic()
+            when (item.itemId) {
+                navController.currentDestination?.id -> false
+                else -> {
+                    navController.navigate(item.itemId)
+                    true
+                }
+            }
+        }
     }
 
     companion object {
